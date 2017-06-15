@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">會員登入</string>
+    <string name="register">會員註冊</string>
+    <string name="username">帳號</string>
+    <string name="password">密碼</string>
+    <string name="forget">忘記密碼</string>
+    <string name="checkRememberMe">記住我的帳號密碼</string>
+    <string name="msg_enterUsername">請輸入帳號</string>
+    <string name="msg_enterPassword">請輸入密碼</string>
+    <string name="msg_NoNetwork">網路未連線</string>
+    <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
+</resources>

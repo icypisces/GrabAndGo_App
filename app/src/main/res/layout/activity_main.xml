@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:background="#403d8af7">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="#203d8af7"
+        android:paddingTop="100dp"
+        android:paddingBottom="100dp"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        android:orientation="vertical" >
+
+        <Button
+            android:id="@+id/btBeginLogin"
+            android:text="@string/login"
+            android:background="@drawable/button_blue"
+            style="@style/style_button"
+            android:onClick="onLoginClick" />
+
+        <Button
+            android:id="@+id/btBeginRegister"
+            android:text="@string/register"
+            android:background="@drawable/button_pink"
+            style="@style/style_button"
+            android:onClick="onRegisterClick"/>
+
+    </LinearLayout>
+</LinearLayout>

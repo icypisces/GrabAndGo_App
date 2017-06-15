@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">GrabAndGo</string>
+    <string name="login">Sign In</string>
+    <string name="register">Sign up</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="forget">Recover password</string>
+    <string name="checkRememberMe">Remember Me</string>
+    <string name="msg_enterUsername">Enter Username</string>
+    <string name="msg_enterPassword">Enter Password</string>
+    <string name="msg_NoNetwork">No Network</string>
+    <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
+</resources>

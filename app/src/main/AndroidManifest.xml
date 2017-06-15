@@ -21,7 +21,8 @@
         </activity>
         <activity android:name=".login_logout_register.LoginActivity" />
         <activity android:name=".login_logout_register.RegisterActivity" />
-        <activity android:name=".orders_intraday.UnprocessedOrderActivity"></activity>
+        <activity android:name=".orders_intraday.UnprocessedOrderActivity" />
+        <activity android:name=".orders_intraday.CompleteOrderActivity"></activity>
     </application>
 
 </manifest>

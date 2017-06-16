@@ -1,5 +1,6 @@
 package com.example.ntut.grabandgo.login_logout_register;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -19,11 +20,15 @@ import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class LoginActivity extends AppCompatActivity {
     private final static String TAG = "LoginActivity";
@@ -40,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     //Async->開新的執行緒，執行完會自動把結果傳給主執行緒．
-    class loginTask extends AsyncTask<String, Void, String> {
+    class loginTask extends AsyncTask<String, Void, List<String>> {
                                     //第一個參數定doInBackground的參數資料類型
                                              //第二個參數定onProgressUpdate的參數資料類型
                                                         //第三個參數定onPostExecute的參數資料類型，
@@ -53,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected String doInBackground(String... params) {
+        protected List<String> doInBackground(String... params) {
             String url = params[0].toString();
             String username = params[1].toString();
             String password = params[2].toString();
@@ -75,8 +80,9 @@ public class LoginActivity extends AppCompatActivity {
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
             String message = joResult.get("loginMessage").getAsString();
+            List<String> s = Arrays.asList(message, username, password);
 
-            return message;       //回傳loginMessage
+            return s;       //回傳loginMessage
         }
 
 //        @Override
@@ -86,10 +92,14 @@ public class LoginActivity extends AppCompatActivity {
 
         //show result
         @Override
-        protected void onPostExecute(String message) {
-            super.onPostExecute(message);
+        protected void onPostExecute(List<String> s) {
+            super.onPostExecute(s);
+            String u = s.get(0);
+            String p = Common.getMD5Endocing(Common.encryptString(s.get(1)));
+            String message = s.get(2);
             Log.d(TAG, "loginMessage=" + message);
             if(message.equals("LoginOK")){
+                saveUserAndPass(u, p);
                 Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
                 startActivity(intent);
             } else if (message.equals("UsernameOrPasswordError")){
@@ -97,9 +107,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
-
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +144,38 @@ public class LoginActivity extends AppCompatActivity {
             etPassword.setText("");
             checkRememberMe.setChecked(false);
         }
+    }
+
+
+    private String getRemoteData(String url, String jsonOut) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
+        StringBuilder jsonIn = new StringBuilder();
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
+        connection.setDoInput(true); // allow inputs
+        connection.setDoOutput(true); // allow outputs
+        connection.setUseCaches(false); // do not use a cached copy
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("charset", "UTF-8");
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
+        bw.write(jsonOut);                              //把資料轉到Server
+        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
+        //bw.write("param=category");   //key=value才可取得對應的value
+        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
+        bw.close();
+
+        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
+
+        if (responseCode == 200) {  //200->Success!!
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
+            String line;
+            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
+                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
+            }
+        } else {
+            Log.d(TAG, "response code: " + responseCode);
+        }
+        connection.disconnect();                        //都寫完後就可以解除連結
+        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
+        return jsonIn.toString();
     }
 
     public void onSubmitClick(View view) {
@@ -175,40 +215,16 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onForgetClick(View view) {
-
+        Intent intent = new Intent(this, RecoverPasswordActivity.class);
+        startActivity(intent);
     }
 
-
-
-    private String getRemoteData(String url, String jsonOut) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
-        StringBuilder jsonIn = new StringBuilder();
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
-        connection.setDoInput(true); // allow inputs
-        connection.setDoOutput(true); // allow outputs
-        connection.setUseCaches(false); // do not use a cached copy
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("charset", "UTF-8");
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
-        bw.write(jsonOut);                              //把資料轉到Server
-        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
-        //bw.write("param=category");   //key=value才可取得對應的value
-        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
-        bw.close();
-
-        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
-
-        if (responseCode == 200) {  //200->Success!!
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
-            String line;
-            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
-                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
-            }
-        } else {
-            Log.d(TAG, "response code: " + responseCode);
-        }
-        connection.disconnect();                        //都寫完後就可以解除連結
-        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
-        return jsonIn.toString();
+    private void saveUserAndPass(String user, String pass) {
+        sharedPreferences = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferences.edit();
+        edit.putBoolean("UsPaIsKeep",false);
+        edit.putString("user",user);
+        edit.putString("pass",pass);
     }
 
 }

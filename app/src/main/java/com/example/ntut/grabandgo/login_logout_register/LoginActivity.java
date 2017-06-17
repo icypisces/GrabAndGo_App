@@ -19,7 +19,10 @@ import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.safetynet.SafetyNet;
+import com.google.android.gms.safetynet.SafetyNetApi;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -36,8 +39,10 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+public class LoginActivity extends AppCompatActivity
+//        implements GoogleApiClient.ConnectionCallbacks,   //機器人驗證的方法過期，待處理
+//        GoogleApiClient.OnConnectionFailedListener
+{
     private final static String TAG = "LoginActivity";
     private String ServletName = "/AppStoreLoginServlet";
     private EditText etUsername, etPassword;
@@ -52,28 +57,29 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
 
 
-    //機器人驗證API
-    private GoogleApiClient mGoogleApiClient;
-
-    // ConnectionCallbacks
-    @Override
-    public void onConnected(Bundle bundle) {
-        // 已經連線到 Google Services
-    }
-
-    // ConnectionCallbacks
-    @Override
-    public void onConnectionSuspended(int i) {
-        // Google Services連線中斷
-        // int參數是連線中斷的代號
-    }
-
-    // OnConnectionFailedListener
-    @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
-        // Google Services 連線失敗
-        // ConnectionResult 參數是連線失敗的資訊
-    }
+//    //機器人驗證API
+//    private GoogleApiClient mGoogleApiClient;
+//    private final static String SITE_KEY = "6LeO1SUUAAAAAKgSJMOxcMiSp0vrE9cPTtfUWXqm";
+//
+//    // ConnectionCallbacks
+//    @Override
+//    public void onConnected(Bundle bundle) {
+//        // 已經連線到 Google Services
+//    }
+//
+//    // ConnectionCallbacks
+//    @Override
+//    public void onConnectionSuspended(int i) {
+//        // Google Services連線中斷
+//        // int參數是連線中斷的代號
+//    }
+//
+//    // OnConnectionFailedListener
+//    @Override
+//    public void onConnectionFailed(ConnectionResult connectionResult) {
+//        // Google Services 連線失敗
+//        // ConnectionResult 參數是連線失敗的資訊
+//    }
 
 
 
@@ -150,13 +156,13 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         getData(); 		//Remember Me//第二次進入的時候得到數據
 
         //機器人驗證API
-        mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .addApi(SafetyNet.API)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
-
-        mGoogleApiClient.connect();
+//        mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                .addApi(SafetyNet.API)
+//                .addConnectionCallbacks(this)
+//                .addOnConnectionFailedListener(this)
+//                .build();
+//
+//        mGoogleApiClient.connect();
 
     }
 
@@ -258,8 +264,48 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
     public void onForgetClick(View view) {
-        Intent intent = new Intent(this, RecoverPasswordActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, RecoverPasswordActivity.class);
+//        startActivity(intent);
+
+
+            //機器人驗證方法過期?待處理
+//        SafetyNet.SafetyNetApi.verifyWithRecaptcha(mGoogleApiClient, SITE_KEY)
+//                .setResultCallback(new ResultCallback<SafetyNetApi.RecaptchaTokenResult>() {
+//                    @Override
+//                    public void onResult(final SafetyNetApi.RecaptchaTokenResult result) {
+//                        final Status status = result.getStatus();
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if ((status != null) && status.isSuccess()) {
+//                                    // 驗證通過
+//                                 //   tvResult.setText("isSuccess()\n");
+//
+//                                 //   if (!result.getTokenResult().isEmpty()) {
+//                                //        tvResult.append("!result.getTokenResult().isEmpty()");
+//                                 //   } else {
+//                                 //       tvResult.append("result.getTokenResult().isEmpty()");
+//                                 //   }
+//
+////                                    Intent intent = new Intent(LoginActivity.this, RecoverPasswordActivity.class);
+// //                                   startActivity(intent);
+//
+//                                } else {
+//                                    // 驗證失敗
+//                                    Intent intent = new Intent(LoginActivity.this, RecoverPasswordActivity.class);
+//                                    startActivity(intent);
+//                                 //   Log.e("MY_APP_TAG", "Error occurred " +
+//                                 //          "when communicating with the reCAPTCHA service.");
+//                                //    tvResult.setText("Error occurred " +
+//                                  //          "when communicating with the reCAPTCHA service.");
+//                                }
+//                            }
+//                        });
+//                    }
+//                });
+
+
+
     }
 
     private void saveUserAndPass(String user, String pass) {

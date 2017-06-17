@@ -17,8 +17,6 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
-import static android.provider.Contacts.SettingsColumns.KEY;
-
 public class Common {
     public static final String KEY = "KittySnoopyMicky";
     // Android官方模擬器連結本機web server可以直接使用 http://10.0.2.2
@@ -36,8 +34,6 @@ public class Common {
     public static String getUsPass() {
         return US_PASS;
     }
-
-//    public static String;
 
 
     // check if the device connect to the network
@@ -78,8 +74,7 @@ public class Common {
         return buffer.toString();
     }
 
-    public static String encryptString(String message)
-    {
+    public static String encryptString(String message) {
         //  DES : Data Encryption Standard, 一種對稱式加密演算法。
         //           美國聯邦政府於1976年定為聯邦資料處理標準(FIPS)，它的
         //           金鑰則必須是7個位元組、加密區塊(Cipher Block)固定為8個位元組。

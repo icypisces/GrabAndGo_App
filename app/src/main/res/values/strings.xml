@@ -10,4 +10,17 @@
     <string name="msg_enterPassword">Enter Password</string>
     <string name="msg_NoNetwork">No Network</string>
     <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
+    <string name="UnprocessedOrder">Unprocessed Order</string>
+    <string name="usernameInput">Username (*)</string>
+    <string name="passwordInput">Password (*)</string>
+    <string name="passwordConfirm">Password Confirm (*)</string>
+    <string name="storeName">Store Name (*)</string>
+    <string name="RestType">Restaurant Type (*)</string>
+    <string name="branch">Branch (*)</string>
+    <string name="address">Address (*)</string>
+    <string name="phone">Phone (*)</string>
+    <string name="email">Email (*)</string>
+    <string name="owner">Owner (*)</string>
+    <string name="url">Official Website</string>
+    <string name="mustEnter">*為必填欄位</string>
 </resources>

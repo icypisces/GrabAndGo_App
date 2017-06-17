@@ -29,4 +29,9 @@ dependencies {
     compile 'com.google.code.gson:gson:2.2.4'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
+
+    compile 'com.google.android.gms:play-services-base:11.0.0'
+    compile 'com.google.android.gms:play-services-basement:11.0.0'
+    compile 'com.google.android.gms:play-services-safetynet:11.0.0'
+    compile 'com.google.android.gms:play-services-tasks:11.0.0'
 }

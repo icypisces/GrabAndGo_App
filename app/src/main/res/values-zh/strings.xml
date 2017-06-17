@@ -10,4 +10,17 @@
     <string name="msg_enterPassword">請輸入密碼</string>
     <string name="msg_NoNetwork">網路未連線</string>
     <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
+    <string name="UnprocessedOrder">待處理訂單</string>
+    <string name="usernameInput">請輸入帳號 (*)</string>
+    <string name="passwordInput">請輸入密碼 (*)</string>
+    <string name="passwordConfirm">請再輸入一次密碼 (*)</string>
+    <string name="storeName">店家名稱 (*)</string>
+    <string name="RestType">餐廳類型 (*)</string>
+    <string name="branch">分店 (*)</string>
+    <string name="address">地址 (*)</string>
+    <string name="phone">電話 (*)</string>
+    <string name="email">電子郵件 (*)</string>
+    <string name="owner">商家負責人 (*)</string>
+    <string name="url">官方網站</string>
+    <string name="mustEnter">*為必填欄位</string>
 </resources>

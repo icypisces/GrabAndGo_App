@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,9 @@ import android.widget.EditText;
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.safetynet.SafetyNet;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -26,11 +31,13 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener {
     private final static String TAG = "LoginActivity";
     private String ServletName = "/AppStoreLoginServlet";
     private EditText etUsername, etPassword;
@@ -42,6 +49,32 @@ public class LoginActivity extends AppCompatActivity {
     //Remember Me
     private static final String PREFS_NAME="NamePWD";
     private SharedPreferences sharedPreferences=null;
+
+
+
+    //機器人驗證API
+    private GoogleApiClient mGoogleApiClient;
+
+    // ConnectionCallbacks
+    @Override
+    public void onConnected(Bundle bundle) {
+        // 已經連線到 Google Services
+    }
+
+    // ConnectionCallbacks
+    @Override
+    public void onConnectionSuspended(int i) {
+        // Google Services連線中斷
+        // int參數是連線中斷的代號
+    }
+
+    // OnConnectionFailedListener
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        // Google Services 連線失敗
+        // ConnectionResult 參數是連線失敗的資訊
+    }
+
 
 
     //Async->開新的執行緒，執行完會自動把結果傳給主執行緒．
@@ -62,13 +95,12 @@ public class LoginActivity extends AppCompatActivity {
             String url = params[0].toString();
             String username = params[1].toString();
             String password = params[2].toString();
-//            String rmMessage = params[3].toString();
             Log.d(TAG, "username=" + username + ", password=" + password);
             String jsonIn;
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("username", username);
             jsonObject.addProperty("password", password);
-            jsonObject.addProperty("rmMessage", rmMessage);
+
             try {
                 jsonIn = getRemoteData(url, jsonObject.toString());
             } catch (IOException e) {
@@ -80,9 +112,9 @@ public class LoginActivity extends AppCompatActivity {
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
             String message = joResult.get("loginMessage").getAsString();
-            List<String> s = Arrays.asList(message, username, password);
+            List<String> s = Arrays.asList(username, password, message);
 
-            return s;       //回傳loginMessage
+            return s;       //回傳List<String>予onPostExecute()
         }
 
 //        @Override
@@ -95,7 +127,8 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(List<String> s) {
             super.onPostExecute(s);
             String u = s.get(0);
-            String p = Common.getMD5Endocing(Common.encryptString(s.get(1)));
+            String p = Common.encryptString(s.get(1));
+            p = Common.getMD5Endocing(p);
             String message = s.get(2);
             Log.d(TAG, "loginMessage=" + message);
             if(message.equals("LoginOK")){
@@ -115,6 +148,16 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         findViews();
         getData(); 		//Remember Me//第二次進入的時候得到數據
+
+        //機器人驗證API
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(SafetyNet.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
+
+        mGoogleApiClient.connect();
+
     }
 
     private void findViews() {
@@ -222,9 +265,9 @@ public class LoginActivity extends AppCompatActivity {
     private void saveUserAndPass(String user, String pass) {
         sharedPreferences = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferences.edit();
-        edit.putBoolean("UsPaIsKeep",false);
-        edit.putString("user",user);
-        edit.putString("pass",pass);
+        edit.putBoolean("UsPaIsKeep",true);
+//        edit.putString("user",user);
+//        edit.putString("pass",pass);      //Password於encryptString轉換時正常，但getMD5Endocing資料不同．
     }
 
 }

@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity
     private EditText etUsername, etPassword;
     private Button btLogin, btForget;
     private CheckBox checkRememberMe;
-    private AsyncTask loginTask;
+    private AsyncTask LoginTask;
     private String rmMessage;
 
     //Remember Me
@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity
 
 
     //Async->開新的執行緒，執行完會自動把結果傳給主執行緒．
-    class loginTask extends AsyncTask<String, Void, List<String>> {
+    class LoginTask extends AsyncTask<String, Void, List<String>> {
                                     //第一個參數定doInBackground的參數資料類型
                                              //第二個參數定onProgressUpdate的參數資料類型
                                                         //第三個參數定onPostExecute的參數資料類型，
@@ -237,8 +237,8 @@ public class LoginActivity extends AppCompatActivity
         } else if (password == null || password.trim().length() <= 0) {
             Common.showToast(this, R.string.msg_enterPassword);
         } else {
-            if (Common.networkConnected(LoginActivity.this)) {       //主執行緒建立了loginTask物件 //呼叫execute方法,參數為URL&username&password&rmMessage
-                loginTask = new loginTask().execute(url, username, password);//excute...loginTask的doInBackGround接到
+            if (Common.networkConnected(LoginActivity.this)) {       //主執行緒建立了LoginTask物件 //呼叫execute方法,參數為URL&username&password&rmMessage
+                LoginTask = new LoginTask().execute(url, username, password);//excute...LoginTask的doInBackGround接到
                 Log.d(TAG, "username=" + username + ", password=" + password);
             } else {
                 Common.showToast(this, R.string.msg_NoNetwork);

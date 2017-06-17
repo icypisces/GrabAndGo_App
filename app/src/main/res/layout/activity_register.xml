@@ -147,7 +147,7 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/etUrl"
+                android:id="@+id/etWebsite"
                 style="@style/style_editText_register"
                 android:hint="@string/url"
                 android:inputType="textUri" />

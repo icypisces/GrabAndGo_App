@@ -16,7 +16,7 @@
     <string name="passwordConfirm">Password Confirm (*)</string>
     <string name="storeName">Store Name (*)</string>
     <string name="RestType">Restaurant Type (*)</string>
-    <string name="branch">Branch (*)</string>
+    <string name="branch">Branch</string>
     <string name="address">Address (*)</string>
     <string name="phone">Phone (*)</string>
     <string name="email">Email (*)</string>

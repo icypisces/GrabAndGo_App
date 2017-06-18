@@ -16,7 +16,7 @@
     <string name="passwordConfirm">請再輸入一次密碼 (*)</string>
     <string name="storeName">店家名稱 (*)</string>
     <string name="RestType">餐廳類型 (*)</string>
-    <string name="branch">分店 (*)</string>
+    <string name="branch">分店</string>
     <string name="address">地址 (*)</string>
     <string name="phone">電話 (*)</string>
     <string name="email">電子郵件 (*)</string>

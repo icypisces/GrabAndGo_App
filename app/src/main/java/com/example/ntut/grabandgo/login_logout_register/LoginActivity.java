@@ -1,5 +1,6 @@
 package com.example.ntut.grabandgo.login_logout_register;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity
     private Button btLogin, btForget;
     private CheckBox checkRememberMe;
     private AsyncTask LoginTask;
+    private ProgressDialog progressDialog;
     private String rmMessage;
 
     //Remember Me
@@ -94,6 +96,9 @@ public class LoginActivity extends AppCompatActivity
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(LoginActivity.this);   //progressDialog -> 執行時的轉圈圈圖示
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
         }
 
         @Override
@@ -144,6 +149,7 @@ public class LoginActivity extends AppCompatActivity
             } else if (message.equals("UsernameOrPasswordError")){
                 Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
             }
+            progressDialog.cancel();
         }
 
     }
@@ -316,4 +322,14 @@ public class LoginActivity extends AppCompatActivity
 //        edit.putString("pass",pass);      //Password於encryptString轉換時正常，但getMD5Endocing資料不同．
     }
 
+
+    @Override
+    protected void onPause() {
+        if (LoginTask != null) {
+            LoginTask.cancel(true);
+            LoginTask = null;
+        }
+
+        super.onPause();
+    }
 }

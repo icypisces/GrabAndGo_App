@@ -22,7 +22,7 @@ public class Common {
     public static final String KEY = "KittySnoopyMicky";
     // Android官方模擬器連結本機web server可以直接使用 http://10.0.2.2
 //	public static String URL = "http://192.168.19.27:8080/TextToJson_Web/SearchServlet";
-    public final static String URL = "http://10.0.2.2:8080/_Grab_Go/";
+    public final static String URL = "http://10.0.2.2:8080/_Grab_Go";
     //10.0.2.2會自動找模擬器在的"主要作業系統"，自動轉址到同硬體設備的網址．
     //使用條件：1. 使用模擬器而非手機，且
     //　　　　　2. 連線到同一硬體設備，且有裝設WebServer．

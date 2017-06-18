@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.ntut.grabandgo">
-    
-    <!--for 機器人驗證-->
+    package="com.example.ntut.grabandgo"> <!-- for 機器人驗證 -->
     <uses-sdk android:minSdkVersion="14" />
     <!-- 兩個都是Normal Permission，不用寫程式額外跳對話框． -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -21,25 +22,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".login_logout_register.LoginActivity"
             android:label="@string/login" />
-
         <activity
             android:name=".login_logout_register.RecoverPasswordActivity"
             android:label="@string/forget" />
-
         <activity
             android:name=".login_logout_register.RegisterActivity"
             android:label="@string/register" />
-
         <activity
             android:name=".orders_intraday.UnprocessedOrderActivity"
             android:label="@string/UnprocessedOrder" />
-
         <activity android:name=".orders_intraday.CompleteOrderActivity" />
-
+        <activity android:name=".information.RestInformationActivity"></activity>
     </application>
 
 </manifest>

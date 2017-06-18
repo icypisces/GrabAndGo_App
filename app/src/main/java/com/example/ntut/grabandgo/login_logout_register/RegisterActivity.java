@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
+import com.example.ntut.grabandgo.information.RestInformationActivity;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -54,7 +55,7 @@ public class RegisterActivity extends AppCompatActivity {
         String url = Common.URL + ServletName ;
         //取得餐廳類別選項
         if (Common.networkConnected(RegisterActivity.this)) {
-            RegisterTask = new RegisterTask().execute(url);
+            RestTypeTask = new RestTypeTask().execute(url);
         } else {
             Common.showToast(this, R.string.msg_NoNetwork);
         }
@@ -76,9 +77,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-
     //取得餐廳類別資訊
     class RestTypeTask extends AsyncTask<String, Void, List<String>> {
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -124,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
         String password = etPassword .getText().toString();
         String passwordConfirm = etPasswordConfirm .getText().toString();
         String storeName = etStoreName .getText().toString();
-        String restType = (String)spRestType.getSelectedItem();
+        String restType = spRestType.getSelectedItem().toString().trim();
         String branch = etBranch .getText().toString();
         String address = etAddress .getText().toString();
         String phone = etPhone .getText().toString();
@@ -155,39 +156,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private String getRemoteData(String url, String jsonOut) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
-        StringBuilder jsonIn = new StringBuilder();
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
-        connection.setDoInput(true); // allow inputs
-        connection.setDoOutput(true); // allow outputs
-        connection.setUseCaches(false); // do not use a cached copy
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("charset", "UTF-8");
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
-        bw.write(jsonOut);                              //把資料轉到Server
-        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
-        //bw.write("param=category");   //key=value才可取得對應的value
-        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
-        bw.close();
 
-        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
-
-        if (responseCode == 200) {  //200->Success!!
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
-            String line;
-            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
-                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
-            }
-        } else {
-            Log.d(TAG, "response code: " + responseCode);
-        }
-        connection.disconnect();                        //都寫完後就可以解除連結
-        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
-        return jsonIn.toString();
-    }
-
-
-
+    //連接伺服器送出註冊資料及取得回應
     class RegisterTask extends AsyncTask<String, Void, List<String>> {
         //第一個參數定doInBackground的參數資料類型
         //第二個參數定onProgressUpdate的參數資料類型
@@ -197,6 +167,9 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            progressDialog = new ProgressDialog(RegisterActivity.this);   //progressDialog -> 執行時的轉圈圈圖示
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
         }
 
         @Override
@@ -242,9 +215,22 @@ public class RegisterActivity extends AppCompatActivity {
             Gson gson = new Gson();    //用Gson
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
-//            String message = joResult.get("loginMessage").getAsString();
-//            List<String> s = Arrays.asList(username, password, message);
-
+            String messageOk = joResult.get("RegisterMessage").getAsString();
+            List<String> s;
+            if (messageOk.equals("RegisterOk")) {
+               s = Arrays.asList(messageOk);
+            } else {
+                String _username = joResult.get("username").getAsString();
+                String _password = joResult.get("password").getAsString();
+                String _passwordConfirm = joResult.get("passwordConfirm").getAsString();
+                String _storeName = joResult.get("storeName").getAsString();
+                String _address = joResult.get("address").getAsString();
+                String _phone = joResult.get("phone").getAsString();
+                String _email = joResult.get("email").getAsString();
+                String _owner = joResult.get("owner").getAsString();
+                s = Arrays.asList(_username, _password, _passwordConfirm,
+                        _storeName, _address, _phone, _email, _owner);
+            }
             return s;       //回傳List<String>予onPostExecute()
         }
 
@@ -257,22 +243,74 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<String> s) {
             super.onPostExecute(s);
-            String u = s.get(0);
-            String p = Common.encryptString(s.get(1));
-            p = Common.getMD5Endocing(p);
-            String message = s.get(2);
-            Log.d(TAG, "loginMessage=" + message);
-            if(message.equals("LoginOK")){
-                Intent intent = new Intent(RegisterActivity.this, UnprocessedOrderActivity.class);
+            String ss = s.get(0);
+            Log.d(TAG, "RegisterMessage=" + ss);
+            if(ss.equals("RegisterOk")){
+                Intent intent = new Intent(RegisterActivity.this, RestInformationActivity.class);
                 startActivity(intent);
-            } else if (message.equals("UsernameOrPasswordError")){
-                Common.showToast(RegisterActivity.this, R.string.msg_UsernameOrPasswordError);
+            } else {
+                SetErrorHint(s);
             }
+            progressDialog.cancel();
         }
 
     }
 
+    private void SetErrorHint(List<String> s) {
+        etUsername.setHint(s.get(0));
+        etPassword.setHint(s.get(1));
+        etPasswordConfirm.setHint(s.get(2));
+        etStoreName.setHint(s.get(3));
+        etAddress.setHint(s.get(4));
+        etPhone.setHint(s.get(5));
+        etEmail.setHint(s.get(6));
+        etOwner.setHint(s.get(7));
+    }
 
+    private String getRemoteData(String url, String jsonOut) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
+        StringBuilder jsonIn = new StringBuilder();
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
+        connection.setDoInput(true); // allow inputs
+        connection.setDoOutput(true); // allow outputs
+        connection.setUseCaches(false); // do not use a cached copy
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("charset", "UTF-8");
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
+        bw.write(jsonOut);                              //把資料轉到Server
+        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
+        //bw.write("param=category");   //key=value才可取得對應的value
+        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
+        bw.close();
 
+        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
+
+        if (responseCode == 200) {  //200->Success!!
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
+            String line;
+            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
+                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
+            }
+        } else {
+            Log.d(TAG, "response code: " + responseCode);
+        }
+        connection.disconnect();                        //都寫完後就可以解除連結
+        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
+        return jsonIn.toString();
+    }
+
+    @Override
+    protected void onPause() {
+        if (RestTypeTask != null) {
+            RestTypeTask.cancel(true);
+            RestTypeTask = null;
+        }
+
+        if (RegisterTask != null) {
+            RegisterTask.cancel(true);
+            RegisterTask = null;
+        }
+
+        super.onPause();
+    }
 
 }

@@ -4,8 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,19 +18,12 @@ import android.widget.Spinner;
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.information.RestInformationActivity;
-import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -40,6 +33,8 @@ public class RegisterActivity extends AppCompatActivity {
     private final static String TAG = "RegisterActivity";
     public EditText etUsername, etPassword, etPasswordConfirm, etStoreName,
             etBranch, etAddress, etPhone, etEmail, etOwner, etWebsite;
+    TextInputLayout tilUsername, tilPassword, tilPasswordConfirm, tilStoreName,
+            tilBranch, tilAddress, tilPhone, tilEmail, tilOwner, tilWebsite;
     public Spinner spRestType;
     public Button btRegister;
     private AsyncTask RegisterTask, RestTypeTask;
@@ -74,6 +69,16 @@ public class RegisterActivity extends AppCompatActivity {
         etWebsite = (EditText) findViewById(R.id.etWebsite);
         spRestType = (Spinner) findViewById(R.id.spRestType);
         btRegister = (Button) findViewById(R.id.btRegister);
+        tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
+        tilPassword = (TextInputLayout) findViewById(R.id.tilPassword);
+        tilPasswordConfirm = (TextInputLayout) findViewById(R.id.tilPasswordConfirm);
+        tilStoreName = (TextInputLayout) findViewById(R.id.tilStoreName);
+        tilBranch = (TextInputLayout) findViewById(R.id.tilBranch);
+        tilAddress = (TextInputLayout) findViewById(R.id.tilAddress);
+        tilPhone = (TextInputLayout) findViewById(R.id.tilPhone);
+        tilEmail = (TextInputLayout) findViewById(R.id.tilEmail);
+        tilOwner = (TextInputLayout) findViewById(R.id.tilOwner);
+        tilWebsite = (TextInputLayout) findViewById(R.id.tilWebsite);
     }
 
 
@@ -95,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
             JsonObject jsonObject = new JsonObject();       //Json要記得
             jsonObject.addProperty("param", "category");    //將要送到伺服器的Key跟Value先放到jsonObject
             try {
-                jsonIn = getRemoteData(url, jsonObject.toString()); //getRemoteData請詳Line179，得到一個json字串．
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG); //取得從伺服器回來的json字串
             } catch (IOException e) {
                 Log.e(TAG, e.toString());
                 return null;
@@ -136,15 +141,23 @@ public class RegisterActivity extends AppCompatActivity {
 
 
         //店家地址經緯度
-        Geocoder geoCoder = new Geocoder(RegisterActivity.this, Locale.getDefault());
-        List<Address> addressLocation = null;
-        try {
-            addressLocation = geoCoder.getFromLocationName(address, 1);
-        } catch (IOException e) {
-            e.printStackTrace();
+        String latitude;
+        String longitude;
+        if(address == null || address.trim().length() == 0){
+            latitude = "";
+            longitude = "";
+        } else {
+            Geocoder geoCoder = new Geocoder(RegisterActivity.this, Locale.getDefault());
+            List<Address> addressLocation = null;
+            try {
+                addressLocation = geoCoder.getFromLocationName(address, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            latitude = String.valueOf(addressLocation.get(0).getLatitude());
+            longitude = String.valueOf(addressLocation.get(0).getLongitude());
         }
-        String latitude = String.valueOf(addressLocation.get(0).getLatitude());
-        String longitude = String.valueOf(addressLocation.get(0).getLongitude());
+
 
 
         if (Common.networkConnected(RegisterActivity.this)) {
@@ -207,7 +220,7 @@ public class RegisterActivity extends AppCompatActivity {
             jsonObject.addProperty("longitude", longitude);
 
             try {
-                jsonIn = getRemoteData(url, jsonObject.toString());
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
             } catch (IOException e) {
                 Log.e(TAG, e.toString());
                 return null;
@@ -216,11 +229,11 @@ public class RegisterActivity extends AppCompatActivity {
             Gson gson = new Gson();    //用Gson
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
-            String messageOk = joResult.get("RegisterMessage").getAsString();
-            List<String> s;
-            if (messageOk.equals("RegisterOk")) {
-               s = Arrays.asList(messageOk);
-            } else {
+            String message = joResult.get("RegisterMessage").getAsString();
+            List<String> s = null;
+            if (message.equals("RegisterOk")) {
+               s = Arrays.asList(message);
+            } else if (message.equals("RegisterError")) {
                 String _username = joResult.get("username").getAsString();
                 String _password = joResult.get("password").getAsString();
                 String _passwordConfirm = joResult.get("passwordConfirm").getAsString();
@@ -229,7 +242,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String _phone = joResult.get("phone").getAsString();
                 String _email = joResult.get("email").getAsString();
                 String _owner = joResult.get("owner").getAsString();
-                s = Arrays.asList(_username, _password, _passwordConfirm,
+                s = Arrays.asList(message, _username, _password, _passwordConfirm,
                         _storeName, _address, _phone, _email, _owner);
             }
             return s;       //回傳List<String>予onPostExecute()
@@ -244,60 +257,70 @@ public class RegisterActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(List<String> s) {
             super.onPostExecute(s);
-            String ss = s.get(0);
-            Log.d(TAG, "RegisterMessage=" + ss);
-            if(ss.equals("RegisterOk")){
+            String message = s.get(0);
+            Log.d(TAG, "RegisterMessage=" + message);
+            if(message.equals("RegisterOk")){
                 Intent intent = new Intent(RegisterActivity.this, RestInformationActivity.class);
                 startActivity(intent);
-            } else {
-                SetErrorHint(s);
+            } else if(message.equals("RegisterError")){
+                SetErrorMessage(s);
             }
             progressDialog.cancel();
         }
 
     }
 
-    private void SetErrorHint(List<String> s) {
-        etUsername.setHint(s.get(0));
-        etPassword.setHint(s.get(1));
-        etPasswordConfirm.setHint(s.get(2));
-        etStoreName.setHint(s.get(3));
-        etAddress.setHint(s.get(4));
-        etPhone.setHint(s.get(5));
-        etEmail.setHint(s.get(6));
-        etOwner.setHint(s.get(7));
-    }
-
-    private String getRemoteData(String url, String jsonOut) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
-        StringBuilder jsonIn = new StringBuilder();
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
-        connection.setDoInput(true); // allow inputs
-        connection.setDoOutput(true); // allow outputs
-        connection.setUseCaches(false); // do not use a cached copy
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("charset", "UTF-8");
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
-        bw.write(jsonOut);                              //把資料轉到Server
-        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
-        //bw.write("param=category");   //key=value才可取得對應的value
-        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
-        bw.close();
-
-        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
-
-        if (responseCode == 200) {  //200->Success!!
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
-            String line;
-            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
-                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
-            }
-        } else {
-            Log.d(TAG, "response code: " + responseCode);
+    private void SetErrorMessage(List<String> s) {
+        if (!s.get(1).equals("OK")) {
+            tilUsername.setErrorEnabled(true);
+            tilUsername.setError(s.get(1));
+        } else if (s.get(1).equals("OK")) {
+            tilUsername.setError(null);
         }
-        connection.disconnect();                        //都寫完後就可以解除連結
-        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
-        return jsonIn.toString();
+        if (!s.get(2).equals("OK")) {
+            tilPassword.setErrorEnabled(true);
+            tilPassword.setError(s.get(2));
+        } else if (s.get(2).equals("OK")) {
+            tilPassword.setError(null);
+        }
+        if (!s.get(3).equals("OK")) {
+            tilPasswordConfirm.setErrorEnabled(true);
+            tilPasswordConfirm.setError(s.get(3));
+        } else if (s.get(3).equals("OK")) {
+            tilPasswordConfirm.setError(null);
+        }
+        if (!s.get(4).equals("OK")) {
+            tilStoreName.setErrorEnabled(true);
+            tilStoreName.setError(s.get(4));
+        } else if (s.get(4).equals("OK")) {
+            tilStoreName.setError(null);
+        }
+        if (!s.get(5).equals("OK")) {
+            tilAddress.setErrorEnabled(true);
+            tilAddress.setError(s.get(5));
+        } else if (s.get(5).equals("OK")) {
+            tilAddress.setError(null);
+        }
+        if (!s.get(6).equals("OK")) {
+            tilPhone.setErrorEnabled(true);
+            tilPhone.setError(s.get(6));
+        } else if (s.get(6).equals("OK")) {
+            tilPhone.setError(null);
+        }
+        if (!s.get(7).equals("OK")) {
+            tilEmail.setErrorEnabled(true);
+            tilEmail.setError(s.get(7));
+        } else if (s.get(7).equals("OK")) {
+            tilEmail.setError(null);
+        }
+        if (!s.get(8).equals("OK")) {
+            tilOwner.setErrorEnabled(true);
+            tilOwner.setError(s.get(8));
+        } else if (s.get(8).equals("OK")) {
+            tilOwner.setError(null);
+        }
     }
+
 
     @Override
     protected void onPause() {

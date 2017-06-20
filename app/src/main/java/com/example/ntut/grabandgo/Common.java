@@ -6,8 +6,16 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Base64;
+import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -30,6 +38,8 @@ public class Common {
     //　　　　　1. 同一個區域網路且同一個區域網段．
     //　　　　　2. 連線至WebServer所在之IP(192.168.XXX.XXX)．
 
+
+//-----------------------------UsAndPass-----------------------------------------------
     private final static String US_PASS = "UsAndPass.txt";
 
     public static String getUsPass() {
@@ -37,6 +47,7 @@ public class Common {
     }
 
 
+//-----------------------------取得連線-----------------------------------------------
     // check if the device connect to the network
     public static boolean networkConnected(Activity activity) {
         ConnectivityManager conManager =
@@ -46,6 +57,41 @@ public class Common {
     }
 
 
+//------------------------將資料轉到Servlet，並取得回傳資料----------------------------------
+
+    public static String getRemoteData(String url, String jsonOut, String TAG) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
+        StringBuilder jsonIn = new StringBuilder();
+        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
+        connection.setDoInput(true); // allow inputs
+        connection.setDoOutput(true); // allow outputs
+        connection.setUseCaches(false); // do not use a cached copy
+        connection.setRequestMethod("POST");
+        connection.setRequestProperty("charset", "UTF-8");
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
+        bw.write(jsonOut);                              //把資料轉到Server
+        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
+        //bw.write("param=category");   //key=value才可取得對應的value
+        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
+        bw.close();
+
+        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
+
+        if (responseCode == 200) {  //200->Success!!
+            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
+            String line;
+            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
+                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
+            }
+        } else {
+            Log.d(TAG, "response code: " + responseCode);
+        }
+        connection.disconnect();                        //都寫完後就可以解除連結
+        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
+        return jsonIn.toString();
+    }
+
+
+//------------------------------showToast----------------------------------------
     public static void showToast(Context context, int messageResId) {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }
@@ -55,6 +101,7 @@ public class Common {
     }
 
 
+//--------------------------------加密--------------------------------------------
 
     public static String getMD5Endocing(String message) {
         final StringBuffer buffer = new StringBuffer();

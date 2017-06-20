@@ -84,76 +84,6 @@ public class LoginActivity extends AppCompatActivity
 //    }
 
 
-
-    //Async->開新的執行緒，執行完會自動把結果傳給主執行緒．
-    class LoginTask extends AsyncTask<String, Void, List<String>> {
-                                    //第一個參數定doInBackground的參數資料類型
-                                             //第二個參數定onProgressUpdate的參數資料類型
-                                                        //第三個參數定onPostExecute的參數資料類型，
-                                                        //同時也是doInBackground回傳的參數類型．
-
-        //漏斗轉圈圈
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(LoginActivity.this);   //progressDialog -> 執行時的轉圈圈圖示
-            progressDialog.setMessage("Loading...");
-            progressDialog.show();
-        }
-
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String url = params[0].toString();
-            String username = params[1].toString();
-            String password = params[2].toString();
-            Log.d(TAG, "username=" + username + ", password=" + password);
-            String jsonIn;
-            JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("username", username);
-            jsonObject.addProperty("password", password);
-
-            try {
-                jsonIn = getRemoteData(url, jsonObject.toString());
-            } catch (IOException e) {
-                Log.e(TAG, e.toString());
-                return null;
-            }
-
-            Gson gson = new Gson();    //用Gson
-            JsonObject joResult = gson.fromJson(jsonIn.toString(),
-                    JsonObject.class);
-            String message = joResult.get("loginMessage").getAsString();
-            List<String> s = Arrays.asList(username, password, message);
-
-            return s;       //回傳List<String>予onPostExecute()
-        }
-
-//        @Override
-//        protected void onProgressUpdate(Integer... values) {
-//            super.onProgressUpdate(values);
-//        }
-
-        //show result
-        @Override
-        protected void onPostExecute(List<String> s) {
-            super.onPostExecute(s);
-            String u = s.get(0);
-            String p = Common.encryptString(s.get(1));
-            p = Common.getMD5Endocing(p);
-            String message = s.get(2);
-            Log.d(TAG, "loginMessage=" + message);
-            if(message.equals("LoginOK")){
-                saveUserAndPass(u, p);
-                Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
-                startActivity(intent);
-            } else if (message.equals("UsernameOrPasswordError")){
-                Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
-            }
-            progressDialog.cancel();
-        }
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -202,37 +132,6 @@ public class LoginActivity extends AppCompatActivity
     }
 
 
-    private String getRemoteData(String url, String jsonOut) throws IOException {   //建立跟Server端的連結，把資料傳給Server，再等待回傳的資料．
-        StringBuilder jsonIn = new StringBuilder();
-        HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();   //放置要連線的物件然後建立連線
-        connection.setDoInput(true); // allow inputs
-        connection.setDoOutput(true); // allow outputs
-        connection.setUseCaches(false); // do not use a cached copy
-        connection.setRequestMethod("POST");
-        connection.setRequestProperty("charset", "UTF-8");
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(connection.getOutputStream()));   //取得資料輸出串流(純文字)產生BufferedWriter物件
-        bw.write(jsonOut);                              //把資料轉到Server
-        //如果要Server讀取時用requesr.getParameter方式而非Gson，要改為
-        //bw.write("param=category");   //key=value才可取得對應的value
-        Log.d(TAG, "jsonOut: " + jsonOut);              //建議使用TAG讓我們方便在Android Studio看輸出資料
-        bw.close();
-
-        int responseCode = connection.getResponseCode();//輸出後會回復結果代碼
-
-        if (responseCode == 200) {  //200->Success!!
-            BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream())); //取得資料輸入串流
-            String line;
-            while ((line = br.readLine()) != null) {    //把取得的資料一筆一筆讀取
-                jsonIn.append(line);                    //放置到jsonIn(StreamBuilder)
-            }
-        } else {
-            Log.d(TAG, "response code: " + responseCode);
-        }
-        connection.disconnect();                        //都寫完後就可以解除連結
-        Log.d(TAG, "jsonIn: " + jsonIn);                //再看一下輸入資料
-        return jsonIn.toString();
-    }
-
     public void onSubmitClick(View view) {
         String username = etUsername .getText().toString();
         String password = etPassword .getText().toString();
@@ -268,6 +167,77 @@ public class LoginActivity extends AppCompatActivity
             edit.commit();
         }
     }
+
+
+    //Async->開新的執行緒，執行完會自動把結果傳給主執行緒．
+    class LoginTask extends AsyncTask<String, Void, List<String>> {
+        //第一個參數定doInBackground的參數資料類型
+        //第二個參數定onProgressUpdate的參數資料類型
+        //第三個參數定onPostExecute的參數資料類型，
+        //同時也是doInBackground回傳的參數類型．
+
+        //漏斗轉圈圈
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(LoginActivity.this);   //progressDialog -> 執行時的轉圈圈圖示
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            String url = params[0].toString();
+            String username = params[1].toString();
+            String password = params[2].toString();
+            Log.d(TAG, "username=" + username + ", password=" + password);
+            String jsonIn;
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("username", username);
+            jsonObject.addProperty("password", password);
+
+            try {
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+                return null;
+            }
+
+            Gson gson = new Gson();    //用Gson
+            JsonObject joResult = gson.fromJson(jsonIn.toString(),
+                    JsonObject.class);
+            String message = joResult.get("loginMessage").getAsString();
+            List<String> s = Arrays.asList(username, password, message);
+
+            return s;       //回傳List<String>予onPostExecute()
+        }
+
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//        }
+
+        //show result
+        @Override
+        protected void onPostExecute(List<String> s) {
+            super.onPostExecute(s);
+            String u = s.get(0);
+            String p = Common.encryptString(s.get(1));
+            p = Common.getMD5Endocing(p);
+            String message = s.get(2);
+            Log.d(TAG, "loginMessage=" + message);
+            if(message.equals("LoginOK")){
+                saveUserAndPass(u, p);
+                Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
+                startActivity(intent);
+            } else if (message.equals("UsernameOrPasswordError")){
+                Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
+            }
+            progressDialog.cancel();
+        }
+
+    }
+
 
     public void onForgetClick(View view) {
 //        Intent intent = new Intent(this, RecoverPasswordActivity.class);

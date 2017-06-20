@@ -23,8 +23,8 @@
             android:textColor="#ff0000"/>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilUsername"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etUsername"
@@ -35,8 +35,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilPassword"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etPassword"
@@ -47,8 +47,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilPasswordConfirm"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etPasswordConfirm"
@@ -59,8 +59,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilStoreName"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etStoreName"
@@ -83,8 +83,8 @@
             android:textSize="22sp" />
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilBranch"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etBranch"
@@ -95,8 +95,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilAddress"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etAddress"
@@ -107,8 +107,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilPhone"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etPhone"
@@ -119,8 +119,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilEmail"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etEmail"
@@ -131,8 +131,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilOwner"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etOwner"
@@ -143,8 +143,8 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:id="@+id/tilWebsite"
+            style="@style/style_textInputLayout_register" >
 
             <EditText
                 android:id="@+id/etWebsite"
@@ -161,6 +161,6 @@
             android:layout_margin="10dp"
             android:background="@drawable/button_blue"
             android:onClick="onSubmitClick"
-            android:text="@string/login" />
+            android:text="@string/register" />
     </LinearLayout>
 </ScrollView>

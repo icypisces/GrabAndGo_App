@@ -191,6 +191,7 @@ public class RegisterActivity extends AppCompatActivity {
 
             String jsonIn;
             JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("param", "signUp");
             jsonObject.addProperty("username", username);
             jsonObject.addProperty("password", password);
             jsonObject.addProperty("passwordConfirm", passwordConfirm);

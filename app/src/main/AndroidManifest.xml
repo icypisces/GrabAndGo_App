@@ -36,6 +36,7 @@
             android:label="@string/UnprocessedOrder" />
         <activity android:name=".orders_intraday.CompleteOrderActivity" />
         <activity android:name=".information.RestInformationActivity" />
+        <activity android:name=".NavigationDrawerSetup"></activity>
     </application>
 
 </manifest>

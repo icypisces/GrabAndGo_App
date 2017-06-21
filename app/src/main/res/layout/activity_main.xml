@@ -1,74 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawerLayout"
+    android:id="@+id/firstLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <!--DrawerLayout包含左邊還沒顯示的抽屜和右方的FrameLayout-->
 
-    <RelativeLayout
+
+    <include layout="@layout/toolbar_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
-
+        android:layout_height="match_parent"
+        android:background="#403d8af7"
+        android:gravity="center">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#403d8af7"
-            android:gravity="center">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#203d8af7"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="100dp"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:paddingTop="100dp">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="#203d8af7"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingBottom="100dp"
-                android:paddingLeft="18dp"
-                android:paddingRight="18dp"
-                android:paddingTop="100dp">
+            <Button
+                android:id="@+id/btBeginLogin"
+                style="@style/style_button"
+                android:background="@drawable/button_blue"
+                android:onClick="onLoginClick"
+                android:text="@string/login" />
 
-                <Button
-                    android:id="@+id/btBeginLogin"
-                    style="@style/style_button"
-                    android:background="@drawable/button_blue"
-                    android:onClick="onLoginClick"
-                    android:text="@string/login" />
-
-                <Button
-                    android:id="@+id/btBeginRegister"
-                    style="@style/style_button"
-                    android:background="@drawable/button_pink"
-                    android:onClick="onRegisterClick"
-                    android:text="@string/register" />
-
-            </LinearLayout>
+            <Button
+                android:id="@+id/btBeginRegister"
+                style="@style/style_button"
+                android:background="@drawable/button_pink"
+                android:onClick="onRegisterClick"
+                android:text="@string/register" />
 
         </LinearLayout>
+    </LinearLayout>
 
-    </RelativeLayout>
-
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigate_header"
-        app:menu="@menu/navigate_menu" />
-    <!--NavigationView是抽屜-->
-    <!--headerLayout是上半部，帶到layout/navigate_header.xml-->
-    <!--menu是下半部，帶到menu/navigate_menu.xml-->
-</android.support.v4.widget.DrawerLayout>
+</RelativeLayout>

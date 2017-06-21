@@ -35,7 +35,7 @@
             android:name=".orders_intraday.UnprocessedOrderActivity"
             android:label="@string/UnprocessedOrder" />
         <activity android:name=".orders_intraday.CompleteOrderActivity" />
-        <activity android:name=".information.RestInformationActivity"></activity>
+        <activity android:name=".information.RestInformationActivity" />
     </application>
 
 </manifest>

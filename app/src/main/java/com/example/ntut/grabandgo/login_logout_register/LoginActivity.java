@@ -1,13 +1,9 @@
 package com.example.ntut.grabandgo.login_logout_register;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,24 +15,10 @@ import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
-import com.google.android.gms.safetynet.SafetyNet;
-import com.google.android.gms.safetynet.SafetyNetApi;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,7 +34,6 @@ public class LoginActivity extends NavigationDrawerSetup
     private CheckBox checkRememberMe;
     private AsyncTask LoginTask;
     private ProgressDialog progressDialog;
-    private String rmMessage;
 
     //Remember Me
     private static final String PREFS_NAME="NamePWD";
@@ -245,7 +226,7 @@ public class LoginActivity extends NavigationDrawerSetup
 //        startActivity(intent);
 
 
-            //機器人驗證方法過期?待處理
+        //機器人驗證方法過期?待處理
 //        SafetyNet.SafetyNetApi.verifyWithRecaptcha(mGoogleApiClient, SITE_KEY)
 //                .setResultCallback(new ResultCallback<SafetyNetApi.RecaptchaTokenResult>() {
 //                    @Override

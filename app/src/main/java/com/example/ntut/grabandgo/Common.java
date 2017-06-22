@@ -39,7 +39,7 @@ public class Common {
     //　　　　　2. 連線至WebServer所在之IP(192.168.XXX.XXX)．
 
 
-//-----------------------------UsAndPass-----------------------------------------------
+    //-----------------------------UsAndPass-----------------------------------------------
     private final static String US_PASS = "UsAndPass.txt";
 
     public static String getUsPass() {
@@ -47,7 +47,7 @@ public class Common {
     }
 
 
-//-----------------------------取得連線-----------------------------------------------
+    //-----------------------------取得連線-----------------------------------------------
     // check if the device connect to the network
     public static boolean networkConnected(Activity activity) {
         ConnectivityManager conManager =
@@ -91,7 +91,7 @@ public class Common {
     }
 
 
-//------------------------------showToast----------------------------------------
+    //------------------------------showToast----------------------------------------
     public static void showToast(Context context, int messageResId) {
         Toast.makeText(context, messageResId, Toast.LENGTH_SHORT).show();
     }

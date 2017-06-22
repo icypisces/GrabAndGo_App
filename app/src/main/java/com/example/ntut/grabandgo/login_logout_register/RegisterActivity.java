@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.ntut.grabandgo.Common;
+import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.information.RestInformationActivity;
 import com.google.gson.Gson;
@@ -28,7 +29,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class RegisterActivity extends AppCompatActivity {
+public class RegisterActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreRegisterServlet";
     private final static String TAG = "RegisterActivity";
     public EditText etUsername, etPassword, etPasswordConfirm, etStoreName,
@@ -46,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         findViews();
+        setUpToolBar();
 
         String url = Common.URL + ServletName ;
         //取得餐廳類別選項

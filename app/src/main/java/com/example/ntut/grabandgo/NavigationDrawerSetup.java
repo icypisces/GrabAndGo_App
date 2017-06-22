@@ -1,8 +1,11 @@
 package com.example.ntut.grabandgo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,11 +25,15 @@ public class NavigationDrawerSetup extends AppCompatActivity {
     protected NavigationView navigationView;    //其他Activity共用
     protected Toolbar toolbar;
 
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
     @Override
     public void setContentView(@LayoutRes int layoutResID) {
         findViews();
-        getLayoutInflater().inflate(layoutResID,drawerLayout,true);
+        getLayoutInflater().inflate(layoutResID,frameLayout,true);
         //參數1 - resource  //參數2 - 成為哪個view的child view
         //參數3 - 最後一個參數 attachToRoot 是 inflate 的 view 是否要 attach 到 root view，
         // 這會影響到回傳的是哪個 view。假如 attachToRoot 為 true，
@@ -38,21 +45,21 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
 
     public void setUpNavigation() {
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 item.setChecked(true);          //設定被點選的Item有被點選的效果(灰色)
                 drawerLayout.closeDrawers();    //強制在點選後抽屜會關掉
-                Intent intent = null;
                 switch (item.getItemId()){
                     case R.id.item_login:
-                        intent.setClass(NavigationDrawerSetup.this,LoginActivity.class);
-                        startActivity(intent);
+                        Intent intent1 = new Intent(NavigationDrawerSetup.this,LoginActivity.class);
+                        startActivity(intent1);
                         break;
                     case R.id.item_register:
-                        intent.setClass(NavigationDrawerSetup.this,RegisterActivity.class);
-                        startActivity(intent);
+                        Intent intent2 = new Intent(NavigationDrawerSetup.this,RegisterActivity.class);
+                        startActivity(intent2);
                         break;
                 }
 

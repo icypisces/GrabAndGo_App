@@ -16,6 +16,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.example.ntut.grabandgo.Common;
+import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 import com.google.android.gms.common.ConnectionResult;
@@ -40,7 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends NavigationDrawerSetup
 //        implements GoogleApiClient.ConnectionCallbacks,   //機器人驗證的方法過期，待處理
 //        GoogleApiClient.OnConnectionFailedListener
 {
@@ -90,7 +91,7 @@ public class LoginActivity extends AppCompatActivity
         setContentView(R.layout.activity_login);
         findViews();
         getData(); 		//Remember Me//第二次進入的時候得到數據
-
+        setUpToolBar();
         //機器人驗證API
 //        mGoogleApiClient = new GoogleApiClient.Builder(this)
 //                .addApi(SafetyNet.API)

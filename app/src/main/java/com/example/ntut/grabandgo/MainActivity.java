@@ -1,6 +1,7 @@
 package com.example.ntut.grabandgo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -9,9 +10,13 @@ import android.widget.Button;
 
 import com.example.ntut.grabandgo.login_logout_register.LoginActivity;
 import com.example.ntut.grabandgo.login_logout_register.RegisterActivity;
+import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 
 public class MainActivity extends NavigationDrawerSetup {
     private Button login, register;
+
+    //Login
+    private SharedPreferences sharedPreferencesLogin=null;
 
 
     @Override
@@ -21,7 +26,16 @@ public class MainActivity extends NavigationDrawerSetup {
         findViews();
  //       toolbar.setTitle();   //設置toolbar的文字
         setUpToolBar();
+        loginChangeToOrder();
 
+    }
+
+    private void loginChangeToOrder() {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){    //如果有取出Boolean為true
+            Intent intent = new Intent(MainActivity.this, UnprocessedOrderActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void findViews() {

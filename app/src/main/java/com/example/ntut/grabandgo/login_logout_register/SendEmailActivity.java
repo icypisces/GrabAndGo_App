@@ -1,4 +1,4 @@
-package com.example.ntut.grabandgo.orders_intraday;
+package com.example.ntut.grabandgo.login_logout_register;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -6,13 +6,15 @@ import android.os.Bundle;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
 
-public class UnprocessedOrderActivity extends NavigationDrawerSetup {
+public class SendEmailActivity extends NavigationDrawerSetup {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_unprocessed_order);
+        setContentView(R.layout.activity_send_email);
 
         setUpToolBar();
+
+
     }
 }

@@ -2,6 +2,7 @@ package com.example.ntut.grabandgo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.ntut.grabandgo.information.RestInformationActivity;
 import com.example.ntut.grabandgo.login_logout_register.LoginActivity;
 import com.example.ntut.grabandgo.login_logout_register.RegisterActivity;
 
@@ -24,6 +26,9 @@ public class NavigationDrawerSetup extends AppCompatActivity {
     private FrameLayout frameLayout;
     protected NavigationView navigationView;    //其他Activity共用
     protected Toolbar toolbar;
+
+    //Login
+    private SharedPreferences sharedPreferencesLogin = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +46,18 @@ public class NavigationDrawerSetup extends AppCompatActivity {
         super.setContentView(drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setUpNavigation();
+        setDrawerMenu();
+    }
+
+    private void setDrawerMenu() {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){    //如果有取出Boolean為true
+            navigationView.getMenu().setGroupVisible(R.id.group_1,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_2,true);
+        } else {
+            navigationView.getMenu().setGroupVisible(R.id.group_1,true);
+            navigationView.getMenu().setGroupVisible(R.id.group_2,false);
+        }
     }
 
 
@@ -50,16 +67,26 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                item.setChecked(true);          //設定被點選的Item有被點選的效果(灰色)
+//                item.setChecked(true);          //設定被點選的Item有被點選的效果(灰色)
                 drawerLayout.closeDrawers();    //強制在點選後抽屜會關掉
+                Intent intent;
                 switch (item.getItemId()){
                     case R.id.item_login:
-                        Intent intent1 = new Intent(NavigationDrawerSetup.this,LoginActivity.class);
-                        startActivity(intent1);
+                        intent = new Intent(NavigationDrawerSetup.this,LoginActivity.class);
+                        startActivity(intent);
                         break;
                     case R.id.item_register:
-                        Intent intent2 = new Intent(NavigationDrawerSetup.this,RegisterActivity.class);
-                        startActivity(intent2);
+                        intent = new Intent(NavigationDrawerSetup.this,RegisterActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_profile:
+                        intent = new Intent(NavigationDrawerSetup.this,RestInformationActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_logout:
+                        userLogout();
+                        intent = new Intent(NavigationDrawerSetup.this,MainActivity.class);
+                        startActivity(intent);
                         break;
                 }
 
@@ -79,9 +106,9 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
 
     //用以設置toolbar
-    public void setUpToolBar(){
+    public void setUpToolBar() {
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -91,8 +118,8 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
         //被點擊的Icon設定會轉動
         ActionBarDrawerToggle actionBarDrawerToggle =
-                new ActionBarDrawerToggle(this,drawerLayout,toolbar,
-                        R.string.drawer_open,R.string.drawer_close){
+                new ActionBarDrawerToggle(this, drawerLayout, toolbar,
+                        R.string.drawer_open, R.string.drawer_close) {
                     @Override
                     public void onDrawerOpened(View drawerView) {
                         super.onDrawerOpened(drawerView);
@@ -102,11 +129,17 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                     public void onDrawerClosed(View drawerView) {
                         super.onDrawerClosed(drawerView);
                     }
-        };
+                };
 
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();  //讓ActionBar 中的返回箭號置換成Drawer 的三條線圖示
+    }
 
+    private void userLogout() {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
+        edit.clear();
+        edit.commit();
     }
 
 }

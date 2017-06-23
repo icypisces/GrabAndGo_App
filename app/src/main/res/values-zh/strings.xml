@@ -23,4 +23,6 @@
     <string name="owner">商家負責人 (*)</string>
     <string name="url">官方網站</string>
     <string name="mustEnter">*為必填欄位</string>
+    <string name="logout">會員登出</string>
+    <string name="profile">會員資料</string>
 </resources>

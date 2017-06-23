@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.ntut.grabandgo.login_logout_register.SendEmailActivity">
+
+
+    <include layout="@layout/toolbar_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="#d9d8d7">
+
+            <TextView
+                android:id="@+id/tvSendEmailTitle"
+                android:textSize="30sp"
+                android:gravity="center_horizontal"
+                android:text="註冊成功"
+                style="@style/style_editText_login" />
+
+            <TextView
+                android:id="@+id/tvSendEmailBody"
+                android:textSize="22sp"
+                android:text="我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳號，感謝您的配合。"
+                style="@style/style_editText_login" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

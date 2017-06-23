@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">GrabAndGo</string>
     <string name="login">Sign In</string>
-    <string name="register">Sign up</string>
+    <string name="register">Sign Up</string>
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="forget">Recover password</string>
@@ -31,4 +31,6 @@
     <string name="action_settings">Settings</string>
     <string name="drawer_open">Drawer Open</string>
     <string name="drawer_close">Drawer Close</string>
+    <string name="logout">Sign Off</string>
+    <string name="profile">Profile</string>
 </resources>

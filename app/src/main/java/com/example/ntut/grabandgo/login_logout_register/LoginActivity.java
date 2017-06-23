@@ -39,6 +39,9 @@ public class LoginActivity extends NavigationDrawerSetup
     private static final String PREFS_NAME="NamePWD";
     private SharedPreferences sharedPreferences=null;
 
+    //Login
+    private SharedPreferences sharedPreferencesLogin=null;
+
 
 
 //    //機器人驗證API
@@ -204,18 +207,19 @@ public class LoginActivity extends NavigationDrawerSetup
         protected void onPostExecute(List<String> s) {
             super.onPostExecute(s);
             String u = s.get(0);
-            String p = Common.encryptString(s.get(1));
-            p = Common.getMD5Endocing(p);
+            String p = s.get(1);
+    //        p = Common.getMD5Endocing(Common.encryptString(p));//Password於encryptString轉換時正常，但getMD5Endocing資料不同．
             String message = s.get(2);
             Log.d(TAG, "loginMessage=" + message);
             if(message.equals("LoginOK")){
-                saveUserAndPass(u, p);
+                userLogin(u, p);
                 Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
                 startActivity(intent);
             } else if (message.equals("UsernameOrPasswordError")){
                 Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
             }
             progressDialog.cancel();
+            finish();
         }
 
     }
@@ -266,12 +270,14 @@ public class LoginActivity extends NavigationDrawerSetup
 
     }
 
-    private void saveUserAndPass(String user, String pass) {
-        sharedPreferences = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
-        SharedPreferences.Editor edit = sharedPreferences.edit();
+    private void userLogin(String user, String pass) {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
+        edit.clear();
         edit.putBoolean("UsPaIsKeep",true);
-//        edit.putString("user",user);
-//        edit.putString("pass",pass);      //Password於encryptString轉換時正常，但getMD5Endocing資料不同．
+        edit.putString("user",user);
+        edit.putString("pass",pass);
+        edit.commit();
     }
 
 

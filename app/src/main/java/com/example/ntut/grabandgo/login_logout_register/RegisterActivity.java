@@ -2,6 +2,7 @@ package com.example.ntut.grabandgo.login_logout_register;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -41,6 +42,8 @@ public class RegisterActivity extends NavigationDrawerSetup {
     private AsyncTask RegisterTask, RestTypeTask;
     private ProgressDialog progressDialog;
 
+    //Login
+    private SharedPreferences sharedPreferencesLogin=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -234,7 +237,7 @@ public class RegisterActivity extends NavigationDrawerSetup {
             String message = joResult.get("RegisterMessage").getAsString();
             List<String> s = null;
             if (message.equals("RegisterOk")) {
-               s = Arrays.asList(message);
+               s = Arrays.asList(username, password, message);
             } else if (message.equals("RegisterError")) {
                 String _username = joResult.get("username").getAsString();
                 String _password = joResult.get("password").getAsString();
@@ -244,7 +247,7 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 String _phone = joResult.get("phone").getAsString();
                 String _email = joResult.get("email").getAsString();
                 String _owner = joResult.get("owner").getAsString();
-                s = Arrays.asList(message, _username, _password, _passwordConfirm,
+                s = Arrays.asList(username, password, message, _username, _password, _passwordConfirm,
                         _storeName, _address, _phone, _email, _owner);
             }
             return s;       //回傳List<String>予onPostExecute()
@@ -259,66 +262,83 @@ public class RegisterActivity extends NavigationDrawerSetup {
         @Override
         protected void onPostExecute(List<String> s) {
             super.onPostExecute(s);
-            String message = s.get(0);
+            String u = s.get(0);
+            String p = s.get(1);
+//            p = Common.getMD5Endocing(Common.encryptString(p));//Password於encryptString轉換時正常，但getMD5Endocing資料不同．
+            String message = s.get(2);
             Log.d(TAG, "RegisterMessage=" + message);
             if(message.equals("RegisterOk")){
-                Intent intent = new Intent(RegisterActivity.this, RestInformationActivity.class);
+                Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
                 startActivity(intent);
+                userLogin(u, p);
+                navigationView.getMenu().setGroupVisible(R.id.group_1,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_2,true);
             } else if(message.equals("RegisterError")){
                 SetErrorMessage(s);
             }
             progressDialog.cancel();
+            finish();
         }
 
     }
 
+    private void userLogin(String user, String pass) {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
+        edit.clear();
+        edit.putBoolean("UsPaIsKeep",true);
+        edit.putString("user",user);
+        edit.putString("pass",pass);
+        edit.commit();
+    }
+
     private void SetErrorMessage(List<String> s) {
-        if (!s.get(1).equals("OK")) {
+        if (!s.get(3).equals("OK")) {
             tilUsername.setErrorEnabled(true);
-            tilUsername.setError(s.get(1));
-        } else if (s.get(1).equals("OK")) {
+            tilUsername.setError(s.get(3));
+        } else if (s.get(3).equals("OK")) {
             tilUsername.setError(null);
         }
-        if (!s.get(2).equals("OK")) {
+        if (!s.get(4).equals("OK")) {
             tilPassword.setErrorEnabled(true);
-            tilPassword.setError(s.get(2));
-        } else if (s.get(2).equals("OK")) {
+            tilPassword.setError(s.get(4));
+        } else if (s.get(4).equals("OK")) {
             tilPassword.setError(null);
         }
-        if (!s.get(3).equals("OK")) {
+        if (!s.get(5).equals("OK")) {
             tilPasswordConfirm.setErrorEnabled(true);
-            tilPasswordConfirm.setError(s.get(3));
-        } else if (s.get(3).equals("OK")) {
+            tilPasswordConfirm.setError(s.get(5));
+        } else if (s.get(5).equals("OK")) {
             tilPasswordConfirm.setError(null);
         }
-        if (!s.get(4).equals("OK")) {
+        if (!s.get(6).equals("OK")) {
             tilStoreName.setErrorEnabled(true);
-            tilStoreName.setError(s.get(4));
-        } else if (s.get(4).equals("OK")) {
+            tilStoreName.setError(s.get(6));
+        } else if (s.get(6).equals("OK")) {
             tilStoreName.setError(null);
         }
-        if (!s.get(5).equals("OK")) {
+        if (!s.get(7).equals("OK")) {
             tilAddress.setErrorEnabled(true);
-            tilAddress.setError(s.get(5));
-        } else if (s.get(5).equals("OK")) {
+            tilAddress.setError(s.get(7));
+        } else if (s.get(7).equals("OK")) {
             tilAddress.setError(null);
         }
-        if (!s.get(6).equals("OK")) {
+        if (!s.get(8).equals("OK")) {
             tilPhone.setErrorEnabled(true);
-            tilPhone.setError(s.get(6));
-        } else if (s.get(6).equals("OK")) {
+            tilPhone.setError(s.get(8));
+        } else if (s.get(8).equals("OK")) {
             tilPhone.setError(null);
         }
-        if (!s.get(7).equals("OK")) {
+        if (!s.get(9).equals("OK")) {
             tilEmail.setErrorEnabled(true);
-            tilEmail.setError(s.get(7));
-        } else if (s.get(7).equals("OK")) {
+            tilEmail.setError(s.get(9));
+        } else if (s.get(9).equals("OK")) {
             tilEmail.setError(null);
         }
-        if (!s.get(8).equals("OK")) {
+        if (!s.get(10).equals("OK")) {
             tilOwner.setErrorEnabled(true);
-            tilOwner.setError(s.get(8));
-        } else if (s.get(8).equals("OK")) {
+            tilOwner.setError(s.get(10));
+        } else if (s.get(10).equals("OK")) {
             tilOwner.setError(null);
         }
     }

@@ -1,6 +1,5 @@
 package com.example.ntut.grabandgo;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -17,9 +16,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.example.ntut.grabandgo.information.RestInformationActivity;
-import com.example.ntut.grabandgo.login_logout_register.LoginActivity;
-import com.example.ntut.grabandgo.login_logout_register.RegisterActivity;
+import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
+import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
+import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
 import com.example.ntut.grabandgo.orders_intraday.CompletedOrderActivity;
 import com.example.ntut.grabandgo.orders_intraday.PaidOrderActivity;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
@@ -63,7 +62,7 @@ public class NavigationDrawerSetup extends AppCompatActivity {
             navigationView.getMenu().setGroupVisible(R.id.group_profile,false);
             navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,false);
         }
-        //增加判斷是否已驗證後，還要再分出登入/註冊，但是未驗證者...只能看profile
+        //增加判斷是否已驗證後，還要再分出登入/註冊，但是未驗證者...只能看profile．
     }
 
 

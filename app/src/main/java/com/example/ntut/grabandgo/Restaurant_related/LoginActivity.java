@@ -1,4 +1,4 @@
-package com.example.ntut.grabandgo.login_logout_register;
+package com.example.ntut.grabandgo.Restaurant_related;
 
 import android.app.ProgressDialog;
 import android.content.Intent;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.ntut.grabandgo.login_logout_register.SendEmailActivity">
+    tools:context="com.example.ntut.grabandgo.Restaurant_related.SendEmailActivity">
 
 
     <include layout="@layout/toolbar_layout"

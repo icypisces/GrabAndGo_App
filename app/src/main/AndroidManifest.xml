@@ -23,21 +23,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".login_logout_register.LoginActivity"
+            android:name=".Restaurant_related.LoginActivity"
             android:label="@string/login" />
         <activity
-            android:name=".login_logout_register.RecoverPasswordActivity"
+            android:name=".Restaurant_related.RecoverPasswordActivity"
             android:label="@string/forget" />
         <activity
-            android:name=".login_logout_register.RegisterActivity"
+            android:name=".Restaurant_related.RegisterActivity"
             android:label="@string/register" />
         <activity
             android:name=".orders_intraday.UnprocessedOrderActivity"
             android:label="@string/UnprocessedOrder" />
         <activity android:name=".orders_intraday.CompleteOrderActivity" />
-        <activity android:name=".information.RestInformationActivity" />
+        <activity android:name=".Restaurant_related.RestInformationActivity" />
         <activity android:name=".NavigationDrawerSetup" />
-        <activity android:name=".login_logout_register.SendEmailActivity" />
+        <activity android:name=".Restaurant_related.SendEmailActivity" />
         <activity android:name=".orders_intraday.PaidOrderActivity"></activity>
     </application>
 

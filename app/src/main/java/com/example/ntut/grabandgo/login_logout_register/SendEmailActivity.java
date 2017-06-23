@@ -1,6 +1,5 @@
 package com.example.ntut.grabandgo.login_logout_register;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
@@ -15,6 +14,7 @@ public class SendEmailActivity extends NavigationDrawerSetup {
 
         setUpToolBar();
 
+        //有空可以加倒數計時器，然後跳到會員資料頁面．
 
     }
 }

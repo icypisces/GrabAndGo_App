@@ -271,8 +271,6 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
                 startActivity(intent);
                 userLogin(u, p);
-                navigationView.getMenu().setGroupVisible(R.id.group_1,false);
-                navigationView.getMenu().setGroupVisible(R.id.group_2,true);
             } else if(message.equals("RegisterError")){
                 SetErrorMessage(s);
             }

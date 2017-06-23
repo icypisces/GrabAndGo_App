@@ -25,4 +25,8 @@
     <string name="mustEnter">*為必填欄位</string>
     <string name="logout">會員登出</string>
     <string name="profile">會員資料</string>
+    <string name="intradayOrders">本日訂單</string>
+    <string name="unprocessed">待處理訂單</string>
+    <string name="completed">已完成</string>
+    <string name="paid">已結帳</string>
 </resources>

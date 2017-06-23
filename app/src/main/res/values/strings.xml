@@ -33,4 +33,8 @@
     <string name="drawer_close">Drawer Close</string>
     <string name="logout">Sign Off</string>
     <string name="profile">Profile</string>
+    <string name="intradayOrders">Intraday Orders</string>
+    <string name="unprocessed">Unprocessed</string>
+    <string name="completed">Completed</string>
+    <string name="paid">Paid</string>
 </resources>

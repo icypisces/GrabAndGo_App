@@ -20,6 +20,9 @@ import android.widget.FrameLayout;
 import com.example.ntut.grabandgo.information.RestInformationActivity;
 import com.example.ntut.grabandgo.login_logout_register.LoginActivity;
 import com.example.ntut.grabandgo.login_logout_register.RegisterActivity;
+import com.example.ntut.grabandgo.orders_intraday.CompletedOrderActivity;
+import com.example.ntut.grabandgo.orders_intraday.PaidOrderActivity;
+import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 
 public class NavigationDrawerSetup extends AppCompatActivity {
     private DrawerLayout drawerLayout;
@@ -52,12 +55,15 @@ public class NavigationDrawerSetup extends AppCompatActivity {
     private void setDrawerMenu() {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){    //如果有取出Boolean為true
-            navigationView.getMenu().setGroupVisible(R.id.group_1,false);
-            navigationView.getMenu().setGroupVisible(R.id.group_2,true);
+            navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_profile,true);
+            navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,true);
         } else {
-            navigationView.getMenu().setGroupVisible(R.id.group_1,true);
-            navigationView.getMenu().setGroupVisible(R.id.group_2,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_sign,true);
+            navigationView.getMenu().setGroupVisible(R.id.group_profile,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,false);
         }
+        //增加判斷是否已驗證後，還要再分出登入/註冊，但是未驗證者...只能看profile
     }
 
 
@@ -86,6 +92,18 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                     case R.id.item_logout:
                         userLogout();
                         intent = new Intent(NavigationDrawerSetup.this,MainActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_unprocessed:
+                        intent = new Intent(NavigationDrawerSetup.this,UnprocessedOrderActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_completed:
+                        intent = new Intent(NavigationDrawerSetup.this,CompletedOrderActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_paid:
+                        intent = new Intent(NavigationDrawerSetup.this,PaidOrderActivity.class);
                         startActivity(intent);
                         break;
                 }

@@ -37,7 +37,8 @@
         <activity android:name=".orders_intraday.CompleteOrderActivity" />
         <activity android:name=".information.RestInformationActivity" />
         <activity android:name=".NavigationDrawerSetup" />
-        <activity android:name=".login_logout_register.SendEmailActivity"></activity>
+        <activity android:name=".login_logout_register.SendEmailActivity" />
+        <activity android:name=".orders_intraday.PaidOrderActivity"></activity>
     </application>
 
 </manifest>

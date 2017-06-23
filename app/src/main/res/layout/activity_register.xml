@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="20dp"
-            android:background="#403d8af7"
+            android:background="#40F7973D"
             android:orientation="vertical">
             <!--帳號(檢查帳號).密碼.密碼確認.店家名稱.餐廳類別.
                 分店.地址.電話.電子郵件.店家負責人.官方網站    -->
@@ -172,7 +172,7 @@
                 style="@style/style_button"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
-                android:background="@drawable/button_blue"
+                android:background="@drawable/button_orange"
                 android:onClick="onSubmitClick"
                 android:text="@string/register" />
         </LinearLayout>

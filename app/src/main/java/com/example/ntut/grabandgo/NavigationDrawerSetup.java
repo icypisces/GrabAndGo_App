@@ -15,6 +15,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
@@ -26,9 +28,12 @@ import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 public class NavigationDrawerSetup extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private FrameLayout frameLayout;
-    protected NavigationView navigationView;    //其他Activity共用
+    private View navigationHeader;
+    private ImageView ivHeader;
+    private TextView tvHeaderTitle, tvHeaderSubtitle;
+    //其他Activity共用
+    protected NavigationView navigationView;
     protected Toolbar toolbar;
-
     //Login
     private SharedPreferences sharedPreferencesLogin = null;
 
@@ -49,6 +54,17 @@ public class NavigationDrawerSetup extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setUpNavigation();
         setDrawerMenu();
+        setDrawerHeader();
+    }
+
+    private void findViews() {
+        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.navigation_drawer_setup, null);
+        frameLayout = (FrameLayout) drawerLayout.findViewById(R.id.content_frame);
+        navigationView = (NavigationView) drawerLayout.findViewById(R.id.navigation_view);
+        navigationHeader = navigationView.getHeaderView(0);
+        ivHeader = (ImageView) navigationHeader.findViewById(R.id.ivHeader);
+        tvHeaderTitle = (TextView) navigationHeader.findViewById(R.id.tvHeaderTitle);
+        tvHeaderSubtitle = (TextView) navigationHeader.findViewById(R.id.tvHeaderSubtitle);
     }
 
     private void setDrawerMenu() {
@@ -65,6 +81,9 @@ public class NavigationDrawerSetup extends AppCompatActivity {
         //增加判斷是否已驗證後，還要再分出登入/註冊，但是未驗證者...只能看profile．
     }
 
+    private void setDrawerHeader() {
+
+    }
 
     public void setUpNavigation() {
 
@@ -113,13 +132,6 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
     }
 
-
-    private void findViews() {
-        drawerLayout = (DrawerLayout) getLayoutInflater().inflate(R.layout.navigation_drawer_setup, null);
-        frameLayout = (FrameLayout) drawerLayout.findViewById(R.id.content_frame);
-        navigationView = (NavigationView) drawerLayout.findViewById(R.id.navigation_view);
-
-    }
 
 
     //用以設置toolbar

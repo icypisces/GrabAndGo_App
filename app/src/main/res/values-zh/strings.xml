@@ -29,4 +29,6 @@
     <string name="unprocessed">待處理訂單</string>
     <string name="completed">已完成</string>
     <string name="paid">已結帳</string>
+    <string name="sendEmailTitle">註冊成功</string>
+    <string name="sendEmailBody">我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳號，感謝您的配合。</string>
 </resources>

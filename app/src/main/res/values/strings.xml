@@ -37,4 +37,6 @@
     <string name="unprocessed">Unprocessed</string>
     <string name="completed">Completed</string>
     <string name="paid">Paid</string>
+    <string name="sendEmailBody">我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳號，感謝您的配合。</string>
+    <string name="sendEmailTitle">註冊成功</string>
 </resources>

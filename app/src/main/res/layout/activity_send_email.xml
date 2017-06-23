@@ -35,8 +35,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:gravity="center_horizontal"
-                android:textSize="30sp"
-                android:text="註冊成功" />
+                android:text="@string/sendEmailTitle"
+                android:textSize="30sp" />
 
             <TextView
                 android:id="@+id/tvSendEmailBody"
@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:textSize="24sp"
-                android:text="我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳號，感謝您的配合。" />
+                android:text="@string/sendEmailBody" />
 
         </LinearLayout>
 

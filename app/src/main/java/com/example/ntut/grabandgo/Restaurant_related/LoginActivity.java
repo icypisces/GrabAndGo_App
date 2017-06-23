@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -192,7 +193,10 @@ public class LoginActivity extends NavigationDrawerSetup
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
             String message = joResult.get("loginMessage").getAsString();
-            List<String> s = Arrays.asList(username, password, message);
+            String rest_name = joResult.get("rest_name").getAsString();
+            String rest_branch = joResult.get("rest_branch").getAsString();
+            String logo = joResult.get("rest_logo").getAsString();
+            List<String> s = Arrays.asList(username, password, message, rest_name, rest_branch, logo);
 
             return s;       //回傳List<String>予onPostExecute()
         }
@@ -210,9 +214,15 @@ public class LoginActivity extends NavigationDrawerSetup
             String p = s.get(1);
     //        p = Common.getMD5Endocing(Common.encryptString(p));//Password於encryptString轉換時正常，但getMD5Endocing資料不同．
             String message = s.get(2);
+            String rest_name = s.get(3);
+            String rest_branch = s.get(4);
+            String logo = s.get(5);
+//            String[] sa = logo.split(",");
+//            String type_logo = sa[0];
+//            String rest_logo = sa[1];
             Log.d(TAG, "loginMessage=" + message);
             if(message.equals("LoginOK")){
-                userLogin(u, p);
+                userLogin(u, p, rest_name, rest_branch, logo);
                 Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
                 startActivity(intent);
             } else if (message.equals("UsernameOrPasswordError")){
@@ -270,13 +280,16 @@ public class LoginActivity extends NavigationDrawerSetup
 
     }
 
-    private void userLogin(String user, String pass) {
+    private void userLogin(String user, String pass, String rest_name, String rest_branch, String logo) {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
         edit.clear();
         edit.putBoolean("UsPaIsKeep",true);
         edit.putString("user",user);
         edit.putString("pass",pass);
+        edit.putString("rest_name",rest_name);
+        edit.putString("rest_branch",rest_branch);
+        edit.putString("logo",logo);
         edit.commit();
     }
 

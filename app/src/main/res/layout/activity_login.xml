@@ -35,8 +35,8 @@
 
                 <EditText
                     android:id="@+id/etUsername"
-                    android:hint="@string/username"
-                    style="@style/style_editText_login" />
+                    style="@style/style_editText_login"
+                    android:hint="@string/username" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout

@@ -2,6 +2,8 @@ package com.example.ntut.grabandgo;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -12,6 +14,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -26,6 +30,7 @@ import com.example.ntut.grabandgo.orders_intraday.PaidOrderActivity;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
 
 public class NavigationDrawerSetup extends AppCompatActivity {
+    private final static String TAG = "NavigationDrawerSetup";
     private DrawerLayout drawerLayout;
     private FrameLayout frameLayout;
     private View navigationHeader;
@@ -82,7 +87,26 @@ public class NavigationDrawerSetup extends AppCompatActivity {
     }
 
     private void setDrawerHeader() {
+        String rest_name_def = (String) tvHeaderTitle.getText();
+        String rest_name = sharedPreferencesLogin.getString("rest_name", rest_name_def);
+        Log.d(TAG, "rest_name=" + rest_name);
+        tvHeaderTitle.setText(rest_name);
 
+        String rest_branch_def = (String) tvHeaderSubtitle.getText();
+        String rest_branch = sharedPreferencesLogin.getString("rest_branch", rest_branch_def);
+//        if(rest_branch == null || rest_branch.trim().length() ==0){
+//            rest_branch = "";
+//        }
+        Log.d(TAG, "rest_branch=" + rest_branch);
+        tvHeaderSubtitle.setText(rest_branch);
+
+        String logo = sharedPreferencesLogin.getString("logo", "");
+        Log.d(TAG, "logo=" + logo);
+        if(logo != null && logo.trim().length() !=0){
+            byte[] decodedString = Base64.decode(logo, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            ivHeader.setImageBitmap(decodedByte);
+        }
     }
 
     public void setUpNavigation() {

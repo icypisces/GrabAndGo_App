@@ -193,10 +193,18 @@ public class LoginActivity extends NavigationDrawerSetup
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
             String message = joResult.get("loginMessage").getAsString();
-            String rest_name = joResult.get("rest_name").getAsString();
-            String rest_branch = joResult.get("rest_branch").getAsString();
-            String logo = joResult.get("rest_logo").getAsString();
-            List<String> s = Arrays.asList(username, password, message, rest_name, rest_branch, logo);
+            List<String> s = null;
+            if(message.equals("LoginOK")){
+                String rest_name = joResult.get("rest_name").getAsString();
+                String rest_branch = joResult.get("rest_branch").getAsString();
+                String logo = joResult.get("rest_logo").getAsString();
+                String validate = joResult.get("rest_validate").getAsString();
+                s = Arrays.asList(username, password, message,
+                        rest_name, rest_branch, logo, validate);
+            } else if (message.equals("UsernameOrPasswordError")){
+                s = Arrays.asList(username, password, message);
+            }
+
 
             return s;       //回傳List<String>予onPostExecute()
         }
@@ -214,20 +222,23 @@ public class LoginActivity extends NavigationDrawerSetup
             String p = s.get(1);
     //        p = Common.getMD5Endocing(Common.encryptString(p));//Password於encryptString轉換時正常，但getMD5Endocing資料不同．
             String message = s.get(2);
-            String rest_name = s.get(3);
-            String rest_branch = s.get(4);
-            String logo = s.get(5);
-
             Log.d(TAG, "loginMessage=" + message);
             if(message.equals("LoginOK")){
-                userLogin(u, p, rest_name, rest_branch, logo);
+                String rest_name = s.get(3);
+                String rest_branch = s.get(4);
+                String logo = s.get(5);
+                String validate = s.get(6);
+                boolean rest_validate = Boolean.parseBoolean(validate);
+                userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
                 Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
                 startActivity(intent);
+                finish();
             } else if (message.equals("UsernameOrPasswordError")){
+                etUsername.setText(u);
+                etPassword.setText(p);
                 Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
             }
             progressDialog.cancel();
-            finish();
         }
 
     }
@@ -278,7 +289,8 @@ public class LoginActivity extends NavigationDrawerSetup
 
     }
 
-    private void userLogin(String user, String pass, String rest_name, String rest_branch, String logo) {
+    private void userLogin(String user, String pass, String rest_name,
+                           String rest_branch, String logo, boolean rest_validate) {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
         edit.clear();
@@ -288,6 +300,7 @@ public class LoginActivity extends NavigationDrawerSetup
         edit.putString("rest_name",rest_name);
         edit.putString("rest_branch",rest_branch);
         edit.putString("logo",logo);
+        edit.putBoolean("rest_validate",rest_validate);
         edit.commit();
     }
 

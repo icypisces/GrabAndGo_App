@@ -235,7 +235,17 @@ public class RegisterActivity extends NavigationDrawerSetup {
             String message = joResult.get("RegisterMessage").getAsString();
             List<String> s = null;
             if (message.equals("RegisterOk")) {
-               s = Arrays.asList(username, password, message);
+                String rest_name = joResult.get("rest_name").getAsString();
+                String rest_branch = "";
+                if (joResult.get("rest_branch") == null) {
+                    rest_branch = "";
+                } else {
+                    rest_branch = joResult.get("rest_branch").getAsString();
+                }
+                String logo = joResult.get("rest_logo").getAsString();
+                String validate = joResult.get("rest_validate").getAsString();
+                s = Arrays.asList(username, password, message,
+                       rest_name, rest_branch, logo, validate);
             } else if (message.equals("RegisterError")) {
                 String _username = joResult.get("username").getAsString();
                 String _password = joResult.get("password").getAsString();
@@ -266,25 +276,35 @@ public class RegisterActivity extends NavigationDrawerSetup {
             String message = s.get(2);
             Log.d(TAG, "RegisterMessage=" + message);
             if(message.equals("RegisterOk")){
+                String rest_name = s.get(3);
+                String rest_branch = s.get(4);
+                String logo = s.get(5);
+                String validate = s.get(6);
+                boolean rest_validate = Boolean.parseBoolean(validate);
                 Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
                 startActivity(intent);
-                userLogin(u, p);
+                userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
+                finish();
             } else if(message.equals("RegisterError")){
                 SetErrorMessage(s);
             }
             progressDialog.cancel();
-            finish();
         }
 
     }
 
-    private void userLogin(String user, String pass) {
+    private void userLogin(String user, String pass, String rest_name,
+                           String rest_branch, String logo, boolean rest_validate) {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
         edit.clear();
         edit.putBoolean("UsPaIsKeep",true);
         edit.putString("user",user);
         edit.putString("pass",pass);
+        edit.putString("rest_name",rest_name);
+        edit.putString("rest_branch",rest_branch);
+        edit.putString("logo",logo);
+        edit.putBoolean("rest_validate",rest_validate);
         edit.commit();
     }
 

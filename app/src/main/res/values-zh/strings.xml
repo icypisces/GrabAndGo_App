@@ -33,4 +33,5 @@
     <string name="sendEmailBody"> 我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳戶開始上架產品喔。\n感謝您的配合</string>
     <string name="visitor">訪客~</string>
     <string name="hello">您好,</string>
+    <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
 </resources>

@@ -74,12 +74,19 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
     private void setDrawerMenu() {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
-        if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){    //如果有取出Boolean為true
-            navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
-            navigationView.getMenu().setGroupVisible(R.id.group_profile,true);
-            navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,true);
-        } else {
-            navigationView.getMenu().setGroupVisible(R.id.group_sign,true);
+        if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){            //如果已登入Boolean為true
+            if (sharedPreferencesLogin.getBoolean("rest_validate", false)) {        //已登入且已驗證
+                navigationView.getMenu().setGroupVisible(R.id.group_sign,false);    //顯示除了登入註冊以外選項
+                navigationView.getMenu().setGroupVisible(R.id.group_profile,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,true);
+            } else {                                                                //已登入但未驗證
+                navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_profile,true);  //僅顯示會員資料相關選項
+                navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,false);
+                Common.showToast(this, R.string.notBeenValidate);
+            }
+        } else {                                                                //如果未登入
+            navigationView.getMenu().setGroupVisible(R.id.group_sign,true);         //僅顯示登入註冊選項
             navigationView.getMenu().setGroupVisible(R.id.group_profile,false);
             navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,false);
         }
@@ -107,6 +114,7 @@ public class NavigationDrawerSetup extends AppCompatActivity {
         if(logo != null && logo.trim().length() !=0){
             byte[] decodedString = Base64.decode(logo, Base64.DEFAULT);
             Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            ivHeader.setMaxWidth(100);
             ivHeader.setImageBitmap(decodedByte);
         }
     }

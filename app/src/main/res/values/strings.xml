@@ -41,4 +41,5 @@
     <string name="sendEmailTitle">註冊成功</string>
     <string name="visitor">Visitor~</string>
     <string name="hello">Hello,</string>
+    <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
 </resources>

@@ -94,9 +94,11 @@ public class NavigationDrawerSetup extends AppCompatActivity {
 
         String rest_branch_def = (String) tvHeaderSubtitle.getText();
         String rest_branch = sharedPreferencesLogin.getString("rest_branch", rest_branch_def);
-//        if(rest_branch == null || rest_branch.trim().length() ==0){
-//            rest_branch = "";
-//        }
+        if(rest_branch == null || rest_branch.trim().length() ==0){
+            rest_branch = "";
+        } else if (rest_branch.equals("null")) {
+            rest_branch = "";
+        }
         Log.d(TAG, "rest_branch=" + rest_branch);
         tvHeaderSubtitle.setText(rest_branch);
 

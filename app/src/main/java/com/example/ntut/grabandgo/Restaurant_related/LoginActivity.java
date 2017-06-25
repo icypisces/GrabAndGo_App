@@ -217,9 +217,7 @@ public class LoginActivity extends NavigationDrawerSetup
             String rest_name = s.get(3);
             String rest_branch = s.get(4);
             String logo = s.get(5);
-//            String[] sa = logo.split(",");
-//            String type_logo = sa[0];
-//            String rest_logo = sa[1];
+
             Log.d(TAG, "loginMessage=" + message);
             if(message.equals("LoginOK")){
                 userLogin(u, p, rest_name, rest_branch, logo);

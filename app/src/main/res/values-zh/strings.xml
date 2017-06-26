@@ -34,4 +34,12 @@
     <string name="visitor">訪客~</string>
     <string name="hello">您好,</string>
     <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
+    <string name="restName_i">餐廳名稱 :</string>
+    <string name="restType_i">餐廳類別 :</string>
+    <string name="branch_i">餐廳分店 :</string>
+    <string name="owner_i">店家負責人 :</string>
+    <string name="address_i">餐廳地址 :</string>
+    <string name="phone_i">聯絡電話 :</string>
+    <string name="email_i">E-mail :</string>
+    <string name="url_i">官方網站 :</string>
 </resources>

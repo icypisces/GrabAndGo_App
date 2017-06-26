@@ -42,4 +42,12 @@
     <string name="visitor">Visitor~</string>
     <string name="hello">Hello,</string>
     <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
+    <string name="restName_i">Restaurant :</string>
+    <string name="restType_i">Restaurant Type :</string>
+    <string name="branch_i">Branch :</string>
+    <string name="owner_i">Owner :</string>
+    <string name="address_i">Address :</string>
+    <string name="phone_i">Phone :</string>
+    <string name="email_i">E-mail :</string>
+    <string name="url_i">Official Website</string>
 </resources>

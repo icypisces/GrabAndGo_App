@@ -1,18 +1,186 @@
 package com.example.ntut.grabandgo.Restaurant_related;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.ImageView;
 
+import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.List;
 
 public class RestInformationActivity extends NavigationDrawerSetup {
+    private String ServletName = "/AppStoreProfileServlet";
+    private final static String TAG = "RestInformationActivity";
+    private ImageView ivRestLogo;
+    private EditText etRestName, etRestType, etBranch,
+            etOwner, etAddress, etPhone, etEmail, etUrl;
+    private String username, password;
+    private AsyncTask RestProfileGetTask;
+    private ProgressDialog progressDialog;
+
+    //Login
+    private SharedPreferences sharedPreferencesLogin=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rest_information);
-
+        findViews();
         setUpToolBar();
+        getLoginInformation();
+
+        String url = Common.URL + ServletName ;
+        //取得餐廳類別選項
+        if (Common.networkConnected(RestInformationActivity.this)) {
+            RestProfileGetTask = new RestInformationActivity.RestProfileGetTask().execute(url);
+        } else {
+            Common.showToast(this, R.string.msg_NoNetwork);
+        }
     }
+
+    private void findViews() {
+        ivRestLogo = (ImageView) findViewById(R.id.ivRestLogo);
+        etRestName = (EditText) findViewById(R.id.etRestName);
+        etRestType = (EditText) findViewById(R.id.etRestType);
+        etBranch = (EditText) findViewById(R.id.etBranch);
+        etOwner = (EditText) findViewById(R.id.etOwner);
+        etAddress = (EditText) findViewById(R.id.etAddress);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etUrl = (EditText) findViewById(R.id.etUrl);
+    }
+
+    private void getLoginInformation() {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        username = sharedPreferencesLogin.getString("user", "");
+        password = sharedPreferencesLogin.getString("pass", "");
+    }
+
+    //取得餐廳資訊
+    class RestProfileGetTask extends AsyncTask<String, Void, List<String>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(RestInformationActivity.this);   //progressDialog -> 執行時的轉圈圈圖示
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            String url = params[0];
+            String jsonIn;
+            JsonObject jsonObject = new JsonObject();       //Json要記得
+            jsonObject.addProperty("param", "getProfile");    //將要送到伺服器的Key跟Value先放到jsonObject
+            jsonObject.addProperty("username", username);
+            jsonObject.addProperty("password", password);
+            try {
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG); //取得從伺服器回來的json字串
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+                return null;
+            }
+
+            Gson gson = new Gson();    //用Gson
+            JsonObject joResult = gson.fromJson(jsonIn.toString(),
+                    JsonObject.class);
+            String message = joResult.get("loginCheckMessage").getAsString();
+            List<String> s = null;
+            if (message.equals("LoginInformationOK")) {
+                String rest_name = joResult.get("rest_name").getAsString();
+                String rest_type = joResult.get("rest_type").getAsString();
+                String rest_branch = "";
+                if (joResult.get("rest_branch") == null) {
+                    rest_branch = "";
+                } else {
+                    rest_branch = joResult.get("rest_branch").getAsString();
+                }
+                String rest_owner = joResult.get("rest_owner").getAsString();
+                String rest_address = joResult.get("rest_address").getAsString();
+                String rest_phone = joResult.get("rest_phone").getAsString();
+                String rest_email = joResult.get("rest_email").getAsString();
+                String rest_url = "";
+                if (joResult.get("rest_url") == null) {
+                    rest_url = "";
+                } else {
+                    rest_url = joResult.get("rest_url").getAsString();
+                }
+                String logo = joResult.get("rest_logo").getAsString();
+
+                s = Arrays.asList(message, rest_name, rest_type, rest_branch,
+                        rest_owner, rest_address, rest_phone, rest_email, rest_url, logo);
+            } else if (message.equals("LoginInformationError")) {
+                s = Arrays.asList(message);
+            }
+            return s;       //回傳List<String>予onPostExecute()
+        }
+
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//        }
+
+        //show result
+        @Override
+        protected void onPostExecute(List<String> s) {
+            super.onPostExecute(s);
+            String message = s.get(0);
+            Log.d(TAG, "loginCheckMessage=" + message);
+            if(message.equals("LoginInformationOK")){
+                String rest_name = s.get(1);
+                String rest_type = s.get(2);
+                String rest_branch = s.get(3);
+                String rest_owner = s.get(4);
+                String rest_address = s.get(5);
+                String rest_phone = s.get(6);
+                String rest_email = s.get(7);
+                String rest_url = s.get(8);
+                String logo = s.get(9);
+                setTextViewInformation(rest_name, rest_type, rest_branch, rest_owner,
+                        rest_address, rest_phone, rest_email, rest_url, logo);
+            } else if(message.equals("LoginInformationError")){
+                Common.showToast(RestInformationActivity.this, "帳號密碼有更動，請重新登入．");
+            }
+            progressDialog.cancel();
+        }
+    }
+
+    private void setTextViewInformation(String rest_name, String rest_type, String rest_branch,
+                                        String rest_owner, String rest_address,
+                                        String rest_phone, String rest_email, String rest_url,
+                                        String logo) {
+        etRestName.setText(rest_name);
+        etRestType.setText(rest_type);
+        etBranch.setText(rest_branch);
+        etOwner.setText(rest_owner);
+        etAddress.setText(rest_address);
+        etPhone.setText(rest_phone);
+        etEmail.setText(rest_email);
+        etUrl.setText(rest_url);
+
+        byte[] decodedString = Base64.decode(logo, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        ivRestLogo.setImageBitmap(decodedByte);
+    }
+
+
 }

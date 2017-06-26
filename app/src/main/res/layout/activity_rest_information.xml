@@ -12,14 +12,89 @@
         android:layout_width="match_parent" />
 
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="#403d8af7">
+        android:background="#40afaeae">
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingTop="20dp">
+
+            <ImageView
+                android:id="@+id/ivRestLogo"
+                android:layout_width="match_parent"
+                android:layout_height="80dp" />
+
+            <TextView
+                android:text="@string/restName_i"
+                style="@style/style_textView_information" />
+
+            <EditText
+                android:id="@+id/etRestName"
+                style="@style/style_editText_information" />
+
+            <TextView
+                style="@style/style_textView_information"
+                android:text="@string/restType_i" />
+
+            <EditText
+                android:id="@+id/etRestType"
+                style="@style/style_editText_information" />
+
+            <TextView
+                android:text="@string/branch_i"
+                style="@style/style_textView_information"  />
+
+            <EditText
+                android:id="@+id/etBranch"
+                style="@style/style_editText_information" />
+
+            <TextView
+                android:text="@string/owner_i"
+                style="@style/style_textView_information"  />
+
+            <EditText
+                android:id="@+id/etOwner"
+                style="@style/style_editText_information" />
+
+            <TextView
+                style="@style/style_textView_information"
+                android:text="@string/address_i" />
+
+            <EditText
+                android:id="@+id/etAddress"
+                style="@style/style_editText_information" />
+
+            <TextView
+                style="@style/style_textView_information"
+                android:text="@string/phone_i" />
+
+            <EditText
+                android:id="@+id/etPhone"
+                style="@style/style_editText_information" />
+
+            <TextView
+                android:text="@string/email_i"
+                style="@style/style_textView_information"  />
+
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/style_editText_information" />
+
+            <TextView
+                style="@style/style_textView_information"
+                android:text="@string/url_i" />
+
+            <EditText
+                android:id="@+id/etUrl"
+                style="@style/style_editText_information" />
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
 

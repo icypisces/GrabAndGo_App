@@ -31,12 +31,12 @@ import java.util.Locale;
 public class RegisterActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreRegisterServlet";
     private final static String TAG = "RegisterActivity";
-    public EditText etUsername, etPassword, etPasswordConfirm, etStoreName,
+    private EditText etUsername, etPassword, etPasswordConfirm, etStoreName,
             etBranch, etAddress, etPhone, etEmail, etOwner, etWebsite;
-    TextInputLayout tilUsername, tilPassword, tilPasswordConfirm, tilStoreName,
+    private TextInputLayout tilUsername, tilPassword, tilPasswordConfirm, tilStoreName,
             tilBranch, tilAddress, tilPhone, tilEmail, tilOwner, tilWebsite;
-    public Spinner spRestType;
-    public Button btRegister;
+    private Spinner spRestType;
+    private Button btRegister;
     private AsyncTask RegisterTask, RestTypeTask;
     private ProgressDialog progressDialog;
 

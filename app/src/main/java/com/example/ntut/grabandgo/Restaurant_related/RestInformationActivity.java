@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class RestInformationActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreProfileServlet";
@@ -37,10 +40,11 @@ public class RestInformationActivity extends NavigationDrawerSetup {
             etOwner, etAddress, etPhone, etEmail, etUrl,
             etUsername, etPassword, etNewPassword, etNewPasswordConfirm;
     private String username, password;
-    private AsyncTask RestProfileGetTask;
+    private AsyncTask RestProfileGetTask, RestProfileUpdateTask;
     private ProgressDialog progressDialog;
     private LinearLayout linearLayout_userpass, linearLayout_newPassword;
     private Button btEditBegin, btConfirmPass, btEditEnd;
+    private int countPasswordError = 0;
 
     //Login
     private SharedPreferences sharedPreferencesLogin=null;
@@ -53,8 +57,8 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         setUpToolBar();
         getLoginInformation();
 
+        //取得餐廳資訊
         String url = Common.URL + ServletName ;
-        //取得餐廳類別選項
         if (Common.networkConnected(RestInformationActivity.this)) {
             RestProfileGetTask = new RestInformationActivity.RestProfileGetTask().execute(url);
         } else {
@@ -237,8 +241,178 @@ public class RestInformationActivity extends NavigationDrawerSetup {
             etEmail.setFocusableInTouchMode(true);
             etUrl.setFocusableInTouchMode(true);
         } else {
-            Common.showToast(this, "密碼錯誤，請重新輸入．");
+            if (countPasswordError <= 3) {
+                Common.showToast(this, "密碼錯誤，請重新輸入．");
+                countPasswordError++;
+            } else {
+                Common.showToast(this, "密碼錯誤3次，請重新登入．");
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+            }
         }
+    }
+
+    public void onProfileEditEnd(View view) {
+        String newPassword = etNewPassword .getText().toString();
+        String newPasswordConfirm = etNewPasswordConfirm .getText().toString();
+        String address = etAddress .getText().toString();
+        String phone = etPhone .getText().toString();
+        String email = etEmail .getText().toString();
+        String website = etUrl .getText().toString();
+
+        //店家地址經緯度
+        String latitude;
+        String longitude;
+        if(address == null || address.trim().length() == 0){
+            latitude = "";
+            longitude = "";
+        } else {
+            Geocoder geoCoder = new Geocoder(RestInformationActivity.this, Locale.getDefault());
+            List<Address> addressLocation = null;
+            try {
+                addressLocation = geoCoder.getFromLocationName(address, 1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            latitude = String.valueOf(addressLocation.get(0).getLatitude());
+            longitude = String.valueOf(addressLocation.get(0).getLongitude());
+        }
+
+        //更新會員資料
+        String url = Common.URL + ServletName ;
+        if (Common.networkConnected(RestInformationActivity.this)) {
+            RestProfileUpdateTask = new RestInformationActivity.RestProfileUpdateTask().
+                    execute(url, newPassword, newPasswordConfirm, address, phone, email,
+                            website, latitude, longitude);
+        } else {
+            Common.showToast(this, R.string.msg_NoNetwork);
+        }
+
+    }
+
+    //連接伺服器送出會員資料更新及取得回應
+    class RestProfileUpdateTask extends AsyncTask<String, Void, List<String>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(RestInformationActivity.this);   //progressDialog -> 執行時的轉圈圈圖示
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<String> doInBackground(String... params) {
+            String url = params[0].toString();
+            String newPassword = params[1].toString();
+            String newPasswordConfirm = params[2].toString();
+            String address = params[3].toString();
+            String phone = params[4].toString();
+            String email = params[5].toString();
+            String website = params[6].toString();
+            String latitude = params[7].toString();
+            String longitude = params[8].toString();
+
+            String jsonIn;
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("param", "signUp");
+            jsonObject.addProperty("username", username);
+            jsonObject.addProperty("password", password);
+            jsonObject.addProperty("newPassword", newPassword);
+            jsonObject.addProperty("newPasswordConfirm", newPasswordConfirm);
+            jsonObject.addProperty("address", address);
+            jsonObject.addProperty("phone", phone);
+            jsonObject.addProperty("email", email);
+            jsonObject.addProperty("website", website);
+            jsonObject.addProperty("latitude", latitude);
+            jsonObject.addProperty("longitude", longitude);
+//下方還沒改～～～～～～～～～～～～～～～～～～～
+            try {
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+                return null;
+            }
+
+            Gson gson = new Gson();    //用Gson
+            JsonObject joResult = gson.fromJson(jsonIn.toString(),
+                    JsonObject.class);
+            String message = joResult.get("RegisterMessage").getAsString();
+            List<String> s = null;
+            if (message.equals("RegisterOk")) {
+                String rest_name = joResult.get("rest_name").getAsString();
+                String rest_branch = "";
+                if (joResult.get("rest_branch") == null) {
+                    rest_branch = "";
+                } else {
+                    rest_branch = joResult.get("rest_branch").getAsString();
+                }
+                String logo = joResult.get("rest_logo").getAsString();
+                String validate = joResult.get("rest_validate").getAsString();
+                s = Arrays.asList(username, password, message,
+                        rest_name, rest_branch, logo, validate);
+            } else if (message.equals("RegisterError")) {
+                String _username = joResult.get("username").getAsString();
+                String _password = joResult.get("password").getAsString();
+                String _passwordConfirm = joResult.get("passwordConfirm").getAsString();
+                String _storeName = joResult.get("storeName").getAsString();
+                String _address = joResult.get("address").getAsString();
+                String _phone = joResult.get("phone").getAsString();
+                String _email = joResult.get("email").getAsString();
+                String _owner = joResult.get("owner").getAsString();
+                s = Arrays.asList(username, password, message, _username, _password, _passwordConfirm,
+                        _storeName, _address, _phone, _email, _owner);
+            }
+            return s;       //回傳List<String>予onPostExecute()
+        }
+
+//        @Override
+//        protected void onProgressUpdate(Integer... values) {
+//            super.onProgressUpdate(values);
+//        }
+
+        //show result
+        @Override
+        protected void onPostExecute(List<String> s) {
+            super.onPostExecute(s);
+            String u = s.get(0);
+            String p = s.get(1);
+//            p = Common.getMD5Endocing(Common.encryptString(p));//Password於encryptString轉換時正常，但getMD5Endocing資料不同．
+            String message = s.get(2);
+            Log.d(TAG, "RegisterMessage=" + message);
+            if(message.equals("RegisterOk")){
+                String rest_name = s.get(3);
+                String rest_branch = s.get(4);
+                String logo = s.get(5);
+                String validate = s.get(6);
+                boolean rest_validate = Boolean.parseBoolean(validate);
+                Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
+                startActivity(intent);
+                userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
+                progressDialog.cancel();
+                finish();
+            } else if(message.equals("RegisterError")){
+                SetErrorMessage(s);
+                progressDialog.cancel();
+            }
+
+        }
+
+    }
+
+    private void userLogin(String user, String pass, String rest_name,
+                           String rest_branch, String logo, boolean rest_validate) {
+        sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
+        edit.clear();
+        edit.putBoolean("UsPaIsKeep",true);
+        edit.putString("user",user);
+        edit.putString("pass",pass);
+        edit.putString("rest_name",rest_name);
+        edit.putString("rest_branch",rest_branch);
+        edit.putString("logo",logo);
+        edit.putBoolean("rest_validate",rest_validate);
+        edit.commit();
     }
 
 

@@ -10,9 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
@@ -31,10 +34,13 @@ public class RestInformationActivity extends NavigationDrawerSetup {
     private final static String TAG = "RestInformationActivity";
     private ImageView ivRestLogo;
     private EditText etRestName, etRestType, etBranch,
-            etOwner, etAddress, etPhone, etEmail, etUrl;
+            etOwner, etAddress, etPhone, etEmail, etUrl,
+            etUsername, etPassword, etNewPassword, etNewPasswordConfirm;
     private String username, password;
     private AsyncTask RestProfileGetTask;
     private ProgressDialog progressDialog;
+    private LinearLayout linearLayout_userpass, linearLayout_newPassword;
+    private Button btEditBegin, btConfirmPass, btEditEnd;
 
     //Login
     private SharedPreferences sharedPreferencesLogin=null;
@@ -66,6 +72,16 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         etPhone = (EditText) findViewById(R.id.etPhone);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etUrl = (EditText) findViewById(R.id.etUrl);
+
+        btEditBegin = (Button) findViewById(R.id.btEditBegin);
+        btEditEnd = (Button) findViewById(R.id.btEditEnd);
+        linearLayout_userpass = (LinearLayout) findViewById(R.id.linearLayout_userpass);
+        etUsername = (EditText) findViewById(R.id.etUsername);
+        etPassword = (EditText) findViewById(R.id.etPassword);
+        btConfirmPass = (Button) findViewById(R.id.btConfirmPass);
+        linearLayout_newPassword = (LinearLayout) findViewById(R.id.linearLayout_newPassword);
+        etNewPassword = (EditText) findViewById(R.id.etNewPassword);
+        etNewPasswordConfirm = (EditText) findViewById(R.id.etNewPasswordConfirm);
     }
 
     private void getLoginInformation() {
@@ -157,10 +173,15 @@ public class RestInformationActivity extends NavigationDrawerSetup {
                 String logo = s.get(9);
                 setTextViewInformation(rest_name, rest_type, rest_branch, rest_owner,
                         rest_address, rest_phone, rest_email, rest_url, logo);
+                progressDialog.cancel();
             } else if(message.equals("LoginInformationError")){
                 Common.showToast(RestInformationActivity.this, "帳號密碼有更動，請重新登入．");
+                Intent intent = new Intent(RestInformationActivity.this, LoginActivity.class);
+                startActivity(intent);
+                progressDialog.cancel();
+                finish();
             }
-            progressDialog.cancel();
+
         }
     }
 
@@ -181,6 +202,45 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
         ivRestLogo.setImageBitmap(decodedByte);
     }
+
+
+//----------------------------------------會員資料編輯相關----------------------------------------
+
+
+    public void onProfileEditBegin(View view) {
+        btEditBegin.setVisibility(View.GONE);
+        btConfirmPass.setVisibility(View.VISIBLE);
+        linearLayout_userpass.setVisibility(View.VISIBLE);
+        etUsername.setText(username);
+        etRestName.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etRestType.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etBranch.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etOwner.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etAddress.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etPhone.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etEmail.setBackgroundResource(R.drawable.edit_text_information_can_not);
+        etUrl.setBackgroundResource(R.drawable.edit_text_information_can_not);
+    }
+
+    //確認密碼是否正確 - 開啟頁面抓取會員資料時已確認帳號密碼，故此處不再與Servlet確認．
+    public void onConfirmPass(View view) {
+        if (password.equals(etPassword.getText().toString())) {
+            btConfirmPass.setVisibility(View.GONE);
+            btEditEnd.setVisibility(View.VISIBLE);
+            linearLayout_newPassword.setVisibility(View.VISIBLE);
+            etAddress.setBackgroundResource(R.drawable.edit_text_information);//可修改欄位轉換顏色
+            etPhone.setBackgroundResource(R.drawable.edit_text_information);
+            etEmail.setBackgroundResource(R.drawable.edit_text_information);
+            etUrl.setBackgroundResource(R.drawable.edit_text_information);
+            etAddress.setFocusableInTouchMode(true);    //可修改欄位設置為可修改狀態
+            etPhone.setFocusableInTouchMode(true);
+            etEmail.setFocusableInTouchMode(true);
+            etUrl.setFocusableInTouchMode(true);
+        } else {
+            Common.showToast(this, "密碼錯誤，請重新輸入．");
+        }
+    }
+
 
 
 }

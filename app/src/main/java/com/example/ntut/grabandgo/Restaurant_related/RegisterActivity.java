@@ -284,11 +284,13 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
                 startActivity(intent);
                 userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
+                progressDialog.cancel();
                 finish();
             } else if(message.equals("RegisterError")){
                 SetErrorMessage(s);
+                progressDialog.cancel();
             }
-            progressDialog.cancel();
+
         }
 
     }

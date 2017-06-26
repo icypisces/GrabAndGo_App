@@ -42,4 +42,11 @@
     <string name="phone_i">聯絡電話 :</string>
     <string name="email_i">E-mail :</string>
     <string name="url_i">官方網站 :</string>
+    <string name="username_i">帳號 :</string>
+    <string name="password_i">請輸入原密碼(輸入後方可編輯會員資料) :</string>
+    <string name="newPassword_i">請輸入新密碼 :</string>
+    <string name="newPasswordConfirm_i">請再次輸入新密碼 :</string>
+    <string name="editBegin">編輯會員資料</string>
+    <string name="editEnd">儲存會員資料</string>
+    <string name="confirmPass">確認密碼是否正確</string>
 </resources>

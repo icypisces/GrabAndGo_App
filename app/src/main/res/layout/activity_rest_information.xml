@@ -28,6 +28,93 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp" />
 
+            <Button
+                android:id="@+id/btEditBegin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginTop="15dp"
+                android:text="@string/editBegin"
+                android:textSize="22dp"
+                android:background="@drawable/button_orange"
+                android:onClick="onProfileEditBegin" />
+
+<!-- ....................點選編輯才出現的項目們.................. -->
+
+            <LinearLayout
+                android:id="@+id/linearLayout_userpass"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="vertical"
+                android:background="#f5ba6e"
+                android:visibility="gone" >
+
+                <TextView
+                    android:text="請先輸入原密碼再修改會員資料"
+                    android:textColor="#fc0202"
+                    style="@style/style_textView_information" />
+
+                <TextView
+                    android:text="@string/username_i"
+                    style="@style/style_textView_information" />
+
+                <EditText
+                    android:id="@+id/etUsername"
+                    style="@style/style_editText_noEdit" />
+
+                <TextView
+                    android:text="@string/password_i"
+                    style="@style/style_textView_information" />
+
+                <EditText
+                    android:id="@+id/etPassword"
+                    style="@style/style_editText_edit" />
+
+                <Button
+                    android:id="@+id/btConfirmPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="15dp"
+                    android:background="@drawable/button_orange"
+                    android:onClick="onConfirmPass"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/confirmPass"
+                    android:textSize="22dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout_newPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone" >
+
+                <TextView
+                    android:text="@string/newPassword_i"
+                    style="@style/style_textView_information" />
+
+                <EditText
+                    android:id="@+id/etNewPassword"
+                    style="@style/style_editText_edit" />
+
+                <TextView
+                    android:text="@string/newPasswordConfirm_i"
+                    style="@style/style_textView_information" />
+
+                <EditText
+                    android:id="@+id/etNewPasswordConfirm"
+                    style="@style/style_editText_edit" />
+
+            </LinearLayout>
+
+<!-- ....................點選編輯之分隔線....................... -->
+
             <TextView
                 android:text="@string/restName_i"
                 style="@style/style_textView_information" />
@@ -91,6 +178,21 @@
             <EditText
                 android:id="@+id/etUrl"
                 style="@style/style_editText_information" />
+
+<!-- ....................點選編輯才出現的Button.................. -->
+            <Button
+                android:id="@+id/btEditEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/button_orange"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="@string/editEnd"
+                android:textSize="22dp"
+                android:visibility="gone"
+                android:onClick="onProfileEditEnd" />
 
         </LinearLayout>
 

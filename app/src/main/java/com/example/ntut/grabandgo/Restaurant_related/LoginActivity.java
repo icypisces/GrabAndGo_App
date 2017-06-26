@@ -232,13 +232,15 @@ public class LoginActivity extends NavigationDrawerSetup
                 userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
                 Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
                 startActivity(intent);
+                progressDialog.cancel();
                 finish();
             } else if (message.equals("UsernameOrPasswordError")){
                 etUsername.setText(u);
                 etPassword.setText(p);
                 Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
+                progressDialog.cancel();
             }
-            progressDialog.cancel();
+
         }
 
     }

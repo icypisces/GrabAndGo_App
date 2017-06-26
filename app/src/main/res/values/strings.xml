@@ -50,4 +50,11 @@
     <string name="phone_i">Phone :</string>
     <string name="email_i">E-mail :</string>
     <string name="url_i">Official Website</string>
+    <string name="username_i">username :</string>
+    <string name="password_i">Password(Original) :</string>
+    <string name="newPassword_i">New Password :</string>
+    <string name="newPasswordConfirm_i">Confirm New Password :</string>
+    <string name="editBegin">Edit Profile</string>
+    <string name="editEnd">Save</string>
+    <string name="confirmPass">Confirm Password</string>
 </resources>

@@ -57,4 +57,5 @@
     <string name="editBegin">Edit Profile</string>
     <string name="editEnd">Save</string>
     <string name="confirmPass">Confirm Password</string>
+    <string name="editCancel">Cancel</string>
 </resources>

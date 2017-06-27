@@ -49,4 +49,5 @@
     <string name="editBegin">編輯會員資料</string>
     <string name="editEnd">儲存會員資料</string>
     <string name="confirmPass">確認密碼是否正確</string>
+    <string name="editCancel">取消</string>
 </resources>

@@ -8,6 +8,8 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -32,6 +34,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.ntut.grabandgo.R.id.tilUsername;
+
 public class RestInformationActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreProfileServlet";
     private final static String TAG = "RestInformationActivity";
@@ -39,11 +43,12 @@ public class RestInformationActivity extends NavigationDrawerSetup {
     private EditText etRestName, etRestType, etBranch,
             etOwner, etAddress, etPhone, etEmail, etUrl,
             etUsername, etPassword, etNewPassword, etNewPasswordConfirm;
+    private TextInputLayout tilPassword, tilNewPassword, tilNewPasswordConfirm, tilAddress, tilPhone, tilEmail, tilUrl;
     private String username, password;
     private AsyncTask RestProfileGetTask, RestProfileUpdateTask;
     private ProgressDialog progressDialog;
-    private LinearLayout linearLayout_userpass, linearLayout_newPassword;
-    private Button btEditBegin, btConfirmPass, btEditEnd;
+    private LinearLayout linearLayout_userpass, linearLayout_newPassword, linearLayout_editButton;
+    private Button btEditBegin, btConfirmPass, btEditSave;
     private int countPasswordError = 0;
 
     //Login
@@ -78,7 +83,7 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         etUrl = (EditText) findViewById(R.id.etUrl);
 
         btEditBegin = (Button) findViewById(R.id.btEditBegin);
-        btEditEnd = (Button) findViewById(R.id.btEditEnd);
+        btEditSave = (Button) findViewById(R.id.btEditSave);
         linearLayout_userpass = (LinearLayout) findViewById(R.id.linearLayout_userpass);
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -86,6 +91,15 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         linearLayout_newPassword = (LinearLayout) findViewById(R.id.linearLayout_newPassword);
         etNewPassword = (EditText) findViewById(R.id.etNewPassword);
         etNewPasswordConfirm = (EditText) findViewById(R.id.etNewPasswordConfirm);
+        linearLayout_editButton = (LinearLayout) findViewById(R.id.linearLayout_editButton);
+
+        tilPassword = (TextInputLayout) findViewById(R.id.tilPassword);
+        tilNewPassword = (TextInputLayout) findViewById(R.id.tilNewPassword);
+        tilNewPasswordConfirm = (TextInputLayout) findViewById(R.id.tilNewPasswordConfirm);
+        tilAddress = (TextInputLayout) findViewById(R.id.tilAddress);
+        tilPhone = (TextInputLayout) findViewById(R.id.tilPhone);
+        tilEmail = (TextInputLayout) findViewById(R.id.tilEmail);
+        tilUrl = (TextInputLayout) findViewById(R.id.tilUrl);
     }
 
     private void getLoginInformation() {
@@ -179,13 +193,12 @@ public class RestInformationActivity extends NavigationDrawerSetup {
                         rest_address, rest_phone, rest_email, rest_url, logo);
                 progressDialog.cancel();
             } else if(message.equals("LoginInformationError")){
-                Common.showToast(RestInformationActivity.this, "帳號密碼有更動，請重新登入．");
+                Common.showToast(RestInformationActivity.this, "帳號密碼有誤，請重新登入．");
                 Intent intent = new Intent(RestInformationActivity.this, LoginActivity.class);
                 startActivity(intent);
                 progressDialog.cancel();
                 finish();
             }
-
         }
     }
 
@@ -230,8 +243,8 @@ public class RestInformationActivity extends NavigationDrawerSetup {
     public void onConfirmPass(View view) {
         if (password.equals(etPassword.getText().toString())) {
             btConfirmPass.setVisibility(View.GONE);
-            btEditEnd.setVisibility(View.VISIBLE);
             linearLayout_newPassword.setVisibility(View.VISIBLE);
+            linearLayout_editButton.setVisibility(View.VISIBLE);
             etAddress.setBackgroundResource(R.drawable.edit_text_information);//可修改欄位轉換顏色
             etPhone.setBackgroundResource(R.drawable.edit_text_information);
             etEmail.setBackgroundResource(R.drawable.edit_text_information);
@@ -252,7 +265,13 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         }
     }
 
-    public void onProfileEditEnd(View view) {
+    public void onProfileEditCancel(View view) {
+        Intent intent = new Intent(RestInformationActivity.this, RestInformationActivity.class);
+        startActivity(intent);
+    }
+
+
+    public void onProfileEditSave(View view) {
         String newPassword = etNewPassword .getText().toString();
         String newPasswordConfirm = etNewPasswordConfirm .getText().toString();
         String address = etAddress .getText().toString();
@@ -315,7 +334,7 @@ public class RestInformationActivity extends NavigationDrawerSetup {
 
             String jsonIn;
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("param", "signUp");
+            jsonObject.addProperty("param", "updateProfile");
             jsonObject.addProperty("username", username);
             jsonObject.addProperty("password", password);
             jsonObject.addProperty("newPassword", newPassword);
@@ -326,7 +345,7 @@ public class RestInformationActivity extends NavigationDrawerSetup {
             jsonObject.addProperty("website", website);
             jsonObject.addProperty("latitude", latitude);
             jsonObject.addProperty("longitude", longitude);
-//下方還沒改～～～～～～～～～～～～～～～～～～～
+
             try {
                 jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
             } catch (IOException e) {
@@ -337,32 +356,37 @@ public class RestInformationActivity extends NavigationDrawerSetup {
             Gson gson = new Gson();    //用Gson
             JsonObject joResult = gson.fromJson(jsonIn.toString(),
                     JsonObject.class);
-            String message = joResult.get("RegisterMessage").getAsString();
             List<String> s = null;
-            if (message.equals("RegisterOk")) {
-                String rest_name = joResult.get("rest_name").getAsString();
-                String rest_branch = "";
-                if (joResult.get("rest_branch") == null) {
-                    rest_branch = "";
-                } else {
-                    rest_branch = joResult.get("rest_branch").getAsString();
+            String loginCheckMessage = joResult.get("loginCheckMessage").getAsString();
+            Log.e(TAG, "loginCheckMessage = " + loginCheckMessage);
+            if (loginCheckMessage.equals("LoginInformationError")) {
+                String passwordError = joResult.get("passwordError").getAsString();
+                s = Arrays.asList(loginCheckMessage, passwordError);
+            } else if (loginCheckMessage.equals("LoginInformationOK")) {
+                String UpdateProfileMessage = joResult.get("UpdateProfileMessage").getAsString();
+                if (UpdateProfileMessage.equals("UpdateProfileOk")) {
+                    String rest_name = joResult.get("rest_name").getAsString();
+                    String rest_branch = "";
+                    if (joResult.get("rest_branch") == null) {
+                        rest_branch = "";
+                    } else {
+                        rest_branch = joResult.get("rest_branch").getAsString();
+                    }
+                    String logo = joResult.get("rest_logo").getAsString();
+                    String validate = joResult.get("rest_validate").getAsString();
+                    s = Arrays.asList(loginCheckMessage, UpdateProfileMessage, username,
+                            newPassword, rest_name, rest_branch, logo, validate);
+                } else if (UpdateProfileMessage.equals("UpdateProfileError")) {
+                    String _newPassword = joResult.get("newPassword").getAsString();
+                    String _newPasswordConfirm = joResult.get("newPasswordConfirm").getAsString();
+                    String _address = joResult.get("address").getAsString();
+                    String _phone = joResult.get("phone").getAsString();
+                    String _email = joResult.get("email").getAsString();
+                    s = Arrays.asList(loginCheckMessage, UpdateProfileMessage, _newPassword,
+                            _newPasswordConfirm, _address, _phone, _email);
                 }
-                String logo = joResult.get("rest_logo").getAsString();
-                String validate = joResult.get("rest_validate").getAsString();
-                s = Arrays.asList(username, password, message,
-                        rest_name, rest_branch, logo, validate);
-            } else if (message.equals("RegisterError")) {
-                String _username = joResult.get("username").getAsString();
-                String _password = joResult.get("password").getAsString();
-                String _passwordConfirm = joResult.get("passwordConfirm").getAsString();
-                String _storeName = joResult.get("storeName").getAsString();
-                String _address = joResult.get("address").getAsString();
-                String _phone = joResult.get("phone").getAsString();
-                String _email = joResult.get("email").getAsString();
-                String _owner = joResult.get("owner").getAsString();
-                s = Arrays.asList(username, password, message, _username, _password, _passwordConfirm,
-                        _storeName, _address, _phone, _email, _owner);
             }
+
             return s;       //回傳List<String>予onPostExecute()
         }
 
@@ -375,29 +399,35 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         @Override
         protected void onPostExecute(List<String> s) {
             super.onPostExecute(s);
-            String u = s.get(0);
-            String p = s.get(1);
-//            p = Common.getMD5Endocing(Common.encryptString(p));//Password於encryptString轉換時正常，但getMD5Endocing資料不同．
-            String message = s.get(2);
-            Log.d(TAG, "RegisterMessage=" + message);
-            if(message.equals("RegisterOk")){
-                String rest_name = s.get(3);
-                String rest_branch = s.get(4);
-                String logo = s.get(5);
-                String validate = s.get(6);
-                boolean rest_validate = Boolean.parseBoolean(validate);
-                Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
-                startActivity(intent);
-                userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
+            String loginCheckMessage = s.get(0);
+            Log.d(TAG, "loginCheckMessage=" + loginCheckMessage);
+            if (loginCheckMessage.equals("LoginInformationError")) {
+//                tilPassword.setErrorEnabled(true);
+                tilPassword.setError(s.get(1));
+                Common.showToast(RestInformationActivity.this, "密碼有誤，請重新輸入密碼．");
                 progressDialog.cancel();
-                finish();
-            } else if(message.equals("RegisterError")){
-                SetErrorMessage(s);
-                progressDialog.cancel();
+            } else if (loginCheckMessage.equals("LoginInformationOK")) {
+                String UpdateProfileMessage = s.get(1);
+                if (UpdateProfileMessage.equals("UpdateProfileOk")) {
+                    String u = s.get(2);
+                    String p = s.get(3);
+                    String rest_name = s.get(4);
+                    String rest_branch = s.get(5);
+                    String logo = s.get(6);
+                    String validate = s.get(7);
+                    boolean rest_validate = Boolean.parseBoolean(validate);
+                    userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
+                    Intent intent = new Intent(
+                            RestInformationActivity.this, RestInformationActivity.class);
+                    startActivity(intent);
+                    progressDialog.cancel();
+                    finish();
+                } else if (UpdateProfileMessage.equals("UpdateProfileError")) {
+                    SetErrorMessage(s);
+                    progressDialog.cancel();
+                }
             }
-
         }
-
     }
 
     private void userLogin(String user, String pass, String rest_name,
@@ -415,6 +445,37 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         edit.commit();
     }
 
-
+    private void SetErrorMessage(List<String> s) {
+        if (!s.get(2).equals("OK")) {
+//            tilNewPassword.setErrorEnabled(true);
+            tilNewPassword.setError(s.get(2));
+        } else if (s.get(2).equals("OK")) {
+            tilNewPassword.setError(null);
+        }
+        if (!s.get(3).equals("OK")) {
+//            tilNewPasswordConfirm.setErrorEnabled(true);
+            tilNewPasswordConfirm.setError(s.get(3));
+        } else if (s.get(3).equals("OK")) {
+            tilNewPasswordConfirm.setError(null);
+        }
+        if (!s.get(4).equals("OK")) {
+//            tilAddress.setErrorEnabled(true);
+            tilAddress.setError(s.get(4));
+        } else if (s.get(4).equals("OK")) {
+            tilAddress.setError(null);
+        }
+        if (!s.get(5).equals("OK")) {
+//            tilPhone.setErrorEnabled(true);
+            tilPhone.setError(s.get(5));
+        } else if (s.get(5).equals("OK")) {
+            tilPhone.setError(null);
+        }
+        if (!s.get(6).equals("OK")) {
+//            tilEmail.setErrorEnabled(true);
+            tilEmail.setError(s.get(6));
+        } else if (s.get(6).equals("OK")) {
+            tilEmail.setError(null);
+        }
+    }
 
 }

@@ -69,9 +69,16 @@
                     android:text="@string/password_i"
                     style="@style/style_textView_information" />
 
-                <EditText
-                    android:id="@+id/etPassword"
-                    style="@style/style_editText_edit" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilPassword"
+                    style="@style/style_textInputLayout_profile" >
+
+                    <EditText
+                        android:id="@+id/etPassword"
+                        style="@style/style_editText_edit"
+                        android:inputType="textPassword" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <Button
                     android:id="@+id/btConfirmPass"
@@ -99,17 +106,31 @@
                     android:text="@string/newPassword_i"
                     style="@style/style_textView_information" />
 
-                <EditText
-                    android:id="@+id/etNewPassword"
-                    style="@style/style_editText_edit" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilNewPassword"
+                    style="@style/style_textInputLayout_profile" >
+
+                    <EditText
+                        android:id="@+id/etNewPassword"
+                        style="@style/style_editText_edit"
+                        android:inputType="textPassword" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:text="@string/newPasswordConfirm_i"
                     style="@style/style_textView_information" />
 
-                <EditText
-                    android:id="@+id/etNewPasswordConfirm"
-                    style="@style/style_editText_edit" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilNewPasswordConfirm"
+                    style="@style/style_textInputLayout_profile" >
+
+                    <EditText
+                        android:id="@+id/etNewPasswordConfirm"
+                        style="@style/style_editText_edit"
+                        android:inputType="textPassword" />
+
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
@@ -151,48 +172,99 @@
                 style="@style/style_textView_information"
                 android:text="@string/address_i" />
 
-            <EditText
-                android:id="@+id/etAddress"
-                style="@style/style_editText_information" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilAddress"
+                style="@style/style_textInputLayout_profile" >
+
+                <EditText
+                    android:id="@+id/etAddress"
+                    style="@style/style_editText_information"
+                    android:inputType="textPostalAddress" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
-                style="@style/style_textView_information"
-                android:text="@string/phone_i" />
+                android:text="@string/phone_i"
+                style="@style/style_textView_information" />
 
-            <EditText
-                android:id="@+id/etPhone"
-                style="@style/style_editText_information" />
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilPhone"
+                style="@style/style_textInputLayout_profile" >
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    style="@style/style_editText_information"
+                    android:inputType="phone" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:text="@string/email_i"
                 style="@style/style_textView_information"  />
 
-            <EditText
-                android:id="@+id/etEmail"
-                style="@style/style_editText_information" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilEmail"
+                style="@style/style_textInputLayout_profile" >
+
+                <EditText
+                    android:id="@+id/etEmail"
+                    style="@style/style_editText_information"
+                    android:inputType="textEmailAddress" />
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 style="@style/style_textView_information"
                 android:text="@string/url_i" />
 
-            <EditText
-                android:id="@+id/etUrl"
-                style="@style/style_editText_information" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/tilUrl"
+                style="@style/style_textInputLayout_profile" >
+
+                <EditText
+                    android:id="@+id/etUrl"
+                    style="@style/style_editText_information"
+                    android:inputType="textUri" />
+
+            </android.support.design.widget.TextInputLayout>
 
 <!-- ....................點選編輯才出現的Button.................. -->
-            <Button
-                android:id="@+id/btEditEnd"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:id="@+id/linearLayout_editButton"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:background="@drawable/button_orange"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:layout_marginBottom="15dp"
-                android:text="@string/editEnd"
-                android:textSize="22dp"
-                android:visibility="gone"
-                android:onClick="onProfileEditEnd" />
+                android:gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:paddingBottom="15dp"
+                android:visibility="gone" >
+
+                <Button
+                    android:id="@+id/btEditSave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/button_orange"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:text="@string/editEnd"
+                    android:textSize="22dp"
+                    android:onClick="onProfileEditSave" />
+
+                <Button
+                    android:id="@+id/btEditCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/button_gray"
+                    android:onClick="onProfileEditCancel"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:text="@string/editCancel"
+                    android:textSize="22dp" />
+            </LinearLayout>
 
         </LinearLayout>
 

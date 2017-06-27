@@ -374,8 +374,11 @@ public class RestInformationActivity extends NavigationDrawerSetup {
                     }
                     String logo = joResult.get("rest_logo").getAsString();
                     String validate = joResult.get("rest_validate").getAsString();
+                    if (newPassword != null && newPassword.trim().length() != 0) {
+                        password = newPassword ;
+                    }
                     s = Arrays.asList(loginCheckMessage, UpdateProfileMessage, username,
-                            newPassword, rest_name, rest_branch, logo, validate);
+                            password, rest_name, rest_branch, logo, validate);
                 } else if (UpdateProfileMessage.equals("UpdateProfileError")) {
                     String _newPassword = joResult.get("newPassword").getAsString();
                     String _newPasswordConfirm = joResult.get("newPasswordConfirm").getAsString();

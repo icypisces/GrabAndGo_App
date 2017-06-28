@@ -10,7 +10,6 @@
     <string name="msg_enterPassword">Enter Password</string>
     <string name="msg_NoNetwork">No Network</string>
     <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
-    <string name="UnprocessedOrder">Unprocessed Order</string>
     <string name="usernameInput">Username (*)</string>
     <string name="passwordInput">Password (*)</string>
     <string name="passwordConfirm">Password Confirm (*)</string>

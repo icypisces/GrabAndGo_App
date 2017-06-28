@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/unprocessed"
+        android:title="@string/unprocessed"
+        android:orderInCategory="10"/>
+
+    <item
+        android:id="@+id/completed"
+        android:title="@string/completed"
+        android:orderInCategory="20"/>
+
+    <item
+        android:id="@+id/paid"
+        android:title="@string/paid"
+        android:orderInCategory="30"/>
+
+</menu>

@@ -38,7 +38,8 @@
         <activity android:name=".Restaurant_related.RestInformationActivity" />
         <activity android:name=".NavigationDrawerSetup" />
         <activity android:name=".Restaurant_related.SendEmailActivity" />
-        <activity android:name=".orders_intraday.PaidOrderActivity"></activity>
+        <activity android:name=".orders_intraday.PaidOrderActivity" />
+        <activity android:name=".orders_intraday.OrdersIntradayActivity"></activity>
     </application>
 
 </manifest>

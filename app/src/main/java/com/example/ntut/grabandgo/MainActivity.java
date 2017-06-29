@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
-import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
+import com.example.ntut.grabandgo.orders_intraday.OrdersIntradayActivity;
 
 public class MainActivity extends NavigationDrawerSetup {
     private Button login, register;
@@ -31,7 +31,7 @@ public class MainActivity extends NavigationDrawerSetup {
     private void loginChangeToOrder() {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){    //如果有取出Boolean為true
-            Intent intent = new Intent(MainActivity.this, UnprocessedOrderActivity.class);
+            Intent intent = new Intent(MainActivity.this, OrdersIntradayActivity.class);
             startActivity(intent);
         }
     }

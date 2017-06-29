@@ -15,7 +15,7 @@ import android.widget.EditText;
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
+import com.example.ntut.grabandgo.orders_intraday.OrdersIntradayActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -230,7 +230,7 @@ public class LoginActivity extends NavigationDrawerSetup
                 String validate = s.get(6);
                 boolean rest_validate = Boolean.parseBoolean(validate);
                 userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
-                Intent intent = new Intent(LoginActivity.this, UnprocessedOrderActivity.class);
+                Intent intent = new Intent(LoginActivity.this, OrdersIntradayActivity.class);
                 startActivity(intent);
                 progressDialog.cancel();
                 finish();

@@ -25,9 +25,9 @@ import android.widget.TextView;
 import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
-import com.example.ntut.grabandgo.orders_intraday.CompletedOrderActivity;
-import com.example.ntut.grabandgo.orders_intraday.PaidOrderActivity;
-import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderActivity;
+import com.example.ntut.grabandgo.orders_intraday.CompletedOrderFragment;
+import com.example.ntut.grabandgo.orders_intraday.PaidOrderFragment;
+import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderFragment;
 
 public class NavigationDrawerSetup extends AppCompatActivity {
     private final static String TAG = "NavigationDrawerSetup";
@@ -147,15 +147,15 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.item_unprocessed:
-                        intent = new Intent(NavigationDrawerSetup.this,UnprocessedOrderActivity.class);
+                        intent = new Intent(NavigationDrawerSetup.this,UnprocessedOrderFragment.class);
                         startActivity(intent);
                         break;
                     case R.id.item_completed:
-                        intent = new Intent(NavigationDrawerSetup.this,CompletedOrderActivity.class);
+                        intent = new Intent(NavigationDrawerSetup.this,CompletedOrderFragment.class);
                         startActivity(intent);
                         break;
                     case R.id.item_paid:
-                        intent = new Intent(NavigationDrawerSetup.this,PaidOrderActivity.class);
+                        intent = new Intent(NavigationDrawerSetup.this,PaidOrderFragment.class);
                         startActivity(intent);
                         break;
                 }

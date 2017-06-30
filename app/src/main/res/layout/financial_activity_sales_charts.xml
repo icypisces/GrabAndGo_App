@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity"
+    tools:context="com.example.ntut.grabandgo.Financial_Analysis.FinancialSalesChartsActivity"
     android:orientation="vertical" >
 
     <include layout="@layout/toolbar_layout"
@@ -23,15 +23,6 @@
         app:tabSelectedTextColor="#000000"
         app:tabTextColor="#ffffff"
         app:tabBackground="@drawable/tab_color_change" />
-    <!--app:tabMode    -> MODE_FIXED : 固定並顯示所有Tab
-                       -> MODE_SCROLLABLE : 可滾動並顯示一部分Tab
-        app:tabGravity -> GRAVITY_CENTER : 居中
-                          GRAVITY_FILL : 盡可能填滿
-        ***GRAVITY_FILL需要和MODE_FIXED一起使用才有效果***
-        app:tabIndicatorColor Tab下方表示被選擇的Tab指示條顏色
-        app:tabIndicatorHeight      ...        Tab指示條高度
-        app:tabSelectedTextColor 被選擇的Tab文字顏色
-        app:tabTextColor 未被選擇的Tab文字顏色-->
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPaper"

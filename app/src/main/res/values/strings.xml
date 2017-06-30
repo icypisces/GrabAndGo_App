@@ -11,10 +11,25 @@
     <string name="register">Sign Up</string>
     <string name="logout">Sign Off</string>
     <string name="profile">Profile</string>
-    <string name="intradayOrders">Intraday Orders</string>
+    <string name="DailyOrders">Daily Orders</string>
     <string name="unprocessed">Unprocessed</string>
     <string name="completed">Completed</string>
     <string name="paid">Paid</string>
+    <string name="historyOrders">History Orders</string>
+    <string name="historyOrdersQuery">History Orders Query</string>
+    <string name="financialAnalysis">Financial Analysis</string>
+    <string name="financialRevenue">Revenue</string>
+    <string name="revenueDaily">Revenue(Daily)</string>
+    <string name="revenueMonthly">Revenue(Monthly)</string>
+    <string name="revenueYearly">Revenue(Yearly)</string>
+    <string name="revenueDaily_s">Daily</string>
+    <string name="revenueMonthly_s">Monthly</string>
+    <string name="revenueYearly_s">Yearly</string>
+    <string name="financialSalesCharts">Sales Charts</string>
+    <string name="salesChartsDaily">Sales Charts(Daily)</string>
+    <string name="salesChartsMonthly">Sales Charts(Monthly)</string>
+    <string name="salesChartsDaily_s">Daily</string>
+    <string name="salesChartsMonthly_s">Monthly</string>
     <!-- Sing In -->
     <string name="username">username</string>
     <string name="password">password</string>
@@ -62,7 +77,10 @@
     <string name="editEnd">Save</string>
     <string name="confirmPass">Confirm Password</string>
     <string name="editCancel">Cancel</string>
-    <!--  -->
-    <string name="ordersDaily">Daily Orders</string>
+    <!-- order item -->
+    <string name="items">項目統計</string>
+    <string name="buyer_phone">Phone : </string>
+    <string name="buyer_picktime">預定取餐時間</string>
+
 
 </resources>

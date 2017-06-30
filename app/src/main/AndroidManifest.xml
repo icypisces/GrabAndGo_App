@@ -39,8 +39,17 @@
             android:name=".Restaurant_related.SendEmailActivity"
             android:label="@string/sendEmailTitle" />
         <activity
-            android:name=".orders_intraday.OrdersDailyActivity"
-            android:label="@string/ordersDaily" />
+            android:name=".orders_daily.DailyOrdersActivity"
+            android:label="@string/DailyOrders" />
+        <activity
+            android:name=".HistoryOrders.HistoryOrdersActivity"
+            android:label="@string/historyOrdersQuery" />
+        <activity
+            android:name=".Financial_Analysis.FinancialRevenueActivity"
+            android:label="@string/financialRevenue" />
+        <activity
+            android:name=".Financial_Analysis.FinancialSalesChartsActivity"
+            android:label="@string/financialSalesCharts" />
     </application>
 
 </manifest>

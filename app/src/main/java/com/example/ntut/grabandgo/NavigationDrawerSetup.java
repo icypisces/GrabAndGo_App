@@ -22,13 +22,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.ntut.grabandgo.Financial_Analysis.FinancialRevenueActivity;
+import com.example.ntut.grabandgo.Financial_Analysis.FinancialSalesChartsActivity;
+import com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
-import com.example.ntut.grabandgo.orders_intraday.CompletedOrderFragment;
-import com.example.ntut.grabandgo.orders_intraday.OrdersDailyActivity;
-import com.example.ntut.grabandgo.orders_intraday.PaidOrderFragment;
-import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderFragment;
+import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
 
 public class NavigationDrawerSetup extends AppCompatActivity {
     private final static String TAG = "NavigationDrawerSetup";
@@ -79,19 +79,24 @@ public class NavigationDrawerSetup extends AppCompatActivity {
             if (sharedPreferencesLogin.getBoolean("rest_validate", false)) {        //已登入且已驗證
                 navigationView.getMenu().setGroupVisible(R.id.group_sign,false);    //顯示除了登入註冊以外選項
                 navigationView.getMenu().setGroupVisible(R.id.group_profile,true);
-                navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,true);
             } else {                                                                //已登入但未驗證
                 navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
                 navigationView.getMenu().setGroupVisible(R.id.group_profile,true);  //僅顯示會員資料相關選項
-                navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,false);
                 Common.showToast(this, R.string.notBeenValidate);
             }
         } else {                                                                //如果未登入
             navigationView.getMenu().setGroupVisible(R.id.group_sign,true);         //僅顯示登入註冊選項
             navigationView.getMenu().setGroupVisible(R.id.group_profile,false);
-            navigationView.getMenu().setGroupVisible(R.id.group_intradayOrders,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,false);
+            navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,false);
         }
-        //增加判斷是否已驗證後，還要再分出登入/註冊，但是未驗證者...只能看profile．
     }
 
     private void setDrawerHeader() {
@@ -148,18 +153,47 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.item_unprocessed:
-                        intent = new Intent(NavigationDrawerSetup.this,OrdersDailyActivity.class);
+                        intent = new Intent(NavigationDrawerSetup.this,DailyOrdersActivity.class);
                         intent.putExtra("id", 1);
                         startActivity(intent);
                         break;
                     case R.id.item_completed:
-                        intent = new Intent(NavigationDrawerSetup.this,OrdersDailyActivity.class);
+                        intent = new Intent(NavigationDrawerSetup.this,DailyOrdersActivity.class);
                         intent.putExtra("id", 2);
                         startActivity(intent);
                         break;
                     case R.id.item_paid:
-                        intent = new Intent(NavigationDrawerSetup.this,OrdersDailyActivity.class);
+                        intent = new Intent(NavigationDrawerSetup.this,DailyOrdersActivity.class);
                         intent.putExtra("id", 3);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_historyOrders:
+                        intent = new Intent(NavigationDrawerSetup.this,HistoryOrdersActivity.class);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_revenueDaily:
+                        intent = new Intent(NavigationDrawerSetup.this,FinancialRevenueActivity.class);
+                        intent.putExtra("id", 1);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_revenueMonthly:
+                        intent = new Intent(NavigationDrawerSetup.this,FinancialRevenueActivity.class);
+                        intent.putExtra("id", 2);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_revenueYearly:
+                        intent = new Intent(NavigationDrawerSetup.this,FinancialRevenueActivity.class);
+                        intent.putExtra("id", 3);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_salesChartsDaily:
+                        intent = new Intent(NavigationDrawerSetup.this,FinancialSalesChartsActivity.class);
+                        intent.putExtra("id", 1);
+                        startActivity(intent);
+                        break;
+                    case R.id.item_salesChartsMonthly:
+                        intent = new Intent(NavigationDrawerSetup.this,FinancialSalesChartsActivity.class);
+                        intent.putExtra("id", 2);
                         startActivity(intent);
                         break;
                 }

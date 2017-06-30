@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.orders_daily.CompletedOrderFragment">
+    tools:context="com.example.ntut.grabandgo.Financial_Analysis.RevenueDailyFragment">
 
 </android.support.constraint.ConstraintLayout>

@@ -1,8 +1,9 @@
-package com.example.ntut.grabandgo.orders_intraday;
+package com.example.ntut.grabandgo;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -25,5 +26,10 @@ public class ViewPagerFragmentAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return fragmentsList.size();
+    }
+
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
     }
 }

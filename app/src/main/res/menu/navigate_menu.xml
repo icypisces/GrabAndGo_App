@@ -31,10 +31,10 @@
     </group>
 
     <group
-        android:id="@+id/group_intradayOrders"
+        android:id="@+id/group_dailyOrders"
         android:checkableBehavior="single"
         android:visible="false" >
-        <item android:title="@string/intradayOrders">
+        <item android:title="@string/DailyOrders">
             <menu>
                 <item
                     android:id="@+id/item_unprocessed"
@@ -51,4 +51,49 @@
             </menu>
         </item>
     </group>
+
+    <group
+        android:id="@+id/group_historyOrders"
+        android:checkableBehavior="single"
+        android:visible="false" >
+        <item android:title="@string/historyOrders">
+            <menu>
+                <item
+                    android:id="@+id/item_historyOrders"
+                    android:icon="@drawable/ic_drawer_history"
+                    android:title="@string/historyOrdersQuery" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_financialAnalysis"
+        android:checkableBehavior="single"
+        android:visible="false" >
+        <item android:title="@string/financialAnalysis">
+            <menu>
+                <item
+                    android:id="@+id/item_revenueDaily"
+                    android:icon="@drawable/ic_drawer_rev_daily"
+                    android:title="@string/revenueDaily" />
+                <item
+                    android:id="@+id/item_revenueMonthly"
+                    android:icon="@drawable/ic_drawer_rev_monthly"
+                    android:title="@string/revenueMonthly" />
+                <item
+                    android:id="@+id/item_revenueYearly"
+                    android:icon="@drawable/ic_drawer_rev_yearly"
+                    android:title="@string/revenueYearly" />
+                <item
+                    android:id="@+id/item_salesChartsDaily"
+                    android:icon="@drawable/ic_drawer_sales"
+                    android:title="@string/salesChartsDaily" />
+                <item
+                    android:id="@+id/item_salesChartsMonthly"
+                    android:icon="@drawable/ic_drawer_sales"
+                    android:title="@string/salesChartsMonthly" />
+            </menu>
+        </item>
+    </group>
+
 </menu>

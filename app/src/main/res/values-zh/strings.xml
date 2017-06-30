@@ -5,10 +5,25 @@
     <string name="register">會員註冊</string>
     <string name="logout">會員登出</string>
     <string name="profile">會員資料</string>
-    <string name="intradayOrders">本日訂單</string>
+    <string name="DailyOrders">本日訂單</string>
     <string name="unprocessed">待處理訂單</string>
     <string name="completed">已完成</string>
     <string name="paid">已結帳</string>
+    <string name="historyOrders">歷史訂單</string>
+    <string name="historyOrdersQuery">歷史訂單查詢</string>
+    <string name="financialAnalysis">財務分析</string>
+    <string name="financialRevenue">營業額統計</string>
+    <string name="revenueDaily">日營收</string>
+    <string name="revenueMonthly">月營收</string>
+    <string name="revenueYearly">年營收</string>
+    <string name="revenueDaily_s">日營收</string>
+    <string name="revenueMonthly_s">月營收</string>
+    <string name="revenueYearly_s">年營收</string>
+    <string name="financialSalesCharts">商品銷售排行榜</string>
+    <string name="salesChartsDaily">商品銷售排行榜(日)</string>
+    <string name="salesChartsMonthly">商品銷售排行榜(月)</string>
+    <string name="salesChartsDaily_s">排行榜(日)</string>
+    <string name="salesChartsMonthly_s">排行榜(月)</string>
     <!-- 登入頁面 -->
     <string name="username">帳號</string>
     <string name="password">密碼</string>
@@ -56,7 +71,13 @@
     <string name="editEnd">儲存會員資料</string>
     <string name="confirmPass">確認密碼是否正確</string>
     <string name="editCancel">取消</string>
+    <!-- order item -->
+    <string name="items">項目統計</string>
+    <string name="buyer_phone">聯絡電話 : </string>
+    <string name="buyer_picktime">預定取餐時間</string>
     <!--  -->
-    <string name="ordersDaily">當日訂單</string>
+
+
+
 
 </resources>

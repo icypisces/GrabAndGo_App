@@ -4,17 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderFragment"
-    android:orientation="vertical">
+    tools:context="com.example.ntut.grabandgo.orders_daily.UnprocessedOrderFragment"
+    android:orientation="vertical"
+    android:background="#c7c7c7" >
 
-
-    <LinearLayout
+    <Button
+        android:id="@+id/items"
+        android:text="@string/items"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:background="#403d8af7">
+        android:layout_margin="5dp"
+        android:background="@drawable/button_blue"
+        style="@style/style_button"
+        android:onClick="onItemsClick"/>
 
-    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
 
 </LinearLayout>

@@ -15,8 +15,6 @@ public class CompletedOrderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
-        //inflate(int resource, ViewGroup root, boolean attachToRoot)
         View view = inflater.inflate(R.layout.order_fragment_completed, container, false);  //取得layout檔
         return view;
     }

@@ -32,14 +32,15 @@
             android:name=".Restaurant_related.RegisterActivity"
             android:label="@string/register" />
         <activity
-            android:name=".orders_intraday.UnprocessedOrderActivity"
-            android:label="@string/UnprocessedOrder" />
-        <activity android:name=".orders_intraday.CompleteOrderActivity" />
-        <activity android:name=".Restaurant_related.RestInformationActivity" />
+            android:name=".Restaurant_related.RestInformationActivity"
+            android:label="@string/profile" />
         <activity android:name=".NavigationDrawerSetup" />
-        <activity android:name=".Restaurant_related.SendEmailActivity" />
-        <activity android:name=".orders_intraday.PaidOrderActivity" />
-        <activity android:name=".orders_intraday.OrdersIntradayActivity"></activity>
+        <activity
+            android:name=".Restaurant_related.SendEmailActivity"
+            android:label="@string/sendEmailTitle" />
+        <activity
+            android:name=".orders_intraday.OrdersDailyActivity"
+            android:label="@string/ordersDaily" />
     </application>
 
 </manifest>

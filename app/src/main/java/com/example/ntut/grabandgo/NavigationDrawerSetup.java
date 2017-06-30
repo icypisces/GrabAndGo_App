@@ -26,6 +26,7 @@ import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
 import com.example.ntut.grabandgo.orders_intraday.CompletedOrderFragment;
+import com.example.ntut.grabandgo.orders_intraday.OrdersDailyActivity;
 import com.example.ntut.grabandgo.orders_intraday.PaidOrderFragment;
 import com.example.ntut.grabandgo.orders_intraday.UnprocessedOrderFragment;
 
@@ -147,15 +148,18 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.item_unprocessed:
-                        intent = new Intent(NavigationDrawerSetup.this,UnprocessedOrderFragment.class);
+                        intent = new Intent(NavigationDrawerSetup.this,OrdersDailyActivity.class);
+                        intent.putExtra("id", 1);
                         startActivity(intent);
                         break;
                     case R.id.item_completed:
-                        intent = new Intent(NavigationDrawerSetup.this,CompletedOrderFragment.class);
+                        intent = new Intent(NavigationDrawerSetup.this,OrdersDailyActivity.class);
+                        intent.putExtra("id", 2);
                         startActivity(intent);
                         break;
                     case R.id.item_paid:
-                        intent = new Intent(NavigationDrawerSetup.this,PaidOrderFragment.class);
+                        intent = new Intent(NavigationDrawerSetup.this,OrdersDailyActivity.class);
+                        intent.putExtra("id", 3);
                         startActivity(intent);
                         break;
                 }

@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--  -->
     <string name="login">會員登入</string>
     <string name="register">會員註冊</string>
+    <string name="logout">會員登出</string>
+    <string name="profile">會員資料</string>
+    <string name="intradayOrders">本日訂單</string>
+    <string name="unprocessed">待處理訂單</string>
+    <string name="completed">已完成</string>
+    <string name="paid">已結帳</string>
+    <!-- 登入頁面 -->
     <string name="username">帳號</string>
     <string name="password">密碼</string>
     <string name="forget">忘記密碼</string>
@@ -10,7 +18,8 @@
     <string name="msg_enterPassword">請輸入密碼</string>
     <string name="msg_NoNetwork">網路未連線</string>
     <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
-    <string name="UnprocessedOrder">待處理訂單</string>
+    <!-- 註冊頁面 -->
+    <string name="mustEnter">*為必填欄位</string>
     <string name="usernameInput">請輸入帳號 (*)</string>
     <string name="passwordInput">請輸入密碼 (*)</string>
     <string name="passwordConfirm">請再輸入一次密碼 (*)</string>
@@ -22,18 +31,15 @@
     <string name="email">電子郵件 (*)</string>
     <string name="owner">商家負責人 (*)</string>
     <string name="url">官方網站</string>
-    <string name="mustEnter">*為必填欄位</string>
-    <string name="logout">會員登出</string>
-    <string name="profile">會員資料</string>
-    <string name="intradayOrders">本日訂單</string>
-    <string name="unprocessed">待處理訂單</string>
-    <string name="completed">已完成</string>
-    <string name="paid">已結帳</string>
+    <!-- 通知已寄送驗證信 -->
     <string name="sendEmailTitle">註冊成功</string>
     <string name="sendEmailBody"> 我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳戶開始上架產品喔。\n感謝您的配合</string>
+    <!-- Drawer -->
     <string name="visitor">訪客~</string>
     <string name="hello">您好,</string>
+    <!--  -->
     <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
+    <!-- 餐廳會員資料 -->
     <string name="restName_i">餐廳名稱 :</string>
     <string name="restType_i">餐廳類別 :</string>
     <string name="branch_i">餐廳分店 :</string>
@@ -50,4 +56,7 @@
     <string name="editEnd">儲存會員資料</string>
     <string name="confirmPass">確認密碼是否正確</string>
     <string name="editCancel">取消</string>
+    <!--  -->
+    <string name="ordersDaily">當日訂單</string>
+
 </resources>

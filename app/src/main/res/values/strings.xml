@@ -1,7 +1,21 @@
 <resources>
     <string name="app_name">GrabAndGo</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Drawer Open</string>
+    <string name="drawer_close">Drawer Close</string>
+    <string name="title_activity_slide_menu">SlideMenuActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
     <string name="login">Sign In</string>
     <string name="register">Sign Up</string>
+    <string name="logout">Sign Off</string>
+    <string name="profile">Profile</string>
+    <string name="intradayOrders">Intraday Orders</string>
+    <string name="unprocessed">Unprocessed</string>
+    <string name="completed">Completed</string>
+    <string name="paid">Paid</string>
+    <!-- Sing In -->
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="forget">Recover password</string>
@@ -10,6 +24,8 @@
     <string name="msg_enterPassword">Enter Password</string>
     <string name="msg_NoNetwork">No Network</string>
     <string name="msg_UsernameOrPasswordError">該帳號不存在或密碼錯誤</string>
+    <!-- Regiater -->
+    <string name="mustEnter">*為必填欄位</string>
     <string name="usernameInput">Username (*)</string>
     <string name="passwordInput">Password (*)</string>
     <string name="passwordConfirm">Password Confirm (*)</string>
@@ -21,26 +37,15 @@
     <string name="email">Email (*)</string>
     <string name="owner">Owner (*)</string>
     <string name="url">Official Website</string>
-    <string name="mustEnter">*為必填欄位</string>
-    <string name="title_activity_slide_menu">SlideMenuActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="drawer_open">Drawer Open</string>
-    <string name="drawer_close">Drawer Close</string>
-    <string name="logout">Sign Off</string>
-    <string name="profile">Profile</string>
-    <string name="intradayOrders">Intraday Orders</string>
-    <string name="unprocessed">Unprocessed</string>
-    <string name="completed">Completed</string>
-    <string name="paid">Paid</string>
+    <!-- Send Email -->
     <string name="sendEmailBody"> 我們已經寄出一封認證信至您的信箱，請點擊認證信中的連結開通您的帳戶開始上架產品喔。\n感謝您的配合</string>
     <string name="sendEmailTitle">註冊成功</string>
+    <!-- Drawer -->
     <string name="visitor">Visitor~</string>
     <string name="hello">Hello,</string>
+    <!--  -->
     <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
+    <!-- Restaurant Information -->
     <string name="restName_i">Restaurant :</string>
     <string name="restType_i">Restaurant Type :</string>
     <string name="branch_i">Branch :</string>
@@ -57,7 +62,7 @@
     <string name="editEnd">Save</string>
     <string name="confirmPass">Confirm Password</string>
     <string name="editCancel">Cancel</string>
+    <!--  -->
+    <string name="ordersDaily">Daily Orders</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

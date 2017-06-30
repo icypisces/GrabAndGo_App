@@ -11,21 +11,22 @@ import com.example.ntut.grabandgo.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrdersIntradayActivity extends NavigationDrawerSetup {
+public class OrdersDailyActivity extends NavigationDrawerSetup {
 
     private TabLayout tabLayout;
     private ViewPager viewPaper;
-    private String[] OrderTabTitles;
+    private int[] OrderTabTitles = {R.string.unprocessed, R.string.completed, R.string.paid};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.orders_activity_intraday);
+        setContentView(R.layout.orders_activity_daily);
         setUpToolBar();
         findView();
         setViewPager();
         tabLayout.setupWithViewPager(viewPaper);
- //       setTabLayoutTitle();
+        setTabLayoutTitle();
+        turnToFragment();
     }
 
     private void findView() {
@@ -47,6 +48,9 @@ public class OrdersIntradayActivity extends NavigationDrawerSetup {
                 new ViewPagerFragmentAdapter(getSupportFragmentManager(), fragmentList);
                                             //生命週期跟著Activity走
         viewPaper.setAdapter(viewFragmentAdapter);
+
+        // Setting the default Tab
+        viewPaper.setCurrentItem(0);
     }
 
 
@@ -55,6 +59,33 @@ public class OrdersIntradayActivity extends NavigationDrawerSetup {
             tabLayout.getTabAt(i).setText(OrderTabTitles[i]);
         }
     }
+
+    private void turnToFragment() {
+        int id = getIntent().getIntExtra("id", 0);
+        if (id == 1) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.viewPaper, new UnprocessedOrderFragment())
+                    .addToBackStack(null)//按下返回鍵會回到上一個Fragment
+                    .commit();
+            viewPaper.setCurrentItem(0);
+        } else if (id == 2) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.viewPaper, new CompletedOrderFragment())
+                    .addToBackStack(null)
+                    .commit();
+            viewPaper.setCurrentItem(1);
+        } else if (id == 3) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.viewPaper, new PaidOrderFragment())
+                    .addToBackStack(null)
+                    .commit();
+            viewPaper.setCurrentItem(2);
+        }
+    }
+
 
 
 }

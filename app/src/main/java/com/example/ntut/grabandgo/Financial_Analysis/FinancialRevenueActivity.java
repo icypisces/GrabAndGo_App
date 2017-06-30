@@ -16,8 +16,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup {
 
     private TabLayout tabLayout;
     private ViewPager viewPaper;
-    private int[] OrderTabTitles =
-            {R.string.revenueDaily_s, R.string.revenueMonthly_s, R.string.revenueYearly_s};
+    private int[] OrderTabTitles = {R.string.revenueDaily_s, R.string.revenueMonthly_s, R.string.revenueYearly_s};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

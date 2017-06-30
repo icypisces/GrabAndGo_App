@@ -11,7 +11,7 @@ import com.example.ntut.grabandgo.orders_daily.BaseFragment;
 
 public class SalesChartsMonthlyFragment extends BaseFragment {
 
-    private static final String TAG = "RevenueYearlyFragment";
+    private static final String TAG = "SalesChartsMonthlyFragment";
 
     @Nullable
     @Override

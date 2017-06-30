@@ -81,6 +81,9 @@
     <string name="items">項目統計</string>
     <string name="buyer_phone">Phone : </string>
     <string name="buyer_picktime">預定取餐時間</string>
+    <!-- Revenue -->
+    <string name="date">Select Date :</string>
+    <string name="EnterDateLimit">請選擇三個月內的日期</string>
 
 
 </resources>

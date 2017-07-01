@@ -8,14 +8,11 @@ import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
-import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -26,15 +23,11 @@ import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
-import static com.example.ntut.grabandgo.R.id.tilUsername;
 
 public class RestInformationActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreProfileServlet";

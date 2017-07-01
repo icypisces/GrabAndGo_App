@@ -1,9 +1,9 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +14,6 @@ import android.widget.Spinner;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
 import com.example.ntut.grabandgo.orders_daily.BaseFragment;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -24,13 +23,19 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class RevenueDailyFragment extends BaseFragment {
 
     private static final String TAG = "RevenueDailyFragment";
     private String ServletName = "/AppRevenueDailyServlet";
     private Spinner spSelectDate;
+    private String rest_name;
     private AsyncTask OrderDateTask;
     private ProgressDialog progressDialog;
+
+    //Login
+    private SharedPreferences sharedPreferencesLogin = null;
 
     @Nullable
     @Override
@@ -38,6 +43,7 @@ public class RevenueDailyFragment extends BaseFragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.financial_fragment_revenue_daily,container,false);  //取得layout檔
         findView(view);
+        getRestaurantName();
 
         String url = Common.URL + ServletName ;
         //取得訂單日期
@@ -52,6 +58,11 @@ public class RevenueDailyFragment extends BaseFragment {
 
     private void findView(View view) {
         spSelectDate = (Spinner) view.findViewById(R.id.spSelectDate);
+    }
+
+    private void getRestaurantName() {
+        sharedPreferencesLogin = getActivity().getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
+        rest_name = sharedPreferencesLogin.getString("rest_name", "");
     }
 
     @Override

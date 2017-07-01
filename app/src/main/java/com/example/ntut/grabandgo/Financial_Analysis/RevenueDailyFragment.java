@@ -1,35 +1,35 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_daily.BaseFragment;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
+import java.util.Calendar;
 
 import static android.content.Context.MODE_PRIVATE;
 
-public class RevenueDailyFragment extends BaseFragment {
+public class RevenueDailyFragment extends BaseFragment{
 
     private static final String TAG = "RevenueDailyFragment";
     private String ServletName = "/AppRevenueDailyServlet";
-    private Spinner spSelectDate;
+    private TextView tvDate;
+    private Button btSelectDate;
+    private int today_year, today_month, today_day;
     private String rest_name;
     private AsyncTask OrderDateTask;
     private ProgressDialog progressDialog;
@@ -45,19 +45,14 @@ public class RevenueDailyFragment extends BaseFragment {
         findView(view);
         getRestaurantName();
 
-        String url = Common.URL + ServletName ;
-        //取得訂單日期
-        if (Common.networkConnected(getActivity())) {
-            OrderDateTask = new OrderDateTask().execute(url);
-        } else {
-            Common.showToast(getActivity(), R.string.msg_NoNetwork);
-        }
+
 
         return view;
     }
 
     private void findView(View view) {
-        spSelectDate = (Spinner) view.findViewById(R.id.spSelectDate);
+        tvDate = (TextView) view.findViewById(R.id.tvDate);
+        btSelectDate = (Button) view.findViewById(R.id.btSelectDate);
     }
 
     private void getRestaurantName() {
@@ -69,46 +64,54 @@ public class RevenueDailyFragment extends BaseFragment {
     protected void lazyLoad() {
 
     }
-
-    //取得訂單日期
-    class OrderDateTask extends AsyncTask<String, Void, List<String>> {
+    private View.OnClickListener onSelectDateClick = new View.OnClickListener() {
 
         @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            progressDialog = new ProgressDialog(getActivity());   //progressDialog -> 執行時的轉圈圈圖示
-            progressDialog.setMessage("Loading...");
-            progressDialog.show();
-        }
+        public void onClick(View v) {
+//            DatePickerFragment datePickerFragment = new DatePickerFragment();
+//            datePickerFragment.show(getFragmentManager(), "date_picker");
+            // 設定初始日期 - 當天
+            final Calendar today = Calendar.getInstance();
+            today_year = today.get(Calendar.YEAR);
+            today_month = today.get(Calendar.MONTH);
+            today_day = today.get(Calendar.DAY_OF_MONTH);
 
-        @Override
-        protected List<String> doInBackground(String... params) {
-            String url = params[0];
-            String jsonIn;
-            JsonObject jsonObject = new JsonObject();       //Json要記得
-            jsonObject.addProperty("param", "revernueDate");    //將要送到伺服器的Key跟Value先放到jsonObject
-            jsonObject.addProperty("rest_name", rest_name);
-            try {
-                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG); //取得從伺服器回來的json字串
-            } catch (IOException e) {
-                Log.e(TAG, e.toString());
-                return null;
-            }
+            //DatePicker
+            DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                    tvDate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+                }
+            }, today_year, today_month, today_day);
+            dpd.show();
+        };
 
-            Gson gson = new Gson();                             //用Gson
-            Type listType = new TypeToken<List<String>>() {     //解析回List<String>
-            }.getType();
+    };
 
-            return gson.fromJson(jsonIn, listType);             //回傳json字串跟List<String>
-        }
+//    public void onSelectDateClick(View view) {
+//
+//        DatePickerFragment datePickerFragment = new DatePickerFragment();
+//        datePickerFragment.show(getFragmentManager(), "date_picker");
 
-        @Override
-        protected void onPostExecute(List<String> items) {      //items->從doInBackground傳來的回傳結果
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                    android.R.layout.simple_list_item_1, items);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spSelectDate.setAdapter(adapter);
-            progressDialog.cancel();
-        }
-    }
+//        //設定初始日期 - 當天
+//        final Calendar today = Calendar.getInstance();
+//        today_year = today.get(Calendar.YEAR);
+//        today_month = today.get(Calendar.MONTH);
+//        today_day = today.get(Calendar.DAY_OF_MONTH);
+//
+//        //DatePicker
+//        DatePickerDialog dpd = new DatePickerDialog(RevenueDailyFragment.this, new DatePickerDialog.OnDateSetListener(){
+//            @Override
+//            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+//                tvDate.setText(year + "-" + ( month + 1 ) + "-" + dayOfMonth);
+//            }
+//        }, today_year, today_month, today_day);
+//        dpd.show();
+//    }
+//
+//
+//    @Override
+//    public void getData(String data) {
+//        tvDate.setText(data);
+//    }
 }

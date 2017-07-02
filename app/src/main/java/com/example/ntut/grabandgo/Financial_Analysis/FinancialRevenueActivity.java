@@ -18,6 +18,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup {
     private ViewPager viewPaper;
     private int[] OrderTabTitles = {R.string.revenueDaily_s, R.string.revenueMonthly_s, R.string.revenueYearly_s};
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,6 +29,8 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup {
         tabLayout.setupWithViewPager(viewPaper);
         setTabLayoutTitle();
         turnToFragment();
+
+
     }
 
     private void findView() {

@@ -38,8 +38,10 @@ public class RevenueDailyFragment extends BaseFragment{
     private int today_year, today_month, today_day;
     private PieChart dailyPieChart;
     private String rest_name;
-    private AsyncTask OrderDateTask;
-    private ProgressDialog progressDialog;
+    private int prod_id;
+    private String item_name;
+    private int item_price;
+    private int item_amout;
 
     //Login
     private SharedPreferences sharedPreferencesLogin = null;
@@ -47,6 +49,18 @@ public class RevenueDailyFragment extends BaseFragment{
     //圓餅圖測試用***
     private float[] yData = {5, 10, 15, 20, 25};
     private String[] xData = {"aaa", "bbb", "ccc", "DDD", "EEE"};
+
+    /*Activity傳遞資料予Fragment測試中*/
+    public void setOrderItem(OrderItem orderItem){
+        orderItem.setProd_id(prod_id);
+        orderItem.setItem_name(item_name);
+        orderItem.setItem_price(item_price);
+        orderItem.setItem_amout(item_amout);
+    }
+
+
+
+
 
     @Nullable
     @Override

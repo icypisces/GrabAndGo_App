@@ -33,11 +33,17 @@
             android:id="@+id/btSelectDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="@string/selectDate"
             android:onClick="onSelectDateClick"/>
 
     </LinearLayout>
 
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/dailyPieChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"/>
 
 
 </LinearLayout>

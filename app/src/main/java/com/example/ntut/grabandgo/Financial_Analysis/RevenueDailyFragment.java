@@ -1,10 +1,7 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
 import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
-import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -15,7 +12,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
-import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_daily.BaseFragment;
 import com.github.mikephil.charting.charts.PieChart;
@@ -26,39 +22,21 @@ import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-
-import static android.content.Context.MODE_PRIVATE;
+import java.util.Collection;
+import java.util.List;
 
 public class RevenueDailyFragment extends BaseFragment{
 
     private static final String TAG = "RevenueDailyFragment";
-    private String ServletName = "/AppRevenueDailyServlet";
     private TextView tvDate;
     private Button btSelectDate;
     private int today_year, today_month, today_day;
     private PieChart dailyPieChart;
-    private String rest_name;
-    private int prod_id;
-    private String item_name;
-    private int item_price;
-    private int item_amout;
-
-    //Login
-    private SharedPreferences sharedPreferencesLogin = null;
+    private List<OrderItem> orderItemList = null;
 
     //圓餅圖測試用***
-    private float[] yData = {5, 10, 15, 20, 25};
-    private String[] xData = {"aaa", "bbb", "ccc", "DDD", "EEE"};
-
-    /*Activity傳遞資料予Fragment測試中*/
-    public void setOrderItem(OrderItem orderItem){
-        orderItem.setProd_id(prod_id);
-        orderItem.setItem_name(item_name);
-        orderItem.setItem_price(item_price);
-        orderItem.setItem_amout(item_amout);
-    }
-
-
+    private String[] xData = {};
+    private float[] yData = {};
 
 
 
@@ -68,7 +46,6 @@ public class RevenueDailyFragment extends BaseFragment{
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.financial_fragment_revenue_daily,container,false);  //取得layout檔
         findView(view);
-        getRestaurantName();
 
         //圓餅圖
         PieData mPieData = getPieData();
@@ -83,14 +60,23 @@ public class RevenueDailyFragment extends BaseFragment{
         dailyPieChart = (PieChart) view.findViewById(R.id.dailyPieChart);
     }
 
-    private void getRestaurantName() {
-        sharedPreferencesLogin = getActivity().getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
-        rest_name = sharedPreferencesLogin.getString("rest_name", "");
-    }
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        //取得自Activity送來的資料
+        Bundle bundle = getArguments();
+        if (bundle != null)
+            orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
+
+
+        if (orderItemList != null) {
+            for ( int i=0; i<orderItemList.size(); i++) {
+                xData[i] = orderItemList.get(i).getItem_name();
+                yData[i] = orderItemList.get(i).getItem_price();
+            }
+        }
+
 
         // 設定初始日期 - 當天
         final Calendar today = Calendar.getInstance();
@@ -105,11 +91,6 @@ public class RevenueDailyFragment extends BaseFragment{
             public void onClick(View view) {
                 DatePickerFragment datePickerFragment = new DatePickerFragment();
                 datePickerFragment.show(getFragmentManager(), "date_picker");
-//                // 設定初始日期 - 當天
-//                final Calendar today = Calendar.getInstance();
-//                today_year = today.get(Calendar.YEAR);
-//                today_month = today.get(Calendar.MONTH);
-//                today_day = today.get(Calendar.DAY_OF_MONTH);
 
                 //DatePicker
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -122,13 +103,7 @@ public class RevenueDailyFragment extends BaseFragment{
             }
         });
 
-//************************************連線(待補)****************************************
-
-
-
-
     }
-
 
     private void showChart(PieChart pieChart, PieData pieData) {
 //        pieChart.setHoleColorTransparent(true);

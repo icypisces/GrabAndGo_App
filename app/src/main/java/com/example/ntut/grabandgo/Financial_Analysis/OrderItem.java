@@ -1,6 +1,8 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
-public class OrderItem {
+import java.io.Serializable;
+
+public class OrderItem implements Serializable {
     private int serial_no;
     private int ord_id;
     private int prod_id;
@@ -9,15 +11,18 @@ public class OrderItem {
     private int item_amout;
     private String item_note;
     private String m_usename;
+    private String time;
 
     public OrderItem() {
     }
 
-    public OrderItem(int prod_id, String item_name, int item_price, int item_amout) {
+    public OrderItem(int prod_id, String item_name, int item_price,
+                     int item_amout, String time) {
         this.prod_id = prod_id;
         this.item_name = item_name;
         this.item_price = item_price;
         this.item_amout = item_amout;
+        this.time = time;
     }
 
     public int getSerial_no() {
@@ -82,5 +87,19 @@ public class OrderItem {
 
     public void setM_usename(String m_usename) {
         this.m_usename = m_usename;
+    }
+
+    @Override
+    public String toString() {
+        return "OrderItem{" +
+                "serial_no=" + serial_no +
+                ", ord_id=" + ord_id +
+                ", prod_id=" + prod_id +
+                ", item_name='" + item_name + '\'' +
+                ", item_price=" + item_price +
+                ", item_amout=" + item_amout +
+                ", item_note='" + item_note + '\'' +
+                ", m_usename='" + m_usename + '\'' +
+                '}';
     }
 }

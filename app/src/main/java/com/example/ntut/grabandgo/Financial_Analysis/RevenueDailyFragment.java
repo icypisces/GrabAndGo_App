@@ -24,14 +24,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class RevenueDailyFragment extends BaseFragment{
+public class RevenueDailyFragment extends BaseFragment {
 
     private static final String TAG = "RevenueDailyFragment";
-    private TextView tvDate;
+    private TextView tvDate, tvNoData;
     private Button btSelectDate;
     private int today_year, today_month, today_day;
     private PieChart dailyPieChart;
-    private PieData mPieData;
     private List<OrderItem> orderItemList = null;
 
     @Nullable
@@ -46,6 +45,7 @@ public class RevenueDailyFragment extends BaseFragment{
 
     private void findView(View view) {
         tvDate = (TextView) view.findViewById(R.id.tvDate);
+        tvNoData = (TextView) view.findViewById(R.id.tvNoData);
         btSelectDate = (Button) view.findViewById(R.id.btSelectDate);
         dailyPieChart = (PieChart) view.findViewById(R.id.dailyPieChart);
     }
@@ -65,8 +65,8 @@ public class RevenueDailyFragment extends BaseFragment{
         btSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerFragment datePickerFragment = new DatePickerFragment();
-                datePickerFragment.show(getFragmentManager(), "date_picker");
+//                DatePickerFragment datePickerFragment = new DatePickerFragment();
+//                datePickerFragment.show(getFragmentManager(), "date_picker");
 
                 //DatePicker
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
@@ -77,9 +77,9 @@ public class RevenueDailyFragment extends BaseFragment{
                         Object[] xAndyData = getDateData(orderItemList);
                         displayPieChart((String[])xAndyData[0], (float[])xAndyData[1]);
                     }
+
                 }, today_year, today_month, today_day);
                 dpd.show();
-
             }
         });
 
@@ -106,8 +106,8 @@ public class RevenueDailyFragment extends BaseFragment{
         String[] xData = new String[size];
         float[] yData = new float[size];
         for (int i = 0; i < orderItemListDaily.size(); i++) {
-            xData[i] = orderItemList.get(i).getItem_name();
-            yData[i] = orderItemList.get(i).getItem_price();
+            xData[i] = orderItemListDaily.get(i).getItem_name();
+            yData[i] = orderItemListDaily.get(i).getItem_price();
         }
         Object[] xAndyData = {xData, yData};
 
@@ -117,11 +117,13 @@ public class RevenueDailyFragment extends BaseFragment{
     private void displayPieChart(String[] xData, float[] yData){
         if (xData.length != 0 && yData.length != 0) {
             //圓餅圖
+            tvNoData.setVisibility(View.GONE);
+            dailyPieChart.setVisibility(View.VISIBLE);
             PieData mPieData = getPieData(xData, yData);
             showChart(dailyPieChart, mPieData);
         } else {
-            dailyPieChart.invalidate();
-
+            dailyPieChart.setVisibility(View.GONE);
+            tvNoData.setVisibility(View.VISIBLE);
         }
     }
 
@@ -185,8 +187,8 @@ public class RevenueDailyFragment extends BaseFragment{
         }
 
 
-        //y軸的集合                                         //顯示在比例圖上
-        PieDataSet pieDataSet = new PieDataSet(yValues, (String) getText(R.string.revenueDaily));
+        //y軸的集合                                         //顯示在比例圖上//(String) getText(R.string.revenueDaily)
+        PieDataSet pieDataSet = new PieDataSet(yValues, "");
         pieDataSet.setSliceSpace(0f);   //圓餅圖每塊距離
 
         ArrayList<Integer> colors = new ArrayList<Integer>();

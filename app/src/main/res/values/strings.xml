@@ -83,6 +83,7 @@
     <string name="buyer_picktime">預定取餐時間</string>
     <!-- Revenue -->
     <string name="selectDate">Select Date</string>
+    <string name="noRevenueData">您選擇之日期無收入</string>
 
 
 </resources>

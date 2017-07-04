@@ -11,18 +11,17 @@ public class OrderItem implements Serializable {
     private int item_amout;
     private String item_note;
     private String m_usename;
-    private String time;
 
     public OrderItem() {
     }
 
     public OrderItem(int prod_id, String item_name, int item_price,
-                     int item_amout, String time) {
+                     int item_amout, String item_note) {
         this.prod_id = prod_id;
         this.item_name = item_name;
         this.item_price = item_price;
         this.item_amout = item_amout;
-        this.time = time;
+        this.item_note = item_note;
     }
 
     public int getSerial_no() {
@@ -89,13 +88,6 @@ public class OrderItem implements Serializable {
         this.m_usename = m_usename;
     }
 
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
 
     @Override
     public String toString() {
@@ -108,7 +100,6 @@ public class OrderItem implements Serializable {
                 ", item_amout=" + item_amout +
                 ", item_note='" + item_note + '\'' +
                 ", m_usename='" + m_usename + '\'' +
-                ", time='" + time + '\'' +
                 '}';
     }
 }

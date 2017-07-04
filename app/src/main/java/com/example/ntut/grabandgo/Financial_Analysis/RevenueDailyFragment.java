@@ -22,7 +22,6 @@ import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.List;
 
 public class RevenueDailyFragment extends BaseFragment{
@@ -32,13 +31,8 @@ public class RevenueDailyFragment extends BaseFragment{
     private Button btSelectDate;
     private int today_year, today_month, today_day;
     private PieChart dailyPieChart;
+    private PieData mPieData;
     private List<OrderItem> orderItemList = null;
-
-    //圓餅圖測試用***
-    private String[] xData = {};
-    private float[] yData = {};
-
-
 
     @Nullable
     @Override
@@ -46,10 +40,6 @@ public class RevenueDailyFragment extends BaseFragment{
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.financial_fragment_revenue_daily,container,false);  //取得layout檔
         findView(view);
-
-        //圓餅圖
-        PieData mPieData = getPieData();
-        showChart(dailyPieChart, mPieData);
 
         return view;
     }
@@ -63,20 +53,6 @@ public class RevenueDailyFragment extends BaseFragment{
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        //取得自Activity送來的資料
-        Bundle bundle = getArguments();
-        if (bundle != null)
-            orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
-
-
-        if (orderItemList != null) {
-            for ( int i=0; i<orderItemList.size(); i++) {
-                xData[i] = orderItemList.get(i).getItem_name();
-                yData[i] = orderItemList.get(i).getItem_price();
-            }
-        }
-
 
         // 設定初始日期 - 當天
         final Calendar today = Calendar.getInstance();
@@ -97,42 +73,78 @@ public class RevenueDailyFragment extends BaseFragment{
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                         tvDate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
+
+                        Object[] xAndyData = getDateData(orderItemList);
+                        displayPieChart((String[])xAndyData[0], (float[])xAndyData[1]);
                     }
                 }, today_year, today_month, today_day);
                 dpd.show();
+
             }
         });
 
+        //取得自Activity送來的資料，並依日期取得資料及產生圓餅圖．
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
+
+            Object[] xAndyData = getDateData(orderItemList);
+            displayPieChart((String[])xAndyData[0], (float[])xAndyData[1]);
+        }
+    }
+
+    private Object[] getDateData(List<OrderItem> orderItemList){
+        List<OrderItem> orderItemListDaily = new ArrayList<>();
+        String selectDate = (String) tvDate.getText();
+        for (int i = 0; i < orderItemList.size(); i++) {
+            String orderDate = orderItemList.get(i).getItem_note();
+            if ( orderDate.equals(selectDate)) {
+                orderItemListDaily.add(orderItemList.get(i));
+            }
+        }
+        int size = orderItemListDaily.size();
+        String[] xData = new String[size];
+        float[] yData = new float[size];
+        for (int i = 0; i < orderItemListDaily.size(); i++) {
+            xData[i] = orderItemList.get(i).getItem_name();
+            yData[i] = orderItemList.get(i).getItem_price();
+        }
+        Object[] xAndyData = {xData, yData};
+
+        return xAndyData;
+    }
+
+    private void displayPieChart(String[] xData, float[] yData){
+        if (xData.length != 0 && yData.length != 0) {
+            //圓餅圖
+            PieData mPieData = getPieData(xData, yData);
+            showChart(dailyPieChart, mPieData);
+        } else {
+            dailyPieChart.invalidate();
+
+        }
     }
 
     private void showChart(PieChart pieChart, PieData pieData) {
-//        pieChart.setHoleColorTransparent(true);
 
-        pieChart.setHoleRadius(40f);                            //半徑
-        pieChart.setTransparentCircleRadius(45f);               //半透明圈
-        //pieChart.setHoleRadius(0)                             //實心圓
+        pieChart.setHoleRadius(30f);                            //半徑
+        pieChart.setTransparentCircleRadius(35f);               //半透明圈
 
         pieChart.setDescription("");
 
-        // pieChart.setDrawYValues(true);
         pieChart.setDrawCenterText(true);                       //圓餅圖中間放置文字
         pieChart.setCenterText(getText(R.string.revenueDaily)); //圓餅圖中間的文字
-        pieChart.setCenterTextSize(16f);
+        pieChart.setCenterTextSize(12f);
 
         pieChart.setDrawHoleEnabled(true);
 
         pieChart.setRotationAngle(90);                          //起始旋轉角度
 
-        // draws the corresponding description value into the slice
-        // pieChart.setDrawXValues(true);
-
         // enable rotation of the chart by touch
         pieChart.setRotationEnabled(true);                      //可以手動旋轉
 
         // display percentage values
-        pieChart.setUsePercentValues(true);                     //顯示為百分比
-        // pieChart.setUnit(" €");
-        // pieChart.setDrawUnitsInChart(true);
+        pieChart.setUsePercentValues(false);                     //顯示為百分比
 
         // add a selection listener
 //      pieChart.setOnChartValueSelectedListener(this);
@@ -148,16 +160,16 @@ public class RevenueDailyFragment extends BaseFragment{
 //      pieChart.invalidate();
 
         Legend mLegend = pieChart.getLegend();                          //設置比例圖
-        mLegend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);  //下方中間顯示
+        mLegend.setPosition(Legend.LegendPosition.RIGHT_OF_CHART);      //下方中間顯示
         mLegend.setForm(Legend.LegendForm.CIRCLE);                      //設置比例圖形狀(default->方形)
-        mLegend.setTextSize(16f);
+        mLegend.setTextSize(12f);
         mLegend.setXEntrySpace(10f);
         mLegend.setYEntrySpace(10f);
 
         pieChart.animateXY(1000, 1000);                 //動畫
     }
 
-    private PieData getPieData() {
+    private PieData getPieData(String[] xData, float[] yData) {
         //xValues用來表示每個區塊的內容
         ArrayList<String> xValues = new ArrayList<String>();
 
@@ -194,7 +206,7 @@ public class RevenueDailyFragment extends BaseFragment{
         pieDataSet.setSelectionShift(px);   //被選中後...增加的長度(半徑)
 
         PieData pieData = new PieData(xValues, pieDataSet);
-        pieData.setValueTextSize(24f);
+        pieData.setValueTextSize(10f);
 
         return pieData;
     }

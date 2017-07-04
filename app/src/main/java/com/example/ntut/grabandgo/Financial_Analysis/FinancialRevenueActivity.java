@@ -16,7 +16,6 @@ import com.example.ntut.grabandgo.ViewPagerFragmentAdapter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 public class FinancialRevenueActivity extends NavigationDrawerSetup{
@@ -67,6 +66,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
         if (Common.networkConnected(FinancialRevenueActivity.this)) {
             try {
                 orderItemList = new RevenueGetTask().execute(url, rest_name, interval).get();
+                Log.e(TAG, orderItemList.toString());
             } catch (Exception e) {
                 Log.e(TAG, e.toString());
             }

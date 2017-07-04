@@ -89,6 +89,14 @@ public class OrderItem implements Serializable {
         this.m_usename = m_usename;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "OrderItem{" +
@@ -100,6 +108,7 @@ public class OrderItem implements Serializable {
                 ", item_amout=" + item_amout +
                 ", item_note='" + item_note + '\'' +
                 ", m_usename='" + m_usename + '\'' +
+                ", time='" + time + '\'' +
                 '}';
     }
 }

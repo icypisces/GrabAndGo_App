@@ -1,5 +1,6 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ntut.grabandgo.R;
@@ -29,6 +32,8 @@ public class RevenueDailyFragment extends BaseFragment {
     private static final String TAG = "RevenueDailyFragment";
     private TextView tvDate, tvNoData;
     private Button btSelectDate;
+    private EditText edRevenueTotal;
+    private LinearLayout linearLayoutRevenueTotal;
     private int today_year, today_month, today_day;
     private PieChart dailyPieChart;
     private List<OrderItem> orderItemList = null;
@@ -46,6 +51,8 @@ public class RevenueDailyFragment extends BaseFragment {
     private void findView(View view) {
         tvDate = (TextView) view.findViewById(R.id.tvDate);
         tvNoData = (TextView) view.findViewById(R.id.tvNoData);
+        edRevenueTotal = (EditText) view.findViewById(R.id.edRevenueTotal);
+        linearLayoutRevenueTotal = (LinearLayout) view.findViewById(R.id.linearLayoutRevenueTotal);
         btSelectDate = (Button) view.findViewById(R.id.btSelectDate);
         dailyPieChart = (PieChart) view.findViewById(R.id.dailyPieChart);
     }
@@ -75,7 +82,7 @@ public class RevenueDailyFragment extends BaseFragment {
                         tvDate.setText(year + "-" + (month + 1) + "-" + dayOfMonth);
 
                         Object[] xAndyData = getDateData(orderItemList);
-                        displayPieChart((String[])xAndyData[0], (float[])xAndyData[1]);
+                        displayPieChart((String[])xAndyData[0], (float[])xAndyData[1], (Integer) xAndyData[2]);
                     }
 
                 }, today_year, today_month, today_day);
@@ -89,7 +96,7 @@ public class RevenueDailyFragment extends BaseFragment {
             orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
 
             Object[] xAndyData = getDateData(orderItemList);
-            displayPieChart((String[])xAndyData[0], (float[])xAndyData[1]);
+            displayPieChart((String[])xAndyData[0], (float[])xAndyData[1], (Integer) xAndyData[2]);
         }
     }
 
@@ -105,24 +112,30 @@ public class RevenueDailyFragment extends BaseFragment {
         int size = orderItemListDaily.size();
         String[] xData = new String[size];
         float[] yData = new float[size];
+        int RevenueTotalDaily = 0;                                  //new
         for (int i = 0; i < orderItemListDaily.size(); i++) {
             xData[i] = orderItemListDaily.get(i).getItem_name();
             yData[i] = orderItemListDaily.get(i).getItem_price();
+            RevenueTotalDaily += yData[i];                          //new
         }
-        Object[] xAndyData = {xData, yData};
+//        Object[] xAndyData = {xData, yData};
+        Object[] xAndyData = {xData, yData, RevenueTotalDaily};     //new
 
         return xAndyData;
     }
 
-    private void displayPieChart(String[] xData, float[] yData){
+    private void displayPieChart(String[] xData, float[] yData, int RevenueTotalDaily){
         if (xData.length != 0 && yData.length != 0) {
             //圓餅圖
             tvNoData.setVisibility(View.GONE);
+            linearLayoutRevenueTotal.setVisibility(View.VISIBLE);
+            edRevenueTotal.setText(Integer.toString(RevenueTotalDaily));
             dailyPieChart.setVisibility(View.VISIBLE);
             PieData mPieData = getPieData(xData, yData);
             showChart(dailyPieChart, mPieData);
         } else {
             dailyPieChart.setVisibility(View.GONE);
+            linearLayoutRevenueTotal.setVisibility(View.GONE);
             tvNoData.setVisibility(View.VISIBLE);
         }
     }

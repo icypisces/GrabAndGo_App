@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:layout_margin="20dp">
+        android:layout_margin="10dp">
 
         <TextView
             android:id="@+id/tvDate"
@@ -35,24 +35,52 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:text="@string/selectDate"
+            android:padding="10dp"
+            android:background="@drawable/button_orange"
             android:onClick="onSelectDateClick"/>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvNoData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:textColor="#ff0000"
+        android:textSize="22sp"
+        android:text="@string/noRevenueData"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/linearLayoutRevenueTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tvRevenueTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="@string/revenueTotal"/>
+
+        <EditText
+            android:id="@+id/edRevenueTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:focusable="false" />
+
+    </LinearLayout>
+
 
     <com.github.mikephil.charting.charts.PieChart
         android:id="@+id/dailyPieChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal" />
-
-    <TextView
-        android:id="@+id/tvNoData"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textColor="#ff0000"
-        android:textSize="22sp"
-        android:text="@string/noRevenueData" />
-
 
 </LinearLayout>

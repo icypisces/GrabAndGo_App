@@ -86,13 +86,30 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
         getOrderDataFromServlet("daily");
         //將自資料庫取得之資料送給RevenueDailyFragment
         FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction ft = manager.beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("orderItemList", (Serializable) orderItemList);
-        fragment1.setArguments(bundle);
-        ft.replace(R.id.viewPaper, fragment1);
-        ft.commit();
+        FragmentTransaction ft1 = manager.beginTransaction();
+        Bundle bundle1 = new Bundle();
+        bundle1.putSerializable("orderItemList", (Serializable) orderItemList);
+        fragment1.setArguments(bundle1);
+        ft1.replace(R.id.viewPaper, fragment1);
+        ft1.commit();
 
+        getOrderDataFromServlet("monthly");
+        //將自資料庫取得之資料送給RevenueDailyFragment
+        FragmentTransaction ft2 = manager.beginTransaction();
+        Bundle bundle2 = new Bundle();
+        bundle2.putSerializable("orderItemList", (Serializable) orderItemList);
+        fragment2.setArguments(bundle2);
+        ft2.replace(R.id.viewPaper, fragment2);
+        ft2.commit();
+
+        getOrderDataFromServlet("yearly");
+        //將自資料庫取得之資料送給RevenueDailyFragment
+        FragmentTransaction ft3 = manager.beginTransaction();
+        Bundle bundle3 = new Bundle();
+        bundle3.putSerializable("orderItemList", (Serializable) orderItemList);
+        fragment3.setArguments(bundle3);
+        ft3.replace(R.id.viewPaper, fragment3);
+        ft3.commit();
 
         List<Fragment> fragmentList = new ArrayList<Fragment>();
         fragmentList.add(fragment1);

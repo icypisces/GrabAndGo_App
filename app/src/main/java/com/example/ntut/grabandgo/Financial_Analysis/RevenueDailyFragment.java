@@ -1,6 +1,5 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
@@ -112,14 +111,13 @@ public class RevenueDailyFragment extends BaseFragment {
         int size = orderItemListDaily.size();
         String[] xData = new String[size];
         float[] yData = new float[size];
-        int RevenueTotalDaily = 0;                                  //new
+        int RevenueTotalDaily = 0;
         for (int i = 0; i < orderItemListDaily.size(); i++) {
             xData[i] = orderItemListDaily.get(i).getItem_name();
             yData[i] = orderItemListDaily.get(i).getItem_price();
-            RevenueTotalDaily += yData[i];                          //new
+            RevenueTotalDaily += yData[i];
         }
-//        Object[] xAndyData = {xData, yData};
-        Object[] xAndyData = {xData, yData, RevenueTotalDaily};     //new
+        Object[] xAndyData = {xData, yData, RevenueTotalDaily};
 
         return xAndyData;
     }

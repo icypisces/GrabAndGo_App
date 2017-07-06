@@ -30,9 +30,16 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public class RevenueMonthlyFragment extends BaseFragment {
@@ -44,7 +51,7 @@ public class RevenueMonthlyFragment extends BaseFragment {
     private final int months = 12;
     private LineChart monthlyLineChart;
     private String selectMonth;
-
+    private List<OrderItem> orderItemList = null;
 
 
 
@@ -57,9 +64,9 @@ public class RevenueMonthlyFragment extends BaseFragment {
         findView(view);
         setSpinners();
 
-        monthlyLineChart.setData(getLineData());
-        monthlyLineChart.notifyDataSetChanged();
-        monthlyLineChart.invalidate();
+//        monthlyLineChart.setData(getLineData());
+//        monthlyLineChart.notifyDataSetChanged();
+//        monthlyLineChart.invalidate();
 
 
         return view;
@@ -113,27 +120,79 @@ public class RevenueMonthlyFragment extends BaseFragment {
             public void onClick(View view) {
                 selectMonth = spYearSelect.getSelectedItem().toString().trim() + "-"
                         + spMonthSelect.getSelectedItem().toString().trim();
+                Object[] xAndyData = getDateData(orderItemList);
+                try {
+                    monthlyLineChart.setData(getLineData((Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                monthlyLineChart.notifyDataSetChanged();
+                monthlyLineChart.invalidate();
             }
         });
 
+        //取得自Activity送來的資料，並依日期取得資料及產生圓餅圖．
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
+
+            Object[] xAndyData = getDateData(orderItemList);
+            try {
+                monthlyLineChart.setData(getLineData((Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            monthlyLineChart.notifyDataSetChanged();
+            monthlyLineChart.invalidate();
+
+        }
+
     }
 
-    @Override
-    protected void lazyLoad() {
+    private Object[] getDateData(List<OrderItem> orderItemList){
+        List<OrderItem> orderItemListMonthly = new ArrayList<>();
+        selectMonth = spYearSelect.getSelectedItem().toString().trim() + "-"
+                + spMonthSelect.getSelectedItem().toString().trim();
+        for (int i = 0; i < orderItemList.size(); i++) {
+            String[] notes = orderItemList.get(i).getItem_note().split("||/");
+            String orderMonth = notes[1];
+            if ( orderMonth.equals(selectMonth)) {
+                orderItemListMonthly.add(orderItemList.get(i));
+            }
+        }
+        int size = orderItemListMonthly.size();
+        int[] xData = new int[size];  //日期
+        float[] yData = new float[size];    //銷售金額
+        int RevenueTotalMonthly = 0;
+        Map<Integer, Float> map = new HashMap<>();
+        for (int i = 0; i < orderItemListMonthly.size(); i++) {
+            xData[i] = Integer.parseInt(orderItemList.get(i).getItem_note().split("/")[0]);//有收入的日期
+            yData[i] = orderItemListMonthly.get(i).getItem_price();         //該日期收入
+            map.put(xData[i], yData[i]);
+            RevenueTotalMonthly += yData[i];                                //累加收入
+        }
 
+        Object[] xAndyData = {map, RevenueTotalMonthly, selectMonth};
+
+        return xAndyData;
     }
 
     /* 將 DataSet 資料整理好後，回傳 LineData */
-    private LineData getLineData(){
-        final int DATA_COUNT = 5;  //資料數固定為 5 筆
+    private LineData getLineData(Map<Integer, Float> map, String selectMonth) throws ParseException {
+        //取得查詢當月的日數
+        DateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        Date date = sdf.parse(selectMonth + "/01");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int DATA_COUNT = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         // LineDataSet(List<Entry> 資料點集合, String 類別名稱)
-        LineDataSet dataSetA = new LineDataSet( getChartData(DATA_COUNT, 1), "A");
-        LineDataSet dataSetB = new LineDataSet( getChartData(DATA_COUNT, 2), "B");
+        LineDataSet dataSetA = new LineDataSet( getChartData(DATA_COUNT, map), selectMonth);
+//        LineDataSet dataSetB = new LineDataSet( getChartData(DATA_COUNT, 2), "B");
 
         List<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSetA);
-        dataSets.add(dataSetB);
+ //       dataSets.add(dataSetB);
 
         // LineData(List<String> Xvals座標標籤, List<Dataset> 資料集)
         LineData data = new LineData(getLabels(DATA_COUNT), dataSets);
@@ -143,12 +202,18 @@ public class RevenueMonthlyFragment extends BaseFragment {
     }
 
     /* 取得 List<Entry> 的資料給 DataSet */
-    private List<Entry> getChartData(int count, int ratio){
-
+    private List<Entry> getChartData(int count, Map<Integer, Float> map){
+        int index_date = 0;
         List<Entry> chartData = new ArrayList<>();
-        for(int i=0;i<count;i++){
+        for(int i=0; i<count; i++){
             // Entry(value 數值, index 位置)
-            chartData.add(new Entry( i*2*ratio, i));
+            //日期 = index位置+1
+            index_date = (i+1);
+            if (map.get(index_date) == null) {
+                chartData.add(new Entry( 0, i));
+            } else {
+                chartData.add(new Entry( map.get(index_date), i));
+            }
         }
         return chartData;
     }
@@ -158,11 +223,15 @@ public class RevenueMonthlyFragment extends BaseFragment {
 
         List<String> chartLabels = new ArrayList<>();
         for(int i=0;i<count;i++) {
-            chartLabels.add("X" + i);
+            chartLabels.add((i+1) + "日");
         }
         return chartLabels;
     }
 
 
+    @Override
+    protected void lazyLoad() {
+
+    }
 
 }

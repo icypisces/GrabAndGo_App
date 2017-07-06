@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.Financial_Analysis.RevenueMonthlyFragment">
+    tools:context="com.example.ntut.grabandgo.Financial_Analysis.RevenueMonthlyFragment"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -40,16 +41,21 @@
 
     </LinearLayout>
 
-    <!--<com.github.mikephil.charting.charts.LineChart-->
-        <!--android:id="@+id/monthlyLineChart"-->
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/monthlyLineChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal" />
+
+    <!--<com.github.mikephil.charting.charts.CombinedChart-->
+        <!--android:id="@+id/monthlyCombinedChart"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
         <!--android:layout_gravity="center_horizontal" />-->
 
-    <com.github.mikephil.charting.charts.CombinedChart
-        android:id="@+id/monthlyCombinedChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal" />
+    <!--<com.github.mikephil.charting.charts.BarChart-->
+        <!--android:id="@+id/chart_bar"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"/>-->
 
 </LinearLayout>

@@ -1,7 +1,8 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.os.Bundle;
@@ -11,25 +12,22 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
 
+import com.example.ntut.grabandgo.MainActivity;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
 import com.example.ntut.grabandgo.orders_daily.BaseFragment;
-import com.github.mikephil.charting.charts.CombinedChart;
+import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.CandleData;
-import com.github.mikephil.charting.data.CandleDataSet;
-import com.github.mikephil.charting.data.CandleEntry;
-import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import java.util.ArrayList;
@@ -43,22 +41,25 @@ public class RevenueMonthlyFragment extends BaseFragment {
     private Spinner spYearSelect, spMonthSelect;
     private Button btSelectMonth;
     private int today_year, today_month;
-//    private LineChart monthlyLineChart;
     private final int months = 12;
-    private CombinedChart mChart;
+    private LineChart monthlyLineChart;
+    private String selectMonth;
 
-    //折線圖
-    private LineChart lineChart;
-    private float[] yData={10, 20, 30, 50, 60, 70, 20, 50, 50, 80, 75, 55};
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.financial_fragment_revenue_monthly,container,false);  //取得layout檔
+
         findView(view);
         setSpinners();
 
+        monthlyLineChart.setData(getLineData());
+        monthlyLineChart.notifyDataSetChanged();
+        monthlyLineChart.invalidate();
 
 
         return view;
@@ -68,8 +69,7 @@ public class RevenueMonthlyFragment extends BaseFragment {
         spYearSelect = (Spinner) view.findViewById(R.id.spYearSelect);
         spMonthSelect = (Spinner) view.findViewById(R.id.spMonthSelect);
         btSelectMonth = (Button) view.findViewById(R.id.btSelectMonth);
-//        monthlyLineChart = (LineChart) view.findViewById(R.id.monthlyLineChart);
-        mChart = (CombinedChart) view.findViewById(R.id.monthlyCombinedChart);
+        monthlyLineChart = (LineChart) view.findViewById(R.id.monthlyLineChart);
     }
 
     private void setSpinners() {
@@ -108,51 +108,13 @@ public class RevenueMonthlyFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-
-        mChart.setTouchEnabled(true); //是否可以觸摸
-
-
-        mChart.setDrawGridBackground(true);//是否顯示表格顏色
-
-//        mChart.setDragScaleEnable(true); //是否可以拖拽、縮放
-
-        mChart.setBackgroundColor(Color.rgb(136, 244, 252));
-        mChart.setGridBackgroundColor(Color.rgb(252, 174, 58));
-        //表格顏色
-        mChart.setNoDataText("加載中...");
-        //沒有數據顯示的內容
-        mChart.setAutoScaleMinMaxEnabled(true);//Y軸自動縮放範圍
-        mChart.setDragEnabled(true);// 是否可以拖拽
-        mChart.setScaleEnabled(true);// 是否可以縮放
-        //二、設置顯示數據
-        List<CandleEntry> candleEntries = new ArrayList<>();
-
-        //圖表數據
-        CandleDataSet set = new CandleDataSet(candleEntries, "");
-        set.setAxisDependency(YAxis.AxisDependency.LEFT);
-        set.setShadowWidth(0.7f);
-        set.setDecreasingColor(Color.GREEN);
-        set.setDecreasingPaintStyle(Paint.Style.FILL);
-        set.setIncreasingColor(Color.RED);
-        set.setIncreasingPaintStyle(Paint.Style.STROKE);
-        set.setNeutralColor(Color.RED);
-        set.setShadowColorSameAsCandle(true);
-        set.setHighlightLineWidth(0.5f);
-
-        set.setHighLightColor(Color.BLACK);
-
-        set.setDrawValues(false);
-        ArrayList<String> xVals = new ArrayList<>(); //x軸顯示的內容
-        for (int i = 0; i < 10; i++) {
-            xVals.add(String.valueOf(i));
-        }
-        CandleData candleData = new CandleData(xVals);
-        candleData.addDataSet(set);
-        CombinedData combinedData = new CombinedData(xVals);
-        combinedData.setData(candleData);
-        mChart.setData(combinedData);//當前螢幕會顯示所有的數據
-        mChart.invalidate();
-
+        btSelectMonth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectMonth = spYearSelect.getSelectedItem().toString().trim() + "-"
+                        + spMonthSelect.getSelectedItem().toString().trim();
+            }
+        });
 
     }
 
@@ -160,6 +122,47 @@ public class RevenueMonthlyFragment extends BaseFragment {
     protected void lazyLoad() {
 
     }
+
+    /* 將 DataSet 資料整理好後，回傳 LineData */
+    private LineData getLineData(){
+        final int DATA_COUNT = 5;  //資料數固定為 5 筆
+
+        // LineDataSet(List<Entry> 資料點集合, String 類別名稱)
+        LineDataSet dataSetA = new LineDataSet( getChartData(DATA_COUNT, 1), "A");
+        LineDataSet dataSetB = new LineDataSet( getChartData(DATA_COUNT, 2), "B");
+
+        List<ILineDataSet> dataSets = new ArrayList<>();
+        dataSets.add(dataSetA);
+        dataSets.add(dataSetB);
+
+        // LineData(List<String> Xvals座標標籤, List<Dataset> 資料集)
+        LineData data = new LineData(getLabels(DATA_COUNT), dataSets);
+
+        return data;
+
+    }
+
+    /* 取得 List<Entry> 的資料給 DataSet */
+    private List<Entry> getChartData(int count, int ratio){
+
+        List<Entry> chartData = new ArrayList<>();
+        for(int i=0;i<count;i++){
+            // Entry(value 數值, index 位置)
+            chartData.add(new Entry( i*2*ratio, i));
+        }
+        return chartData;
+    }
+
+    /* 取得 XVals Labels 給 LineData */
+    private List<String> getLabels(int count){
+
+        List<String> chartLabels = new ArrayList<>();
+        for(int i=0;i<count;i++) {
+            chartLabels.add("X" + i);
+        }
+        return chartLabels;
+    }
+
 
 
 }

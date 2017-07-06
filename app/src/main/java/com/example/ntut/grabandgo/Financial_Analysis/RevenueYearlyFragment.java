@@ -16,23 +16,15 @@ import android.widget.Spinner;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_daily.BaseFragment;
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
-import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -140,7 +132,7 @@ public class RevenueYearlyFragment extends BaseFragment {
         float[] yData = new float[size];    //銷售金額
         int RevenueTotalYearly = 0;
         Map<Integer, Float> map = new HashMap<>();
-        for (int i = 0; i < orderItemListYearly.size(); i++) {
+        for (int i = 0; i < size; i++) {
             xData[i] = Integer.parseInt(orderItemList.get(i).getItem_note().split("\\/")[0]);//有收入的月份
             yData[i] = orderItemListYearly.get(i).getItem_price();         //該月份收入
             map.put(xData[i], yData[i]);
@@ -150,12 +142,12 @@ public class RevenueYearlyFragment extends BaseFragment {
         return xAndyData;
     }
 
-    /* 將 DataSet 資料整理好後，回傳 LineData */
+    /* 將 DataSet 資料整理好後，回傳 BarData */
     private BarData getBarData(Map<Integer, Float> map, String selectYear) throws ParseException {
         final int DATA_COUNT = 12;
 
         // BarDataSet(List<Entry> 資料點集合, String 類別名稱)
-        BarDataSet dataSet = new BarDataSet( getBarData(DATA_COUNT, map), selectYear);
+        BarDataSet dataSet = new BarDataSet( getChartData(DATA_COUNT, map), selectYear);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
 
         List<IBarDataSet> dataSets = new ArrayList<>();
@@ -168,23 +160,23 @@ public class RevenueYearlyFragment extends BaseFragment {
     }
 
     /* 取得 List<Entry> 的資料給 DataSet */
-    private List<BarEntry> getBarData(int count, Map<Integer, Float> map){
+    private List<BarEntry> getChartData(int count, Map<Integer, Float> map){
         int index_month = 0;
-        List<BarEntry> barData = new ArrayList<>();
+        List<BarEntry> chartData = new ArrayList<>();
         for(int i=0; i<count; i++){
             // Entry(value 數值, index 位置)
             //日期 = index位置+1
             index_month = (i+1);
             if (map.get(index_month) == null) {
-                barData.add(new BarEntry( 0, i));
+                chartData.add(new BarEntry( 0, i));
             } else {
-                barData.add(new BarEntry( map.get(index_month), i));
+                chartData.add(new BarEntry( map.get(index_month), i));
             }
         }
-        return barData;
+        return chartData;
     }
 
-    /* 取得 XVals Labels 給 LineData */
+    /* 取得 XVals Labels 給 BarData */
     private List<String> getLabels(int count){
         List<String> chartLabels = new ArrayList<>();
         for(int i=0;i<count;i++) {

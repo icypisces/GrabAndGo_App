@@ -7,6 +7,63 @@
     tools:context="com.example.ntut.grabandgo.Financial_Analysis.SalesChartsMonthlyFragment"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_margin="10dp">
 
+        <Spinner
+            android:id="@+id/spYearSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/order_items_orange"
+            android:textSize="20sp" />
+
+        <Spinner
+            android:id="@+id/spMonthSelect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/order_items_orange"
+            android:textSize="20sp" />
+
+        <Button
+            android:id="@+id/btSelectMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="@string/selectMonth"
+            android:padding="10dp"
+            android:background="@drawable/button_orange"
+            android:onClick="onSelectMonthClick"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="@string/limitCount"/>
+
+        <EditText
+            android:id="@+id/edLimitCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/monthlyHorizontalBarChart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

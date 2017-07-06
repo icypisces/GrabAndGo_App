@@ -89,6 +89,7 @@
     <string name="monthlyRevenueTotal">月營收 : $</string>
     <string name="selectYear">Select Year</string>
     <string name="yearlyRevenueTotal">年營收 : $</string>
+    <string name="limitCount">顯示排行數 :</string>
 
 
 </resources>

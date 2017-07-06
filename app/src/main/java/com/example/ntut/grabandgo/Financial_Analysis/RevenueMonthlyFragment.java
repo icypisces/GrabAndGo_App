@@ -151,7 +151,7 @@ public class RevenueMonthlyFragment extends BaseFragment {
         float[] yData = new float[size];    //銷售金額
         int RevenueTotalMonthly = 0;
         Map<Integer, Float> map = new HashMap<>();
-        for (int i = 0; i < orderItemListMonthly.size(); i++) {
+        for (int i = 0; i < size; i++) {
             xData[i] = Integer.parseInt(orderItemList.get(i).getItem_note().split("\\/")[0]);//有收入的日期
             yData[i] = orderItemListMonthly.get(i).getItem_price();         //該日期收入
             map.put(xData[i], yData[i]);

@@ -84,8 +84,9 @@
     <!-- Revenue -->
     <string name="selectDate">Select Date</string>
     <string name="noRevenueData">您選擇之日期無收入</string>
-    <string name="revenueTotal">日營收 : $</string>
+    <string name="dailyRevenueTotal">日營收 : $</string>
     <string name="selectMonth">Select Month</string>
+    <string name="monthlyRevenueTotal">月營收 : $</string>
 
 
 </resources>

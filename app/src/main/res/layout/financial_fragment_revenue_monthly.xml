@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/edit_text_information"
+            android:background="@drawable/order_items_orange"
             android:textSize="20sp" />
 
         <Spinner
@@ -41,21 +41,32 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/linearLayoutRevenueTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/tvRevenueTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="@string/monthlyRevenueTotal"/>
+
+        <EditText
+            android:id="@+id/edRevenueTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:focusable="false" />
+
+    </LinearLayout>
+
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/monthlyLineChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center_horizontal" />
-
-    <!--<com.github.mikephil.charting.charts.CombinedChart-->
-        <!--android:id="@+id/monthlyCombinedChart"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_gravity="center_horizontal" />-->
-
-    <!--<com.github.mikephil.charting.charts.BarChart-->
-        <!--android:id="@+id/chart_bar"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"/>-->
 
 </LinearLayout>

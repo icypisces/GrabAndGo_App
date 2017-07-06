@@ -81,6 +81,8 @@
     <string name="dailyRevenueTotal">日營收 : $</string>
     <string name="selectMonth">Select Month</string>
     <string name="monthlyRevenueTotal">月營收 : $</string>
+    <string name="selectYear">Select Year</string>
+    <string name="yearlyRevenueTotal">年營收 : $</string>
 
 
 </resources>

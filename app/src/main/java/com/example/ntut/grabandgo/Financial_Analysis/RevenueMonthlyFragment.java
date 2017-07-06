@@ -110,6 +110,7 @@ public class RevenueMonthlyFragment extends BaseFragment {
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
+                monthlyLineChart.animateX(1000);
                 monthlyLineChart.notifyDataSetChanged();
                 monthlyLineChart.invalidate();
             }
@@ -128,6 +129,7 @@ public class RevenueMonthlyFragment extends BaseFragment {
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            monthlyLineChart.animateX(1000);
             monthlyLineChart.notifyDataSetChanged();
             monthlyLineChart.invalidate();
         }

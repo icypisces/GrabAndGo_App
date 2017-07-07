@@ -85,16 +85,7 @@ public class RevenueYearlyFragment extends BaseFragment {
             public void onClick(View view) {
                 selectYear = spYearSelect.getSelectedItem().toString().trim();
                 Object[] xAndyData = getDateData(orderItemList);
-                edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
-                try {
-                    yearlyBarChart.setData(getBarData(
-                            (Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                yearlyBarChart.animateX(1000);
-                yearlyBarChart.notifyDataSetChanged();
-                yearlyBarChart.invalidate();
+                displayBarChart(xAndyData);
             }
         });
 
@@ -102,19 +93,23 @@ public class RevenueYearlyFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
-
             Object[] xAndyData = getDateData(orderItemList);
-            edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
-            try {
-                yearlyBarChart.setData(getBarData(
-                        (Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            yearlyBarChart.animateX(1000);
-            yearlyBarChart.notifyDataSetChanged();
-            yearlyBarChart.invalidate();
+            displayBarChart(xAndyData);
         }
+    }
+
+    private void displayBarChart (Object[] xAndyData) {
+        yearlyBarChart.setDescription("");
+        edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
+        try {
+            yearlyBarChart.setData(getBarData(
+                    (Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        yearlyBarChart.animateX(1000);
+        yearlyBarChart.notifyDataSetChanged();
+        yearlyBarChart.invalidate();
     }
 
     private Object[] getDateData(List<OrderItem> orderItemList){
@@ -184,7 +179,6 @@ public class RevenueYearlyFragment extends BaseFragment {
         }
         return chartLabels;
     }
-
 
     @Override
     protected void lazyLoad() {

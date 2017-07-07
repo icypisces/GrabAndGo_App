@@ -103,16 +103,7 @@ public class RevenueMonthlyFragment extends BaseFragment {
                 selectMonth = spYearSelect.getSelectedItem().toString().trim() + "-"
                         + spMonthSelect.getSelectedItem().toString().trim();
                 Object[] xAndyData = getDateData(orderItemList);
-                edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
-                try {
-                    monthlyLineChart.setData(getLineData(
-                            (Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                monthlyLineChart.animateX(1000);
-                monthlyLineChart.notifyDataSetChanged();
-                monthlyLineChart.invalidate();
+                displayLineChart(xAndyData);
             }
         });
 
@@ -120,19 +111,23 @@ public class RevenueMonthlyFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             orderItemList = (List<OrderItem>) bundle.getSerializable("orderItemList");
-
             Object[] xAndyData = getDateData(orderItemList);
-            edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
-            try {
-                monthlyLineChart.setData(getLineData(
-                        (Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            monthlyLineChart.animateX(1000);
-            monthlyLineChart.notifyDataSetChanged();
-            monthlyLineChart.invalidate();
+            displayLineChart(xAndyData);
         }
+    }
+
+    private void displayLineChart (Object[] xAndyData) {
+        monthlyLineChart.setDescription("");
+        edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
+        try {
+            monthlyLineChart.setData(getLineData(
+                    (Map<Integer, Float>) xAndyData[0], (String) xAndyData[2]));    //( (X,Y) , selectMonth )
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        monthlyLineChart.animateX(1000);
+        monthlyLineChart.notifyDataSetChanged();
+        monthlyLineChart.invalidate();
     }
 
     private Object[] getDateData(List<OrderItem> orderItemList){

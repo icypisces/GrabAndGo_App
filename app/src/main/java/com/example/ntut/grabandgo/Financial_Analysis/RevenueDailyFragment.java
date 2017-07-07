@@ -71,9 +71,6 @@ public class RevenueDailyFragment extends BaseFragment {
         btSelectDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                DatePickerFragment datePickerFragment = new DatePickerFragment();
-//                datePickerFragment.show(getFragmentManager(), "date_picker");
-
                 //DatePicker
                 DatePickerDialog dpd = new DatePickerDialog(getActivity(), new DatePickerDialog.OnDateSetListener() {
                     @Override

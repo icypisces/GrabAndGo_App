@@ -138,14 +138,34 @@ public class SalesChartsDailyFragment extends BaseFragment {
         return dateData;
     }
 
-    /* 將 DataSet 資料整理好後，回傳 HorizontalBarChart */
-    private BarData getHorizontalBarData(float[] yData, int showCount, String selectMonth) throws ParseException {
+    private void displayHorizontalBarChart (Object[] dateData) {
+        dailyHorizontalBarChart.setDescription("");
         dailyHorizontalBarChart.getAxisLeft().setEnabled(true);
         //X軸
         XAxis xAxis = dailyHorizontalBarChart.getXAxis();
         xAxis.setEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);          // X軸位置...左方
 
+        if ((int)dateData[1] != 0) {
+            tvNoData.setVisibility(View.GONE);
+            dailyHorizontalBarChart.setVisibility(View.VISIBLE);
+            try {
+                dailyHorizontalBarChart.setData(getHorizontalBarData(
+                        (float[])dateData[0], (int)dateData[1], (String) dateData[2]));    //( 金額 , 顯示排行數量, selectMonth )
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            dailyHorizontalBarChart.animateX(1000);
+            dailyHorizontalBarChart.notifyDataSetChanged();
+            dailyHorizontalBarChart.invalidate();
+        } else {
+            tvNoData.setVisibility(View.VISIBLE);
+            dailyHorizontalBarChart.setVisibility(View.GONE);
+        }
+    }
+
+    /* 將 DataSet 資料整理好後，回傳 HorizontalBarChart */
+    private BarData getHorizontalBarData(float[] yData, int showCount, String selectMonth) throws ParseException {
         // BarDataSet(List<Entry> 資料點集合, String 類別名稱)
         BarDataSet dataSet = new BarDataSet( getChartData(showCount, yData), selectMonth);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
@@ -176,25 +196,6 @@ public class SalesChartsDailyFragment extends BaseFragment {
             chartLabels.add((count-i) + "");
         }
         return chartLabels;
-    }
-
-    private void displayHorizontalBarChart (Object[] dateData) {
-        if ((int)dateData[1] != 0) {
-            tvNoData.setVisibility(View.GONE);
-            dailyHorizontalBarChart.setVisibility(View.VISIBLE);
-            try {
-                dailyHorizontalBarChart.setData(getHorizontalBarData(
-                        (float[])dateData[0], (int)dateData[1], (String) dateData[2]));    //( 金額 , 顯示排行數量, selectMonth )
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            dailyHorizontalBarChart.animateX(1000);
-            dailyHorizontalBarChart.notifyDataSetChanged();
-            dailyHorizontalBarChart.invalidate();
-        } else {
-            tvNoData.setVisibility(View.VISIBLE);
-            dailyHorizontalBarChart.setVisibility(View.GONE);
-        }
     }
 
     @Override

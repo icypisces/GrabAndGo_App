@@ -10,7 +10,7 @@ public class SendEmailActivity extends NavigationDrawerSetup {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_send_email);
+        setContentView(R.layout.rest_activity_send_email);
 
         setUpToolBar();
 

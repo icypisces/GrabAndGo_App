@@ -72,7 +72,7 @@ public class LoginActivity extends NavigationDrawerSetup
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.rest_activity_login);
         findViews();
         getData(); 		//Remember Me//第二次進入的時候得到數據
         setUpToolBar();

@@ -10,6 +10,6 @@ public class RecoverPasswordActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recover_password);
+        setContentView(R.layout.rest_activity_recover_password);
     }
 }

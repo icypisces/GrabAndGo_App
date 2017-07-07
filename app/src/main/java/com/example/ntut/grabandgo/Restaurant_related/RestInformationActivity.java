@@ -50,7 +50,7 @@ public class RestInformationActivity extends NavigationDrawerSetup {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rest_information);
+        setContentView(R.layout.rest_activity_rest_information);
         findViews();
         setUpToolBar();
         getLoginInformation();

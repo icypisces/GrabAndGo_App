@@ -11,11 +11,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
+import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_daily.BaseFragment;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -42,6 +46,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
     private Spinner spYearSelect, spMonthSelect;
     private Button btSelectMonth;
     private EditText edLimitCount;
+    private TextView tvNoData;
     private int today_year, today_month;
     private int limitCount;
     private HorizontalBarChart monthlyHorizontalBarChart;
@@ -63,6 +68,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         spMonthSelect = (Spinner) view.findViewById(R.id.spMonthSelect);
         btSelectMonth = (Button) view.findViewById(R.id.btSelectMonth);
         edLimitCount = (EditText) view.findViewById(R.id.edLimitCount);
+        tvNoData = (TextView) view.findViewById(R.id.tvNoData);
         monthlyHorizontalBarChart = (HorizontalBarChart) view.findViewById(R.id.monthlyHorizontalBarChart);
     }
 
@@ -108,15 +114,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
                 selectMonth = spYearSelect.getSelectedItem().toString().trim() + "-"
                         + spMonthSelect.getSelectedItem().toString().trim();
                 Object[] dateData = getDateData(salesChartsList);
-                try {
-                    monthlyHorizontalBarChart.setData(getHorizontalBarData(
-                            (float[])dateData[0], (int)dateData[1], (String) dateData[2]));    //( 金額 , 顯示排行數量, selectMonth )
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                monthlyHorizontalBarChart.animateX(1000);
-                monthlyHorizontalBarChart.notifyDataSetChanged();
-                monthlyHorizontalBarChart.invalidate();
+                displayHorizontalBarChart(dateData);
             }
         });
 
@@ -126,15 +124,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
             salesChartsList = (List<OrderItem>) bundle.getSerializable("salesChartsList");
             edLimitCount.setText(String.valueOf(10));   //預設顯示排行數量為10
             Object[] dateData = getDateData(salesChartsList);
-            try {
-                monthlyHorizontalBarChart.setData(getHorizontalBarData(
-                        (float[])dateData[0], (int)dateData[1], (String) dateData[2]));    //( 金額 , 顯示排行數量, selectMonth )
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-            monthlyHorizontalBarChart.animateX(1000);
-            monthlyHorizontalBarChart.notifyDataSetChanged();
-            monthlyHorizontalBarChart.invalidate();
+            displayHorizontalBarChart(dateData);
         }
     }
 
@@ -150,8 +140,14 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         }
         int size = salesChartsListMonthly.size();
         limitCount = Integer.parseInt(edLimitCount.getText().toString());
-        float[] yData = new float[size];    //銷售金額
-        int showCount = Math.min(limitCount, size);
+        float[] yData = new float[size];                                    //銷售金額
+        int showCount = Math.min(limitCount, size);                         //將選擇的顯示個數與實際商品數取小值
+        if ( showCount == 0 ) {
+            edLimitCount.setText(String.valueOf(showCount));
+        } else if ( limitCount > showCount ) {
+            edLimitCount.setText(String.valueOf(showCount));
+            Common.showToast(getActivity(), R.string.keyInLimitCountOver);
+        }
         for (int i = 0; i < showCount; i++) {
             yData[i] = salesChartsListMonthly.get(i).getItem_price();       //該商品當月收入
         }
@@ -161,6 +157,11 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
 
     /* 將 DataSet 資料整理好後，回傳 HorizontalBarChart */
     private BarData getHorizontalBarData(float[] yData, int showCount, String selectMonth) throws ParseException {
+        monthlyHorizontalBarChart.getAxisLeft().setEnabled(true);
+        //X軸
+        XAxis xAxis = monthlyHorizontalBarChart.getXAxis();
+        xAxis.setEnabled(true);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);          // X軸位置...左方
 
         // BarDataSet(List<Entry> 資料點集合, String 類別名稱)
         BarDataSet dataSet = new BarDataSet( getChartData(showCount, yData), selectMonth);
@@ -181,7 +182,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         List<BarEntry> chartData = new ArrayList<>();
         for(int i=0; i<count; i++){
             // Entry(value 數值, index 位置)
-            chartData.add(new BarEntry( yData[i], i));
+            chartData.add(new BarEntry( yData[(count-i-1)], i));
         }
         return chartData;
     }
@@ -190,9 +191,28 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
     private List<String> getLabels(int count){
         List<String> chartLabels = new ArrayList<>();
         for(int i=0;i<count;i++) {
-            chartLabels.add((i+1) + "月");
+            chartLabels.add((count-i) + "");
         }
         return chartLabels;
+    }
+
+    private void displayHorizontalBarChart (Object[] dateData) {
+        if ((int)dateData[1] != 0) {
+            tvNoData.setVisibility(View.GONE);
+            monthlyHorizontalBarChart.setVisibility(View.VISIBLE);
+            try {
+                monthlyHorizontalBarChart.setData(getHorizontalBarData(
+                        (float[])dateData[0], (int)dateData[1], (String) dateData[2]));    //( 金額 , 顯示排行數量, selectMonth )
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            monthlyHorizontalBarChart.animateX(1000);
+            monthlyHorizontalBarChart.notifyDataSetChanged();
+            monthlyHorizontalBarChart.invalidate();
+        } else {
+            tvNoData.setVisibility(View.VISIBLE);
+            monthlyHorizontalBarChart.setVisibility(View.GONE);
+        }
     }
 
     @Override

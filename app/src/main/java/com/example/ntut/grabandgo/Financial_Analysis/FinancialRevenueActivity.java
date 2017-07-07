@@ -65,7 +65,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
         //取得訂單收入相關資訊
         if (Common.networkConnected(FinancialRevenueActivity.this)) {
             try {
-                orderItemList = new RevenueGetTask().execute(url, rest_name, interval).get();
+                orderItemList = new RevenueGetTask().execute(url, rest_name, interval, TAG).get();
                 Log.e(TAG, orderItemList.toString());
             } catch (Exception e) {
                 Log.e(TAG, e.toString());

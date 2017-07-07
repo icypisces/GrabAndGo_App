@@ -21,9 +21,10 @@ class RevenueGetTask extends AsyncTask<String, Void, List<OrderItem>> {
         String url = params[0];
         String rest_name = params[1];
         String interval = params[2];
+        String param = params[3];
         String jsonIn;
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("param", "getOrderData");
+        jsonObject.addProperty("param", param);
         jsonObject.addProperty("rest_name", rest_name);
         jsonObject.addProperty("interval", interval);
         try {

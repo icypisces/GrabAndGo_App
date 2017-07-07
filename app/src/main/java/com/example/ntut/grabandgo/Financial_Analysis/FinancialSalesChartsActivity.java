@@ -63,7 +63,7 @@ public class FinancialSalesChartsActivity extends NavigationDrawerSetup {
         //取得訂單收入相關資訊
         if (Common.networkConnected(FinancialSalesChartsActivity.this)) {
             try {
-                salesChartsList = new RevenueGetTask().execute(url, rest_name, interval).get();
+                salesChartsList = new RevenueGetTask().execute(url, rest_name, interval, TAG).get();
                 Log.e(TAG, salesChartsList.toString());
             } catch (Exception e) {
                 Log.e(TAG, e.toString());

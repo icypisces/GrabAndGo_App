@@ -84,6 +84,8 @@
     <string name="selectYear">Select Year</string>
     <string name="yearlyRevenueTotal">年營收 : $</string>
     <string name="limitCount">顯示排行數 :</string>
+    <string name="noRevenueMonth">您選擇的月份無收入</string>
+    <string name="keyInLimitCountOver">您輸入的顯示排行數已超過排行總數</string>
 
 
 </resources>

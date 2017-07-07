@@ -1,10 +1,10 @@
-package com.example.ntut.grabandgo.Financial_Analysis;
+package com.example.ntut.grabandgo.HistoryOrders;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.ntut.grabandgo.Common;
-import com.example.ntut.grabandgo.OrderItem;
+import com.example.ntut.grabandgo.Order;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -13,21 +13,22 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-//取得訂單收入相關資訊
-class RevenueGetTask extends AsyncTask<String, Void, List<OrderItem>> {
-    private static final String TAG = "RevenueGetTask";
+//取得歷史訂單
+class HistoryOrderGetTask extends AsyncTask<String, Void, List<Order>> {
+    private static final String TAG = "HistoryOrderGetTask";
 
     @Override
-    protected List<OrderItem> doInBackground(String... params) {
+    protected List<Order> doInBackground(String... params) {
         String url = params[0];
         String rest_id = params[1];
-        String interval = params[2];
-        String param = params[3];
+        String selectMonth = params[2];
+        String customer = params[3];
         String jsonIn;
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("param", param);
+        jsonObject.addProperty("param", "HistoryOrder");
         jsonObject.addProperty("rest_id", rest_id);
-        jsonObject.addProperty("interval", interval);
+        jsonObject.addProperty("selectMonth", selectMonth);
+        jsonObject.addProperty("customer", customer);
         try {
             jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
         } catch (IOException e) {
@@ -36,7 +37,7 @@ class RevenueGetTask extends AsyncTask<String, Void, List<OrderItem>> {
         }
 
         Gson gson = new Gson();
-        Type list = new TypeToken<List<OrderItem>>() {
+        Type list = new TypeToken<List<Order>>() {
         }.getType();
         Log.e(TAG, "list = " + list);
 

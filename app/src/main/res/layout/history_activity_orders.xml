@@ -4,23 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context="com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity">
 
-    <include layout="@layout/toolbar_layout"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+    <include
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/lvHistoryOrders"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#cecbcb"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/tilSearch"
+                    style="@style/style_textInputLayout_order">
+
+                    <EditText
+                        android:id="@+id/etSearch"
+                        style="@style/style_editText_search"
+                        android:hint="@string/orderSearchHistory"
+                        android:inputType="text" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_horizontal">
+
+                    <Spinner
+                        android:id="@+id/spYearSelect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/order_items_orange"
+                        android:textSize="20sp" />
+
+                    <Spinner
+                        android:id="@+id/spMonthSelect"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:background="@drawable/order_items_orange"
+                        android:textSize="20sp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/button_orange"
+                android:onClick="onSearchClick"
+                android:padding="5dp"
+                android:text="@string/search" />
+
+        </LinearLayout>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvHistoryOrders"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        </ListView>
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

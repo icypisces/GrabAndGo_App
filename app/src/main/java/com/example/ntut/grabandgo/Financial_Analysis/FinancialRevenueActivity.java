@@ -29,7 +29,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
 
     //Login
     private SharedPreferences sharedPreferencesLogin = null;
-    private String rest_name;
+    private String rest_id;
 
     private List<OrderItem> orderItemList = null;
 
@@ -58,7 +58,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
 //--------------------------連線至伺服器取得OrderItem資料--------------------------------------------
     private void getRestaurantName() {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
-        rest_name = sharedPreferencesLogin.getString("rest_name", "");
+        rest_id = sharedPreferencesLogin.getString("rest_id", "");
     }
 
     private void getOrderDataFromServlet(String interval) {
@@ -66,7 +66,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
         //取得訂單收入相關資訊
         if (Common.networkConnected(FinancialRevenueActivity.this)) {
             try {
-                orderItemList = new RevenueGetTask().execute(url, rest_name, interval, TAG).get();
+                orderItemList = new RevenueGetTask().execute(url, rest_id, interval, TAG).get();
                 Log.e(TAG, orderItemList.toString());
             } catch (Exception e) {
                 Log.e(TAG, e.toString());

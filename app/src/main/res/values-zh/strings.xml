@@ -89,6 +89,9 @@
     <string name="buyer_picktime">預定取餐時間 : </string>
     <string name="soNumber">訂單編號 : </string>
     <string name="soAmount">金額 : </string>
+    <string name="search">搜尋</string>
+    <string name="orderSearch">請輸入手機號碼</string>
+    <string name="orderSearchHistory">請輸入顧客姓名</string>
 
 
 </resources>

@@ -244,8 +244,9 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 }
                 String logo = joResult.get("rest_logo").getAsString();
                 String validate = joResult.get("rest_validate").getAsString();
+                String rest_id = joResult.get("rest_id").getAsString();
                 s = Arrays.asList(username, password, message,
-                       rest_name, rest_branch, logo, validate);
+                       rest_name, rest_branch, logo, validate, rest_id);
             } else if (message.equals("RegisterError")) {
                 String _username = joResult.get("username").getAsString();
                 String _password = joResult.get("password").getAsString();
@@ -281,9 +282,10 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 String logo = s.get(5);
                 String validate = s.get(6);
                 boolean rest_validate = Boolean.parseBoolean(validate);
+                String rest_id = s.get(7);
                 Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
                 startActivity(intent);
-                userLogin(u, p, rest_name, rest_branch, logo, rest_validate);
+                userLogin(u, p, rest_name, rest_branch, logo, rest_validate, rest_id);
                 progressDialog.cancel();
                 finish();
             } else if(message.equals("RegisterError")){
@@ -296,7 +298,7 @@ public class RegisterActivity extends NavigationDrawerSetup {
     }
 
     private void userLogin(String user, String pass, String rest_name,
-                           String rest_branch, String logo, boolean rest_validate) {
+                           String rest_branch, String logo, boolean rest_validate, String rest_id) {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
         edit.clear();
@@ -307,6 +309,7 @@ public class RegisterActivity extends NavigationDrawerSetup {
         edit.putString("rest_branch",rest_branch);
         edit.putString("logo",logo);
         edit.putBoolean("rest_validate",rest_validate);
+        edit.putString("rest_id",rest_id);
         edit.commit();
     }
 

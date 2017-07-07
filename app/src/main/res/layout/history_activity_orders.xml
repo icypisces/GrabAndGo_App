@@ -20,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="10dp"
             android:background="#cecbcb"
             android:gravity="center_horizontal"
             android:orientation="horizontal">
@@ -44,14 +45,13 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
                     android:gravity="center_horizontal">
 
                     <Spinner
                         android:id="@+id/spYearSelect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
                         android:background="@drawable/order_items_orange"
                         android:textSize="20sp" />
 
@@ -59,7 +59,7 @@
                         android:id="@+id/spMonthSelect"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginLeft="20dp"
                         android:background="@drawable/order_items_orange"
                         android:textSize="20sp" />
 
@@ -75,7 +75,10 @@
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/button_orange"
                 android:onClick="onSearchClick"
-                android:padding="5dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:text="@string/search" />
 
         </LinearLayout>

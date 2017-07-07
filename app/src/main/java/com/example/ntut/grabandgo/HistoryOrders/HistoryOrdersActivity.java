@@ -27,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 public class HistoryOrdersActivity extends NavigationDrawerSetup {
-    private String ServletName = "/AppStoreHistoryServlet";
+    private String ServletName = "/AppStoreOrderHistoryServlet";
     private final static String TAG = "HistoryOrdersActivity";
     private RecyclerView rvHistoryOrders;
     private Spinner spYearSelect, spMonthSelect;
@@ -52,7 +52,7 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         getOrderDataFromServlet();
 
         rvHistoryOrders.setLayoutManager(
-                new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
+                new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
         rvHistoryOrders.setAdapter(new OrderAdapter(this, orderList));
     }
 
@@ -123,6 +123,13 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         }
     }
 
+    public void onSearchClick(View view) {
+        getOrderDataFromServlet();
+        rvHistoryOrders.setLayoutManager(
+                new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
+        rvHistoryOrders.setAdapter(new OrderAdapter(this, orderList));
+    }
+
 //-------------------------------------RecyclerView.Adapter-----------------------------------------
 
     private class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
@@ -135,10 +142,11 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView tvSoNumber, tvBuyerName, tvBuyerPhone, tvAmount, tvPicktime;
+            TextView tvOrdertime, tvSoNumber, tvBuyerName, tvBuyerPhone, tvAmount, tvPicktime;
 
             MyViewHolder(View itemView) {
                 super(itemView);
+                tvOrdertime = (TextView) itemView.findViewById((R.id.tvOrdertime));
                 tvSoNumber = (TextView) itemView.findViewById((R.id.tvSoNumber));
                 tvBuyerName = (TextView) itemView.findViewById((R.id.tvBuyerName));
                 tvBuyerPhone = (TextView) itemView.findViewById((R.id.tvBuyerPhone));
@@ -162,8 +170,9 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             final Order order = orderList.get(position);
+            holder.tvOrdertime.setText(String.valueOf(order.getOrd_time()));
             holder.tvSoNumber.setText(String.valueOf(order.getOrd_id()));
-            holder.tvBuyerName.setText(String.valueOf(order.getM_username()));
+            holder.tvBuyerName.setText(String.valueOf(order.getM_pickupname()));
             holder.tvBuyerPhone.setText(String.valueOf(order.getOrd_tel()));
             holder.tvAmount.setText(String.valueOf(order.getOrd_totalPrice()));
             holder.tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
@@ -171,9 +180,6 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
 
                 @Override
                 public void onClick(View v) {
-
-
-
 
                 }
             });

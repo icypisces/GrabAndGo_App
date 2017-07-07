@@ -40,13 +40,13 @@ public class Order implements Serializable{
         this.ord_evalued = ord_evalued;
     }
 
-    public Order(int ord_id, String m_username, Timestamp ord_pickuptime, int ord_totalPrice, String ord_status, String ord_tel) {
+    public Order(int ord_id, Timestamp ord_pickuptime, int ord_totalPrice, String ord_status, String ord_tel, Timestamp ord_time) {
         this.ord_id = ord_id;
-        this.m_username = m_username;
         this.ord_pickuptime = ord_pickuptime;
         this.ord_totalPrice = ord_totalPrice;
         this.ord_status = ord_status;
         this.ord_tel = ord_tel;
+        this.ord_time = ord_time;
     }
 
     public int getOrd_id() {

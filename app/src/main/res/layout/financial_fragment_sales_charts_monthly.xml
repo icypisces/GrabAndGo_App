@@ -53,7 +53,7 @@
             android:text="@string/limitCount"/>
 
         <EditText
-            android:id="@+id/edLimitCount"
+            android:id="@+id/etLimitCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="22sp"

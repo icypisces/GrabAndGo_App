@@ -1,5 +1,6 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,10 +47,11 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
     private static final String TAG = "SalesChartsMonthlyFragment";
     private Spinner spYearSelect, spMonthSelect;
     private Button btSelectMonth;
-    private EditText edLimitCount;
+    private EditText etLimitCount;
     private TextView tvNoData;
     private int today_year, today_month;
     private int limitCount;
+    private final int limitCount_default = 10;
     private HorizontalBarChart monthlyHorizontalBarChart;
     private String selectMonth;
     private List<OrderItem> salesChartsList = null;
@@ -67,7 +70,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         spYearSelect = (Spinner) view.findViewById(R.id.spYearSelect);
         spMonthSelect = (Spinner) view.findViewById(R.id.spMonthSelect);
         btSelectMonth = (Button) view.findViewById(R.id.btSelectMonth);
-        edLimitCount = (EditText) view.findViewById(R.id.edLimitCount);
+        etLimitCount = (EditText) view.findViewById(R.id.etLimitCount);
         tvNoData = (TextView) view.findViewById(R.id.tvNoData);
         monthlyHorizontalBarChart = (HorizontalBarChart) view.findViewById(R.id.monthlyHorizontalBarChart);
     }
@@ -115,6 +118,8 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
                         + spMonthSelect.getSelectedItem().toString().trim();
                 Object[] dateData = getDateData(salesChartsList);
                 displayHorizontalBarChart(dateData);
+                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(etLimitCount.getWindowToken(), 0);
             }
         });
 
@@ -122,7 +127,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             salesChartsList = (List<OrderItem>) bundle.getSerializable("salesChartsList");
-            edLimitCount.setText(String.valueOf(10));   //預設顯示排行數量為10
+            etLimitCount.setText(String.valueOf(limitCount_default));   //預設顯示排行數量為10
             Object[] dateData = getDateData(salesChartsList);
             displayHorizontalBarChart(dateData);
         }
@@ -139,15 +144,19 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
             }
         }
         int size = salesChartsListMonthly.size();
-        limitCount = Integer.parseInt(edLimitCount.getText().toString());
-        float[] yData = new float[size];                                    //銷售金額
-        int showCount = Math.min(limitCount, size);                         //將選擇的顯示個數與實際商品數取小值
-        if ( showCount == 0 ) {
-            edLimitCount.setText(String.valueOf(showCount));
-        } else if ( limitCount > showCount ) {
-            edLimitCount.setText(String.valueOf(showCount));
-            Common.showToast(getActivity(), R.string.keyInLimitCountOver);
+        limitCount = Integer.parseInt(etLimitCount.getText().toString());
+        float[] yData = new float[size];                        //銷售金額
+        if ( limitCount == 0 && size > 0 ) {                    //如果輸入的顯示個數為0但銷售商品項目不為0
+            limitCount = Math.min(limitCount_default, size);    //將顯示個數設定為 " 銷售商品項目和預設顯示個數的較小值 "
         }
+        int showCount = Math.min(limitCount, size);             //將選擇的顯示個數與實際商品數取小值
+        if ( limitCount > showCount && showCount > 0) {
+            Common.showToast(getActivity(), R.string.keyInLimitCountOver);
+        } else if ( limitCount == 0  && showCount > 0) {
+            limitCount = Math.min(size, limitCount_default);
+            showCount = limitCount;
+        }
+        etLimitCount.setText(String.valueOf(showCount));
         for (int i = 0; i < showCount; i++) {
             yData[i] = salesChartsListMonthly.get(i).getItem_price();       //該商品當月收入
         }
@@ -176,9 +185,8 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         return data;
     }
 
-    /* 取得 List<Entry> 的資料給 DataSet */
+    /* 取得 List<BarEntry> 的資料給 DataSet */
     private List<BarEntry> getChartData(int count, float[] yData){
-        int index_month = 0;
         List<BarEntry> chartData = new ArrayList<>();
         for(int i=0; i<count; i++){
             // Entry(value 數值, index 位置)

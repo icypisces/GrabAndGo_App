@@ -14,8 +14,9 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.orders_daily.BaseFragment;
+import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.Entry;

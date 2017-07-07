@@ -11,6 +11,7 @@ import android.util.Log;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
+import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.ViewPagerFragmentAdapter;
 

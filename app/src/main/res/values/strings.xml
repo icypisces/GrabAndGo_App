@@ -77,10 +77,6 @@
     <string name="editEnd">Save</string>
     <string name="confirmPass">Confirm Password</string>
     <string name="editCancel">Cancel</string>
-    <!-- order item -->
-    <string name="items">項目統計</string>
-    <string name="buyer_phone">Phone : </string>
-    <string name="buyer_picktime">預定取餐時間</string>
     <!-- Revenue -->
     <string name="selectDate">Select Date</string>
     <string name="noRevenueData">您選擇之日期無收入</string>
@@ -92,6 +88,13 @@
     <string name="limitCount">顯示排行數 :</string>
     <string name="noRevenueMonth">您選擇的月份無收入</string>
     <string name="keyInLimitCountOver">您輸入的顯示排行數已超過排行總數</string>
+    <!-- order item -->
+    <string name="items">項目統計</string>
+    <string name="buyer_name">Buyer Name : </string>
+    <string name="buyer_phone">Phone : </string>
+    <string name="buyer_picktime">Pickup Time : </string>
+    <string name="soNumber">Order No. : </string>
+    <string name="soAmount">Amount : </string>
 
 
 </resources>

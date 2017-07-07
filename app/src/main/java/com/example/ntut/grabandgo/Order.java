@@ -1,15 +1,15 @@
-package com.example.ntut.grabandgo.orders_daily;
+package com.example.ntut.grabandgo;
 
 import java.sql.Date;
 
 public class Order {
-    int OrderId;
-    String buyerName;
-    String buyerPhon;
-    Date OrderTime;
-    String RestaurentId;
-    int totalAmout;
-    String status;
+    private int OrderId;
+    private String buyerName;
+    private String buyerPhon;
+    private Date OrderTime;
+    private String RestaurentId;
+    private int totalAmout;
+    private String status;
 
     public Order() {
 
@@ -17,11 +17,20 @@ public class Order {
 
     public Order(int orderId, String buyerName, String buyerPhon, Date orderTime,
                  String restaurentId, int totalAmout, String status) {
-        OrderId = orderId;
+        this.OrderId = orderId;
         this.buyerName = buyerName;
         this.buyerPhon = buyerPhon;
-        OrderTime = orderTime;
-        RestaurentId = restaurentId;
+        this.OrderTime = orderTime;
+        this.RestaurentId = restaurentId;
+        this.totalAmout = totalAmout;
+        this.status = status;
+    }
+
+    public Order(int orderId, String buyerName, String buyerPhon, Date orderTime, int totalAmout, String status) {
+        this.OrderId = orderId;
+        this.buyerName = buyerName;
+        this.buyerPhon = buyerPhon;
+        this.OrderTime = orderTime;
         this.totalAmout = totalAmout;
         this.status = status;
     }

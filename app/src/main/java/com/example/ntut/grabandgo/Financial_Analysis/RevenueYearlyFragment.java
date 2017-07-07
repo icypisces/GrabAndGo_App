@@ -1,9 +1,7 @@
 package com.example.ntut.grabandgo.Financial_Analysis;
 
-import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +11,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.orders_daily.BaseFragment;
+import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;

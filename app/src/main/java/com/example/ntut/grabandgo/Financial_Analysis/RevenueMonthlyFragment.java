@@ -12,8 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.orders_daily.BaseFragment;
+import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;

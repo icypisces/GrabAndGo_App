@@ -1,4 +1,4 @@
-package com.example.ntut.grabandgo.Financial_Analysis;
+package com.example.ntut.grabandgo;
 
 import java.io.Serializable;
 

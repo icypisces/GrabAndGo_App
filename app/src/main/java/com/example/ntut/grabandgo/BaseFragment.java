@@ -1,4 +1,4 @@
-package com.example.ntut.grabandgo.orders_daily;
+package com.example.ntut.grabandgo;
 
 import android.support.v4.app.Fragment;
 

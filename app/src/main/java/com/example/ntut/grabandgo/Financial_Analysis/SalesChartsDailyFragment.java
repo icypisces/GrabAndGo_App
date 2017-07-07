@@ -3,7 +3,6 @@ package com.example.ntut.grabandgo.Financial_Analysis;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,15 +11,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ntut.grabandgo.Common;
-import com.example.ntut.grabandgo.NavigationDrawerSetup;
+import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
-import com.example.ntut.grabandgo.orders_daily.BaseFragment;
+import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -32,7 +29,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Map;
 
 public class SalesChartsDailyFragment extends BaseFragment {
 

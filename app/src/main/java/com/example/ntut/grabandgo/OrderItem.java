@@ -8,7 +8,7 @@ public class OrderItem implements Serializable {
     private int prod_id;
     private String item_name;
     private int item_price;
-    private int item_amout;
+    private int item_amount;
     private String item_note;
     private String m_usename;
 
@@ -16,12 +16,21 @@ public class OrderItem implements Serializable {
     }
 
     public OrderItem(int prod_id, String item_name, int item_price,
-                     int item_amout, String item_note) {
+                     int item_amount, String item_note) {
         this.prod_id = prod_id;
         this.item_name = item_name;
         this.item_price = item_price;
-        this.item_amout = item_amout;
+        this.item_amount = item_amount;
         this.item_note = item_note;
+    }
+
+    public OrderItem(int prod_id, String item_name, int item_price, int item_amount, String item_note, String m_usename) {
+        this.prod_id = prod_id;
+        this.item_name = item_name;
+        this.item_price = item_price;
+        this.item_amount = item_amount;
+        this.item_note = item_note;
+        this.m_usename = m_usename;
     }
 
     public int getSerial_no() {
@@ -64,12 +73,12 @@ public class OrderItem implements Serializable {
         this.item_price = item_price;
     }
 
-    public int getItem_amout() {
-        return item_amout;
+    public int getItem_amount() {
+        return item_amount;
     }
 
-    public void setItem_amout(int item_amout) {
-        this.item_amout = item_amout;
+    public void setItem_amount(int item_amount) {
+        this.item_amount = item_amount;
     }
 
     public String getItem_note() {
@@ -97,7 +106,7 @@ public class OrderItem implements Serializable {
                 ", prod_id=" + prod_id +
                 ", item_name='" + item_name + '\'' +
                 ", item_price=" + item_price +
-                ", item_amout=" + item_amout +
+                ", item_amount=" + item_amount +
                 ", item_note='" + item_note + '\'' +
                 ", m_usename='" + m_usename + '\'' +
                 '}';

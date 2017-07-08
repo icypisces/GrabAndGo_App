@@ -1,30 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="5dp"
-    android:padding="10dp"
-    card_view:cardCornerRadius="12dp"
-    card_view:cardElevation="6dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/linearLayoutOrder"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         android:orientation="vertical"
-        android:padding="5dp"
-        android:background="@drawable/order_items_orange" >
+        android:background="@drawable/order_items_orange">
 
         <TextView
             android:id="@+id/tvOrderStatus"
             android:textStyle="bold"
             android:textColor="#ff0000"
-            style="@style/style_textView_itemViewOrders_value" />
+            style="@style/style_textView_itemViewOrders_detail_top" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,12 +24,12 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/style_textView_itemViewOrders"
+                style="@style/style_textView_itemViewOrders_detail_top"
                 android:text="@string/buyer_orderTime" />
 
             <TextView
                 android:id="@+id/tvOrdertime"
-                style="@style/style_textView_itemViewOrders_value" />
+                style="@style/style_textView_itemViewOrders_detail_top_value" />
 
         </LinearLayout>
 
@@ -47,12 +39,12 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/style_textView_itemViewOrders"
+                style="@style/style_textView_itemViewOrders_detail_top"
                 android:text="@string/soNumber" />
 
             <TextView
                 android:id="@+id/tvSoNumber"
-                style="@style/style_textView_itemViewOrders_value" />
+                style="@style/style_textView_itemViewOrders_detail_top_value" />
 
         </LinearLayout>
 
@@ -62,12 +54,12 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/style_textView_itemViewOrders"
+                style="@style/style_textView_itemViewOrders_detail_top"
                 android:text="@string/buyer_name" />
 
             <TextView
                 android:id="@+id/tvBuyerName"
-                style="@style/style_textView_itemViewOrders_value" />
+                style="@style/style_textView_itemViewOrders_detail_top_value" />
 
         </LinearLayout>
 
@@ -77,12 +69,12 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/style_textView_itemViewOrders"
+                style="@style/style_textView_itemViewOrders_detail_top"
                 android:text="@string/buyer_phone" />
 
             <TextView
                 android:id="@+id/tvBuyerPhone"
-                style="@style/style_textView_itemViewOrders_value" />
+                style="@style/style_textView_itemViewOrders_detail_top_value" />
 
         </LinearLayout>
 
@@ -92,12 +84,12 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/style_textView_itemViewOrders"
+                style="@style/style_textView_itemViewOrders_detail_top"
                 android:text="@string/soTotalPrice" />
 
             <TextView
                 android:id="@+id/tvTotalPrice"
-                style="@style/style_textView_itemViewOrders_value" />
+                style="@style/style_textView_itemViewOrders_detail_top_value" />
 
         </LinearLayout>
 
@@ -107,15 +99,53 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/style_textView_itemViewOrders"
+                style="@style/style_textView_itemViewOrders_detail_top"
                 android:text="@string/buyer_picktime" />
 
             <TextView
                 android:id="@+id/tvPicktime"
-                style="@style/style_textView_itemViewOrders_value" />
+                style="@style/style_textView_itemViewOrders_detail_top_value" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    <TableLayout
+        android:id="@+id/tlOrderDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:shrinkColumns="4" >
+
+        <TableRow>
+            <TextView
+                style="@style/style_textView_itemViewOrders_detail"
+                android:text="@string/prodId"/>
+
+            <TextView
+                style="@style/style_textView_itemViewOrders_detail"
+                android:text="@string/itemName" />
+
+            <TextView
+                style="@style/style_textView_itemViewOrders_detail"
+                android:text="@string/itemPrice"/>
+
+            <TextView
+                style="@style/style_textView_itemViewOrders_detail"
+                android:text="@string/itemAmount"/>
+
+            <TextView
+                style="@style/style_textView_itemViewOrders_detail"
+                android:text="@string/itemNote"/>
+
+        </TableRow>
+
+        <View
+            android:layout_height="5px"
+            android:background="#ccc"/>
+        <!-- 分割線 -->
+
+    </TableLayout>
+
+
+</LinearLayout>

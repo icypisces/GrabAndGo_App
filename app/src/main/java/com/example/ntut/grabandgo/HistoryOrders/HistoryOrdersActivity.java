@@ -1,24 +1,34 @@
 package com.example.ntut.grabandgo.HistoryOrders;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.Order;
+import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 
 import java.util.ArrayList;
@@ -40,6 +50,7 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
     private String rest_id;
 
     List<Order> orderList = null;
+    List<OrderItem> orderitemList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,6 +139,8 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         rvHistoryOrders.setLayoutManager(
                 new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
         rvHistoryOrders.setAdapter(new OrderAdapter(this, orderList));
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
     }
 
 //-------------------------------------RecyclerView.Adapter-----------------------------------------
@@ -135,6 +148,7 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
     private class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.MyViewHolder> {
         private Context context;
         private List<Order> orderList;
+//        private List<OrderItem> orderitemList;
 
         public OrderAdapter(Context context, List<Order> orderList) {
             this.context = context;
@@ -142,16 +156,20 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         }
 
         class MyViewHolder extends RecyclerView.ViewHolder {
-            TextView tvOrdertime, tvSoNumber, tvBuyerName, tvBuyerPhone, tvAmount, tvPicktime;
+            TextView tvOrderStatus, tvOrdertime, tvSoNumber, tvBuyerName, tvBuyerPhone,
+                    tvTotalPrice, tvPicktime;
+            LinearLayout linearLayoutOrder;
 
             MyViewHolder(View itemView) {
                 super(itemView);
+                tvOrderStatus = (TextView) itemView.findViewById((R.id.tvOrderStatus));
                 tvOrdertime = (TextView) itemView.findViewById((R.id.tvOrdertime));
                 tvSoNumber = (TextView) itemView.findViewById((R.id.tvSoNumber));
                 tvBuyerName = (TextView) itemView.findViewById((R.id.tvBuyerName));
                 tvBuyerPhone = (TextView) itemView.findViewById((R.id.tvBuyerPhone));
-                tvAmount = (TextView) itemView.findViewById((R.id.tvAmount));
+                tvTotalPrice = (TextView) itemView.findViewById((R.id.tvTotalPrice));
                 tvPicktime = (TextView) itemView.findViewById((R.id.tvPicktime));
+                linearLayoutOrder = (LinearLayout) itemView.findViewById((R.id.linearLayoutOrder));
             }
         }
 
@@ -170,20 +188,89 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             final Order order = orderList.get(position);
+            holder.tvOrderStatus.setText(String.valueOf(order.getOrd_status()));
+            if ((order.getOrd_status()).equals("paid")) {
+                holder.tvOrderStatus.setHeight(0);
+            } else if ((order.getOrd_status()).equals("fail")) {
+                holder.linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+            }
             holder.tvOrdertime.setText(String.valueOf(order.getOrd_time()));
             holder.tvSoNumber.setText(String.valueOf(order.getOrd_id()));
             holder.tvBuyerName.setText(String.valueOf(order.getM_pickupname()));
             holder.tvBuyerPhone.setText(String.valueOf(order.getOrd_tel()));
-            holder.tvAmount.setText(String.valueOf(order.getOrd_totalPrice()));
+            holder.tvTotalPrice.setText(String.valueOf(order.getOrd_totalPrice()));
             holder.tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
             holder.itemView.setOnClickListener(new View.OnClickListener(){
 
                 @Override
                 public void onClick(View v) {
+                    orderitemList = order.getItems();
 
+                    LayoutInflater inflater = LayoutInflater.from(HistoryOrdersActivity.this);
+                    final View viewDetail = inflater.inflate(R.layout.history_detail_view_orders, null);
+
+                    TextView tvOrderStatus = (TextView) viewDetail.findViewById((R.id.tvOrderStatus));
+                    TextView tvOrdertime = (TextView) viewDetail.findViewById((R.id.tvOrdertime));
+                    TextView tvSoNumber = (TextView) viewDetail.findViewById((R.id.tvSoNumber));
+                    TextView tvBuyerName = (TextView) viewDetail.findViewById((R.id.tvBuyerName));
+                    TextView tvBuyerPhone = (TextView) viewDetail.findViewById((R.id.tvBuyerPhone));
+                    TextView tvTotalPrice = (TextView) viewDetail.findViewById((R.id.tvTotalPrice));
+                    TextView tvPicktime = (TextView) viewDetail.findViewById((R.id.tvPicktime));
+                    tvOrderStatus.setText(String.valueOf(order.getOrd_status()));
+                    tvOrdertime.setText(String.valueOf(order.getOrd_time()));
+                    tvSoNumber.setText(String.valueOf(order.getOrd_id()));
+                    tvBuyerName.setText(String.valueOf(order.getM_pickupname()));
+                    tvBuyerPhone.setText(String.valueOf(order.getOrd_tel()));
+                    tvTotalPrice.setText(String.valueOf(order.getOrd_totalPrice()));
+                    tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
+
+                    LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
+
+                    if ((order.getOrd_status()).equals("paid")) {
+                        tvOrderStatus.setHeight(0);
+                    } else if ((order.getOrd_status()).equals("fail")) {
+                        linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+                    }
+
+                    TableLayout tlOrderDetail = (TableLayout) viewDetail.findViewById(R.id.tlOrderDetail);
+//                    TableLayout.LayoutParams tableParams= new TableLayout.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+                    for (int i=0; i<orderitemList.size(); i++) {
+                        if (i >0) {
+                            View line = new View(HistoryOrdersActivity.this);
+                            line.setBackgroundColor(Color.rgb(193, 193, 193));
+                            tlOrderDetail.addView(line,new ViewGroup.LayoutParams( ViewGroup.LayoutParams.MATCH_PARENT, 2));
+                        }
+                        TableRow tableRow = new TableRow(HistoryOrdersActivity.this);
+                        //orderitemList.get(i);
+                        String [] textViews = {
+                                String.valueOf(orderitemList.get(i).getProd_id()),
+                                orderitemList.get(i).getItem_name(),
+                                String.valueOf(orderitemList.get(i).getItem_price()),
+                                String.valueOf(orderitemList.get(i).getItem_amount()),
+                                orderitemList.get(i).getItem_note()
+                        };
+                        for (int j=0; j<textViews.length; j++) {
+                            TextView textView = new TextView(HistoryOrdersActivity.this);
+                            textView.setText(textViews[j]);
+                            textView.setPadding(10, 0, 10, 0);
+                            tableRow.addView(textView, j);  //j是編號
+                        }
+                        tlOrderDetail.addView(tableRow);
+                    }
+
+                    new AlertDialog.Builder(HistoryOrdersActivity.this)
+                            .setView(viewDetail)
+                            .setPositiveButton(R.string.returnToHistory, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    //不做任何動作，單純結束此AlertDialog．
+                                }
+                            })
+                            .show();
                 }
             });
         }
-
     }
 }

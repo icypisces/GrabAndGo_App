@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginTop="5dp"
+    android:padding="10dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="6dp">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutOrder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/order_items_orange"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/buyerName"
+            style="@style/style_textView_itemViewOrders" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_textView_itemViewOrders"
+                android:text="@string/buyer_phone" />
+
+            <TextView
+                android:id="@+id/buyerPhone"
+                style="@style/style_textView_itemViewOrders_value" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/style_textView_itemViewOrders"
+                android:text="@string/buyer_picktime" />
+
+            <TextView
+                android:id="@+id/buyerPicktime"
+                style="@style/style_textView_itemViewOrders_value" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

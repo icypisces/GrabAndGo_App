@@ -4,25 +4,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    tools:context="com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity">
 
-    <include layout="@layout/toolbar_layout"
+    <include
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
+        android:background="#cecbcb"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tilSearch"
+            style="@style/style_textInputLayout_order">
+
+            <EditText
+                android:id="@+id/etSearch"
+                style="@style/style_editText_search"
+                android:hint="@string/orderSearchPhone"
+                android:inputType="text" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/btSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/button_orange"
+            android:onClick="onSearchClick"
+            android:paddingLeft="10dp"
+            android:text="@string/search" />
+
+    </LinearLayout>
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        app:tabTextAppearance="@style/TabTextStyle"
-        app:tabMode="fixed"
+        android:layout_height="wrap_content"
+        app:tabBackground="@drawable/tab_color_change"
         app:tabGravity="fill"
         app:tabIndicatorColor="#84343434"
         app:tabIndicatorHeight="10px"
+        app:tabMode="fixed"
         app:tabSelectedTextColor="#000000"
-        app:tabTextColor="#ffffff"
-        app:tabBackground="@drawable/tab_color_change" />
+        app:tabTextAppearance="@style/TabTextStyle"
+        app:tabTextColor="#ffffff" />
     <!--app:tabMode    -> MODE_FIXED : 固定並顯示所有Tab
                        -> MODE_SCROLLABLE : 可滾動並顯示一部分Tab
         app:tabGravity -> GRAVITY_CENTER : 居中

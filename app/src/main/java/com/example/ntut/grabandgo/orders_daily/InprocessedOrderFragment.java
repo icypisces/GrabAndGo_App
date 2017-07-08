@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import com.example.ntut.grabandgo.BaseFragment;
 import com.example.ntut.grabandgo.R;
 
-public class UnprocessedOrderFragment extends BaseFragment {
+public class InprocessedOrderFragment extends BaseFragment {
 
     private static final String TAG = "UnprocessedOrderFragment";
 
@@ -17,7 +17,7 @@ public class UnprocessedOrderFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.order_fragment_unprocessed,container,false);  //取得layout檔
+        View view = inflater.inflate(R.layout.order_fragment_inprocessed,container,false);  //取得layout檔
         return view;
     }
 

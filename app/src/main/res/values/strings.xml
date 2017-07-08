@@ -105,6 +105,7 @@
     <string name="itemAmount">數量</string>
     <string name="itemNote">備註</string>
     <string name="returnToHistory">返回到歷史訂單</string>
+    <string name="orderSearchPhone">請輸入手機號碼</string>
 
 
 </resources>

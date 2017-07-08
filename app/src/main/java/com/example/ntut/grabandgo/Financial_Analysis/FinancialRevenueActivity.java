@@ -95,7 +95,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
         ft1.commit();
 
         getOrderDataFromServlet("monthly");
-        //將自資料庫取得之資料送給RevenueDailyFragment
+        //將自資料庫取得之資料送給RevenueMonthlyFragment
         FragmentTransaction ft2 = manager.beginTransaction();
         Bundle bundle2 = new Bundle();
         bundle2.putSerializable("orderItemList", (Serializable) orderItemList);
@@ -104,7 +104,7 @@ public class FinancialRevenueActivity extends NavigationDrawerSetup{
         ft2.commit();
 
         getOrderDataFromServlet("yearly");
-        //將自資料庫取得之資料送給RevenueDailyFragment
+        //將自資料庫取得之資料送給RevenueYearlyFragment
         FragmentTransaction ft3 = manager.beginTransaction();
         Bundle bundle3 = new Bundle();
         bundle3.putSerializable("orderItemList", (Serializable) orderItemList);

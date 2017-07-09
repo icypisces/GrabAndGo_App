@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ntut.grabandgo.BaseFragment;
+import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity;
 import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
@@ -93,7 +95,7 @@ public class InprogressOrderFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             final Order order = orderList.get(position);
-            String orderStatus = "";
+//            String orderStatus = "";
 //******************須補判斷訂單日期為未來日期者*********************************************
 //            if (order.getOrd_pickuptime().before(now) ) {
 //                holder.linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
@@ -101,7 +103,7 @@ public class InprogressOrderFragment extends BaseFragment {
 //            } else if ((order.getOrd_status()).equals("fail")) {
 //                holder.tvOrderStatus.setHeight(0);
 //            }
-            holder.tvOrderStatus.setText(String.valueOf(order.getOrd_status()));
+//            holder.tvOrderStatus.setText(String.valueOf(order.getOrd_status()));
             holder.tvPickerName.setText(String.valueOf(order.getM_pickupname()));
             holder.tvPhone.setText(String.valueOf(order.getOrd_tel()));
             holder.tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));

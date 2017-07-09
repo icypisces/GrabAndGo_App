@@ -109,6 +109,9 @@
     <string name="backToPrevious">返 回 上 一 頁</string>
     <string name="subtotal">總價</string>
     <string name="overtime">Overtime</string>
+    <string name="total">Total</string>
+    <string name="cancelOrder">Cancel Order</string>
+    <string name="complete">Complete</string>
 
 
 </resources>

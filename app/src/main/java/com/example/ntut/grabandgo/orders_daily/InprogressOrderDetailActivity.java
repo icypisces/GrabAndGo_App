@@ -1,11 +1,16 @@
 package com.example.ntut.grabandgo.orders_daily;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
@@ -18,7 +23,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     private TextView tvOrderStatus, tvPickerName, tvTotalPrice, tvPhone,
             tvSoNumber, tvPicktime;
     private LinearLayout linearLayoutOrder;
-    private Button btBack;
+    private Button btBack, btCancel, btComplete;
     private TableLayout tlOrderDetail;
 
     private Order order = null;
@@ -50,6 +55,8 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         linearLayoutOrder = (LinearLayout) findViewById(R.id.linearLayoutOrder);
         btBack = (Button) findViewById(R.id.btBack);
         tlOrderDetail = (TableLayout) findViewById(R.id.tlOrderDetail);
+        btCancel = (Button) findViewById(R.id.btCancel);
+        btComplete = (Button) findViewById(R.id.btComplete);
     }
 
     private void setInformations(Order order) {
@@ -58,6 +65,73 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         tvPhone.setText(String.valueOf(order.getOrd_tel()));
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
+
+//        LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
+//
+//        if ((order.getOrd_status()).equals("paid")) {
+            tvOrderStatus.setHeight(0);
+//        } else if ((order.getOrd_status()).equals("fail")) {
+//            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+//        }
+
+        orderitemList = order.getItems();
+        int count = 0;
+        int totalPrice = 0;
+        for (int i = 0; i < orderitemList.size(); i++) {
+            if (i > 0) {
+                View line = new View(this);
+                line.setBackgroundColor(Color.rgb(193, 193, 193));
+                tlOrderDetail.addView(line, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
+            }
+            TableRow tableRow = new TableRow(this);
+            //orderitemList.get(i);
+            String[] textViews = {
+                    String.valueOf(orderitemList.get(i).getProd_id()),
+                    orderitemList.get(i).getItem_name(),
+                    String.valueOf(orderitemList.get(i).getItem_price()),
+                    String.valueOf(orderitemList.get(i).getItem_amount()),
+                    String.valueOf(orderitemList.get(i).getItem_price()*orderitemList.get(i).getItem_amount()),
+                    orderitemList.get(i).getItem_note()
+            };
+            for (int j = 0; j < textViews.length; j++) {
+                TextView textView = new TextView(this);
+                textView.setText(textViews[j]);
+                textView.setPadding(10, 0, 10, 0);
+                textView.setMaxWidth(80);
+                textView.setSingleLine(false);
+                tableRow.addView(textView, j);  //j是編號
+            }
+            tlOrderDetail.addView(tableRow);
+            count += orderitemList.get(i).getItem_amount();
+            totalPrice += (orderitemList.get(i).getItem_price()*orderitemList.get(i).getItem_amount());
+        }
+        //分隔線
+        View line = new View(this);
+        line.setBackgroundColor(Color.rgb(193, 193, 193));
+        tlOrderDetail.addView(line, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5));
+
+        TableRow tableRowLast = new TableRow(this);
+        String[] testViewsTotal = {getResources().getString(R.string.total), "", "", String.valueOf(count), String.valueOf(totalPrice), ""};
+        for (int j = 0; j < testViewsTotal.length; j++) {
+            TextView textView = new TextView(this);
+            textView.setText(testViewsTotal[j]);
+            textView.setPadding(10, 0, 10, 0);
+            textView.setMaxWidth(75);
+            textView.setSingleLine(false);
+            tableRowLast.addView(textView, j);  //j是編號
+        }
+        tlOrderDetail.addView(tableRowLast);
     }
 
+    public void onBackClick(View view) {
+        finish();
+    }
+
+    public void onCancelClick(View view) {
+        //取消訂單
+    }
+
+    public void onCompleteClick(View view) {
+        //訂單狀態轉完成
+    }
 }

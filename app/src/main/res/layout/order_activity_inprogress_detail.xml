@@ -12,140 +12,184 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/btBack"
-        android:text="@string/backToPrevious"
-        android:layout_width="match_parent"
-        android:layout_margin="5dp"
-        android:background="@drawable/button_blue"
-        style="@style/style_button"
-        android:onClick="onBackClick"/>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayoutOrder"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:padding="10dp"
-        android:orientation="vertical"
-        android:background="@drawable/order_items_orange">
-
-        <TextView
-            android:id="@+id/tvOrderStatus"
-            android:textStyle="bold"
-            android:textColor="#ff0000"
-            style="@style/style_textView_itemViewOrders_detail_top" />
-
-        <TextView
-            android:id="@+id/tvPickerName"
-            android:textSize="20dp"
-            style="@style/style_textView_itemViewOrders_detail_top" />
+        <Button
+            android:id="@+id/btBack"
+            style="@style/style_button"
+            android:layout_width="match_parent"
+            android:layout_alignParentTop="true"
+            android:layout_margin="5dp"
+            android:background="@drawable/button_blue"
+            android:onClick="onBackClick"
+            android:text="@string/backToPrevious" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/linearLayoutOrder"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@+id/btBack"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/order_items_orange"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
+                android:id="@+id/tvOrderStatus"
                 style="@style/style_textView_itemViewOrders_detail_top"
-                android:text="@string/soTotalPrice" />
+                android:textColor="#ff0000"
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvTotalPrice"
-                style="@style/style_textView_itemViewOrders_detail_top_value" />
+                android:id="@+id/tvPickerName"
+                style="@style/style_textView_itemViewOrders_detail_top"
+                android:textSize="20dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail_top"
+                    android:text="@string/soTotalPrice" />
+
+                <TextView
+                    android:id="@+id/tvTotalPrice"
+                    style="@style/style_textView_itemViewOrders_detail_top_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail_top"
+                    android:text="@string/buyer_phone" />
+
+                <TextView
+                    android:id="@+id/tvPhone"
+                    style="@style/style_textView_itemViewOrders_detail_top_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail_top"
+                    android:text="@string/soNumber" />
+
+                <TextView
+                    android:id="@+id/tvSoNumber"
+                    style="@style/style_textView_itemViewOrders_detail_top_value" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail_top"
+                    android:text="@string/buyer_picktime" />
+
+                <TextView
+                    android:id="@+id/tvPicktime"
+                    style="@style/style_textView_itemViewOrders_detail_top_value" />
+
+            </LinearLayout>
 
         </LinearLayout>
+
+        <TableLayout
+            android:id="@+id/tlOrderDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayoutOrder"
+            android:layout_margin="10dp"
+            android:shrinkColumns="4">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/prodId" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:layout_width="75dp"
+                    android:text="@string/itemName" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemPrice" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemAmount" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/subtotal" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:layout_width="80dp"
+                    android:text="@string/itemNote" />
+
+            </TableRow>
+
+            <View
+                android:layout_height="5px"
+                android:background="#ccc" />
+            <!-- 分割線 -->
+
+        </TableLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:gravity="center_horizontal">
 
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail_top"
-                android:text="@string/buyer_phone" />
+            <Button
+                android:id="@+id/btCancel"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_gray"
+                android:onClick="onCancelClick"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/cancelOrder"
+                android:textSize="22dp" />
 
-            <TextView
-                android:id="@+id/tvPhone"
-                style="@style/style_textView_itemViewOrders_detail_top_value" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail_top"
-                android:text="@string/soNumber" />
-
-            <TextView
-                android:id="@+id/tvSoNumber"
-                style="@style/style_textView_itemViewOrders_detail_top_value" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail_top"
-                android:text="@string/buyer_picktime" />
-
-            <TextView
-                android:id="@+id/tvPicktime"
-                style="@style/style_textView_itemViewOrders_detail_top_value" />
+            <Button
+                android:id="@+id/btComplete"
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:background="@drawable/button_orange"
+                android:onClick="onCompleteClick"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:text="@string/complete"
+                android:textSize="22dp" />
 
         </LinearLayout>
 
-    </LinearLayout>
-
-    <TableLayout
-        android:id="@+id/tlOrderDetail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:shrinkColumns="4" >
-
-        <TableRow>
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/prodId"/>
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemName"
-                android:layout_width="60dp" />
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemPrice"/>
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemAmount"/>
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/subtotal"/>
-
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemNote"
-                android:layout_width="60dp"/>
-
-        </TableRow>
-
-        <View
-            android:layout_height="5px"
-            android:background="#ccc"/>
-        <!-- 分割線 -->
-
-    </TableLayout>
-
+    </RelativeLayout>
 
 </LinearLayout>

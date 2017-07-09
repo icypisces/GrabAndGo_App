@@ -21,7 +21,7 @@
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/buyerName"
+            android:id="@+id/tvPickerName"
             style="@style/style_textView_itemViewOrders" />
 
         <LinearLayout
@@ -34,7 +34,7 @@
                 android:text="@string/buyer_phone" />
 
             <TextView
-                android:id="@+id/buyerPhone"
+                android:id="@+id/tvPhone"
                 style="@style/style_textView_itemViewOrders_value" />
 
         </LinearLayout>
@@ -50,7 +50,7 @@
                 android:text="@string/buyer_picktime" />
 
             <TextView
-                android:id="@+id/buyerPicktime"
+                android:id="@+id/tvPicktime"
                 style="@style/style_textView_itemViewOrders_value" />
 
         </LinearLayout>

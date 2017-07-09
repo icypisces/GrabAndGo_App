@@ -41,7 +41,6 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/button_orange"
             android:onClick="onSearchClick"
-            android:paddingLeft="10dp"
             android:text="@string/search" />
 
     </LinearLayout>

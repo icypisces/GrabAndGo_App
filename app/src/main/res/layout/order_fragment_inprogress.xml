@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ntut.grabandgo.orders_daily.InprocessedOrderFragment"
+    tools:context="com.example.ntut.grabandgo.orders_daily.InprogressOrderFragment"
     android:orientation="vertical"
     android:background="#c7c7c7" >
 
     <Button
-        android:id="@+id/items"
+        android:id="@+id/btItems"
         android:text="@string/items"
         android:layout_width="match_parent"
         android:layout_margin="5dp"

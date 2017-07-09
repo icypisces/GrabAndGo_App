@@ -84,11 +84,12 @@
     <style name="style_textView_itemViewOrders">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="style_textView_itemViewOrders_value" parent="style_textView_itemViewOrders">
         <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
     <style name="style_textView_itemViewOrders_detail_top" parent="style_textView_itemViewOrders">

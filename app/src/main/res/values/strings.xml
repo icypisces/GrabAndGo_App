@@ -12,7 +12,7 @@
     <string name="logout">Sign Off</string>
     <string name="profile">Profile</string>
     <string name="DailyOrders">Daily Orders</string>
-    <string name="unprocessed">Unprocessed</string>
+    <string name="unprocessed">Inprogress</string>
     <string name="completed">Completed</string>
     <string name="paid">Paid</string>
     <string name="historyOrders">History Orders</string>
@@ -106,6 +106,9 @@
     <string name="itemNote">備註</string>
     <string name="returnToHistory">返回到歷史訂單</string>
     <string name="orderSearchPhone">請輸入手機號碼</string>
+    <string name="backToPrevious">返 回 上 一 頁</string>
+    <string name="subtotal">總價</string>
+    <string name="overtime">Overtime</string>
 
 
 </resources>

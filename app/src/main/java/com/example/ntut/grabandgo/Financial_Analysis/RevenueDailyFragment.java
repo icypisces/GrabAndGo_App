@@ -144,7 +144,7 @@ public class RevenueDailyFragment extends BaseFragment {
         pieChart.setDescription("");
 
         pieChart.setDrawCenterText(true);                       //圓餅圖中間放置文字
-        pieChart.setCenterText(getText(R.string.revenueDaily)); //圓餅圖中間的文字
+        pieChart.setCenterText(getText(R.string.revenueDaily));               //圓餅圖中間的文字
         pieChart.setCenterTextSize(12f);
 
         pieChart.setDrawHoleEnabled(true);
@@ -208,6 +208,12 @@ public class RevenueDailyFragment extends BaseFragment {
         colors.add(Color.rgb(252, 153, 120));
         colors.add(Color.rgb(252, 174, 58));
         colors.add(Color.rgb(184, 121, 252));
+        colors.add(Color.rgb(240, 136, 252));
+        colors.add(Color.rgb(252, 153, 120));
+        colors.add(Color.rgb(240, 100, 252));
+        colors.add(Color.rgb(230, 153, 120));
+        colors.add(Color.rgb(240, 136, 200));
+        colors.add(Color.rgb(252, 100, 120));
 
 
         pieDataSet.setColors(colors);

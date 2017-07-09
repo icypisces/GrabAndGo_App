@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,8 +47,8 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
     private SharedPreferences sharedPreferencesLogin = null;
     private String rest_id;
 
-    List<Order> orderList = null;
-    List<OrderItem> orderitemList = null;
+    private List<Order> orderList = null;
+    private List<OrderItem> orderitemList = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -252,6 +253,8 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
                             TextView textView = new TextView(HistoryOrdersActivity.this);
                             textView.setText(textViews[j]);
                             textView.setPadding(10, 0, 10, 0);
+                            textView.setMaxWidth(60);
+                            textView.setSingleLine(false);
                             tableRow.addView(textView, j);  //j是編號
                         }
                         tlOrderDetail.addView(tableRow);

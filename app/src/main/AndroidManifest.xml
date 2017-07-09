@@ -50,6 +50,7 @@
         <activity
             android:name=".Financial_Analysis.FinancialSalesChartsActivity"
             android:label="@string/financialSalesCharts" />
+        <activity android:name=".orders_daily.InprogressOrderDetailActivity"></activity>
     </application>
 
 </manifest>

@@ -80,7 +80,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
 //--------------------------------------連結Fragment--------------------------------------------
 
     private void setViewPager() {
-        InprocessedOrderFragment fragment1 = new InprocessedOrderFragment();
+        InprogressOrderFragment fragment1 = new InprogressOrderFragment();
         CompletedOrderFragment fragment2 = new CompletedOrderFragment();
         PaidOrderFragment fragment3 = new PaidOrderFragment();
 
@@ -137,7 +137,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
         if (id == 1) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.viewPaper, new InprocessedOrderFragment())
+                    .replace(R.id.viewPaper, new InprogressOrderFragment())
                     .addToBackStack(null)//按下返回鍵會回到上一個Fragment
                     .commit();
             viewPaper.setCurrentItem(0);

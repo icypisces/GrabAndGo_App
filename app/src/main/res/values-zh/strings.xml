@@ -100,6 +100,9 @@
     <string name="itemNote">備註</string>
     <string name="returnToHistory">返回到歷史訂單</string>
     <string name="orderSearchPhone">請輸入手機號碼</string>
+    <string name="backToPrevious">返 回 上 一 頁</string>
+    <string name="subtotal">總價</string>
+    <string name="overtime">Overtime</string>
 
 
 </resources>

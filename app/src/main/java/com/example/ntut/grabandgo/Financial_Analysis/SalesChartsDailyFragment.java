@@ -105,16 +105,17 @@ public class SalesChartsDailyFragment extends BaseFragment {
     }
 
     private Object[] getDateData(List<OrderItem> orderItemList){
-        List<OrderItem> salesChartsListMonthly = new ArrayList<>();
+        List<OrderItem> salesChartsListDaily = new ArrayList<>();
         selectDate = (String) tvDate.getText();
         for (int i = 0; i < orderItemList.size(); i++) {
             String orderMonth = orderItemList.get(i).getItem_note();
             if ( orderMonth.equals(selectDate)) {
-                salesChartsListMonthly.add(orderItemList.get(i));
+                salesChartsListDaily.add(orderItemList.get(i));
             }
         }
-        int size = salesChartsListMonthly.size();
+        int size = salesChartsListDaily.size();
         limitCount = Integer.parseInt(etLimitCount.getText().toString());
+        String[] xData = new String[size];
         float[] yData = new float[size];                                    //銷售金額
         if ( limitCount == 0 && size > 0 ) {                    //如果輸入的顯示個數為0但銷售商品項目不為0
             limitCount = Math.min(limitCount_default, size);    //將顯示個數設定為 " 銷售商品項目和預設顯示個數的較小值 "
@@ -128,9 +129,10 @@ public class SalesChartsDailyFragment extends BaseFragment {
         }
         etLimitCount.setText(String.valueOf(showCount));
         for (int i = 0; i < showCount; i++) {
-            yData[i] = salesChartsListMonthly.get(i).getItem_price();       //該商品當月收入
+            xData[i] = salesChartsListDaily.get(i).getItem_name();        //商品名稱
+            yData[i] = salesChartsListDaily.get(i).getItem_price();       //該商品當日收入
         }
-        Object[] dateData = {yData, showCount, selectDate};
+        Object[] dateData = {yData, showCount, selectDate, xData};
         return dateData;
     }
 
@@ -141,13 +143,15 @@ public class SalesChartsDailyFragment extends BaseFragment {
         XAxis xAxis = dailyHorizontalBarChart.getXAxis();
         xAxis.setEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);          // X軸位置...左方
+        xAxis.setLabelRotationAngle(20);                        // x軸Label傾斜30度
 
         if ((int)dateData[1] != 0) {
             tvNoData.setVisibility(View.GONE);
             dailyHorizontalBarChart.setVisibility(View.VISIBLE);
             try {
                 dailyHorizontalBarChart.setData(getHorizontalBarData(
-                        (float[])dateData[0], (int)dateData[1], (String) dateData[2]));    //( 金額 , 顯示排行數量, selectMonth )
+                        (float[])dateData[0], (int)dateData[1], (String) dateData[2],
+                        (String[])dateData[3]));    //( 金額 , 顯示排行數量, selectMonth , 商品名)
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -161,16 +165,17 @@ public class SalesChartsDailyFragment extends BaseFragment {
     }
 
     /* 將 DataSet 資料整理好後，回傳 HorizontalBarChart */
-    private BarData getHorizontalBarData(float[] yData, int showCount, String selectMonth) throws ParseException {
+    private BarData getHorizontalBarData(float[] yData, int showCount, String selectMonth, String[] xData) throws ParseException {
         // BarDataSet(List<Entry> 資料點集合, String 類別名稱)
         BarDataSet dataSet = new BarDataSet( getChartData(showCount, yData), selectMonth);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
+        dataSet.setValueTextSize(16);
 
         List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);
 
         // BarData(List<String> Xvals座標標籤, List<Dataset> 資料集)
-        BarData data = new BarData(getLabels(showCount), dataSets);
+        BarData data = new BarData(getLabels(showCount, xData), dataSets);
 
         return data;
     }
@@ -186,10 +191,10 @@ public class SalesChartsDailyFragment extends BaseFragment {
     }
 
     /* 取得 XVals Labels 給 BarData */
-    private List<String> getLabels(int count){
+    private List<String> getLabels(int count, String[] xData){
         List<String> chartLabels = new ArrayList<>();
         for(int i=0;i<count;i++) {
-            chartLabels.add((count-i) + "");
+            chartLabels.add("No." + (count-i) + " - " + xData[(count-i-1)]);
         }
         return chartLabels;
     }

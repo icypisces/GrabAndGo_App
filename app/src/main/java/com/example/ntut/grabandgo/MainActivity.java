@@ -11,14 +11,11 @@ import android.widget.Button;
 
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
-import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
 import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 public class MainActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppIdCheckServlet";
@@ -105,7 +102,7 @@ public class MainActivity extends NavigationDrawerSetup {
                     JsonObject.class);
             String message = joResult.get("loginCheckMessage").getAsString();
 
-            return message;       //回傳List<String>予onPostExecute()
+            return message;       //回傳String予onPostExecute()
         }
 
 //        @Override

@@ -77,6 +77,10 @@
     <string name="editEnd">Save</string>
     <string name="confirmPass">Confirm Password</string>
     <string name="editCancel">Cancel</string>
+    <!-- Sing Out -->
+    <string name="messageLogout">Do you really want to exit?</string>
+    <string name="text_btYes">Yes</string>
+    <string name="text_btNo">No</string>
     <!-- Revenue -->
     <string name="selectDate">Select Date</string>
     <string name="noRevenueData">您選擇之日期無收入</string>
@@ -116,6 +120,7 @@
     <string name="orderCancelFail">訂單取消發生錯誤，請重新操作．</string>
     <string name="orderTurnToCompleteOK">您已順利將此筆訂單轉為已完成狀態</string>
     <string name="orderStatusChangeFail">訂單狀態轉換發生錯誤，請重新操作．</string>
+
 
 
 </resources>

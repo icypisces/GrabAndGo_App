@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ntut.grabandgo.BaseFragment;
-import com.example.ntut.grabandgo.Common;
-import com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity;
 import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 
-import java.sql.Timestamp;
-import java.util.Date;
 import java.util.List;
 
 public class InprogressOrderFragment extends BaseFragment {
 
-    private static final String TAG = "UnprocessedOrderFragment";
+    private static final String TAG = "InprogressOrderFragment";
     private RecyclerView recyclerView;
 
     private List<Order> orderList = null;
@@ -88,7 +83,7 @@ public class InprogressOrderFragment extends BaseFragment {
         public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(context);
             View itemView = layoutInflater.inflate(
-                    R.layout.order_item_view_inprogress, parent, false);
+                    R.layout.order_item_view, parent, false);
             return new OrderAdapter.MyViewHolder(itemView);
         }
 

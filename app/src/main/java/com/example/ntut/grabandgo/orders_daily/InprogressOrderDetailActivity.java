@@ -1,7 +1,9 @@
 package com.example.ntut.grabandgo.orders_daily;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,7 +12,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import com.example.ntut.grabandgo.HistoryOrders.HistoryOrdersActivity;
+import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
@@ -19,6 +21,8 @@ import com.example.ntut.grabandgo.R;
 import java.util.List;
 
 public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
+    private String ServletName = "/AppStoreOrderChange";
+    private final static String TAG = "InprogressOrderDetailActivity";
 
     private TextView tvOrderStatus, tvPickerName, tvTotalPrice, tvPhone,
             tvSoNumber, tvPicktime;
@@ -28,6 +32,8 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
 
     private Order order = null;
     private List<OrderItem> orderitemList = null;
+
+    private String changeResult, url, ordId, param;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +103,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
                 TextView textView = new TextView(this);
                 textView.setText(textViews[j]);
                 textView.setPadding(10, 0, 10, 0);
-                textView.setMaxWidth(80);
+                textView.setMaxWidth(70);
                 textView.setSingleLine(false);
                 tableRow.addView(textView, j);  //j是編號
             }
@@ -121,6 +127,9 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
             tableRowLast.addView(textView, j);  //j是編號
         }
         tlOrderDetail.addView(tableRowLast);
+
+        url = Common.URL + ServletName;
+        ordId = tvSoNumber.getText().toString();
     }
 
     public void onBackClick(View view) {
@@ -128,10 +137,48 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     }
 
     public void onCancelClick(View view) {
-        //取消訂單
+        if (Common.networkConnected(this)) {
+            param = "Cancel";
+            try {
+                changeResult = new DailyOrderChangeTask().execute(url, ordId, param).get();
+                Log.e(TAG, changeResult.toString());
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(this, R.string.msg_NoNetwork);
+        }
+        if ("ok".equals(changeResult)) {
+            Common.showToast(this,R.string.orderCancelOK);
+        } else if ("fail".equals(changeResult)) {
+            Common.showToast(this,R.string.orderCancelFail);
+        }
+        Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
+        intent.putExtra("id", 1);
+        startActivity(intent);
+        finish();
     }
 
     public void onCompleteClick(View view) {
-        //訂單狀態轉完成
+        if (Common.networkConnected(this)) {
+            param = "toComplete";
+            try {
+                changeResult = new DailyOrderChangeTask().execute(url, ordId, param).get();
+                Log.e(TAG, changeResult.toString());
+            } catch (Exception e) {
+                Log.e(TAG, e.toString());
+            }
+        } else {
+            Common.showToast(this, R.string.msg_NoNetwork);
+        }
+        if ("ok".equals(changeResult)) {
+            Common.showToast(this,R.string.orderTurnToCompleteOK);
+        } else if ("fail".equals(changeResult)) {
+            Common.showToast(this,R.string.orderStatusChangeFail);
+        }
+        Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
+        intent.putExtra("id", 1);
+        startActivity(intent);
+        finish();
     }
 }

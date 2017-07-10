@@ -106,6 +106,10 @@
     <string name="total">總計</string>
     <string name="cancelOrder">取消訂單</string>
     <string name="complete">完成</string>
+    <string name="orderCancelOK">您已順利取消此筆訂單</string>
+    <string name="orderCancelFail">訂單取消發生錯誤，請重新操作．</string>
+    <string name="orderTurnToCompleteOK">您已順利將此筆訂單轉為已完成狀態</string>
+    <string name="orderStatusChangeFail">訂單狀態轉換發生錯誤，請重新操作．</string>
 
 
 </resources>

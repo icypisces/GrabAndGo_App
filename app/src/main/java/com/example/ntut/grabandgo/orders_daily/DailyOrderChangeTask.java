@@ -5,7 +5,6 @@ import android.util.Log;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.Order;
-import com.example.ntut.grabandgo.OrderItem;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
@@ -14,23 +13,19 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.List;
 
-//取得今日訂單(含未來訂單)
-class DailyOrderGetTask extends AsyncTask<String, Void, List<Order>> {
-    private static final String TAG = "DailyOrderGetTask";
+//今日訂單的相關修改
+class DailyOrderChangeTask extends AsyncTask<String, Void, String> {
+    private static final String TAG = "DailyOrderChangeTask";
 
     @Override
-    protected List<Order> doInBackground(String... params) {
+    protected String doInBackground(String... params) {
         String url = params[0];
-        String rest_id = params[1];
-        String status = params[2];
-        String param = params[3];
-//        String customer = params[4];
+        String ord_id = params[1];
+        String param = params[2];
         String jsonIn;
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("param", param);
-        jsonObject.addProperty("rest_id", rest_id);
-        jsonObject.addProperty("status", status);
-//        jsonObject.addProperty("customer", customer);
+        jsonObject.addProperty("ord_id", ord_id);
         try {
             jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
         } catch (IOException e) {
@@ -39,10 +34,11 @@ class DailyOrderGetTask extends AsyncTask<String, Void, List<Order>> {
         }
 
         Gson gson = new Gson();
-        Type list = new TypeToken<List<Order>>() {
-        }.getType();
-        Log.e(TAG, "list = " + list);
+        JsonObject joResult = gson.fromJson(jsonIn.toString(),
+                JsonObject.class);
+        String changeResult = joResult.get("changeResult").getAsString();
+        Log.e(TAG, "changeResult = " + changeResult);
 
-        return gson.fromJson(jsonIn, list);
+        return changeResult;
     }
 }

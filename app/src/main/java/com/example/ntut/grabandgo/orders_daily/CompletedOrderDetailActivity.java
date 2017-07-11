@@ -2,6 +2,7 @@ package com.example.ntut.grabandgo.orders_daily;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,14 +21,14 @@ import com.example.ntut.grabandgo.R;
 
 import java.util.List;
 
-public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
+public class CompletedOrderDetailActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreOrderChange";
-    private final static String TAG = "InprogressOrderDetailActivity";
+    private final static String TAG = "CompletedOrderDetailActivity";
 
     private TextView tvOrderStatus, tvPickerName, tvTotalPrice, tvPhone,
             tvSoNumber, tvPicktime;
     private LinearLayout linearLayoutOrder;
-    private Button btBack, btCancel, btComplete;
+    private Button btBack, btCancel, btPaid;
     private TableLayout tlOrderDetail;
 
     private Order order = null;
@@ -38,11 +39,11 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_activity_inprogress_detail);
+        setContentView(R.layout.order_activity_competed_detail);
         setUpToolBar();
         findViews();
 
-        //取得從InprogressOrderFragment送來的資料
+        //取得從CompletedOrderFragment送來的資料
         Bundle bundle = getIntent().getExtras();
         Order order = (Order) bundle.getSerializable("order");
 
@@ -60,7 +61,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         btBack = (Button) findViewById(R.id.btBack);
         tlOrderDetail = (TableLayout) findViewById(R.id.tlOrderDetail);
         btCancel = (Button) findViewById(R.id.btCancel);
-        btComplete = (Button) findViewById(R.id.btComplete);
+        btPaid = (Button) findViewById(R.id.btPaid);
     }
 
     private void setInformations(Order order) {
@@ -73,7 +74,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
 //        LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
 //
 //        if ((order.getOrd_status()).equals("paid")) {
-            tvOrderStatus.setHeight(0);
+        tvOrderStatus.setHeight(0);
 //        } else if ((order.getOrd_status()).equals("fail")) {
 //            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
 //        }
@@ -151,15 +152,15 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         } else if ("fail".equals(changeResult)) {
             Common.showToast(this,R.string.orderCancelFail);
         }
-        Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
-        intent.putExtra("id", 1);
+        Intent intent = new Intent(CompletedOrderDetailActivity.this,DailyOrdersActivity.class);
+        intent.putExtra("id", 2);
         startActivity(intent);
         finish();
     }
 
-    public void onCompleteClick(View view) {
+    public void onPaidClick(View view) {
         if (Common.networkConnected(this)) {
-            param = "toComplete";
+            param = "toPaid";
             try {
                 changeResult = new DailyOrderChangeTask().execute(url, ordId, param).get();
                 Log.e(TAG, changeResult.toString());
@@ -170,12 +171,12 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
             Common.showToast(this, R.string.msg_NoNetwork);
         }
         if ("ok".equals(changeResult)) {
-            Common.showToast(this,R.string.orderTurnToCompleteOK);
+            Common.showToast(this,R.string.orderTurnToPaidOK);
         } else if ("fail".equals(changeResult)) {
             Common.showToast(this,R.string.orderStatusChangeFail);
         }
-        Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
-        intent.putExtra("id", 1);
+        Intent intent = new Intent(CompletedOrderDetailActivity.this,DailyOrdersActivity.class);
+        intent.putExtra("id", 2);
         startActivity(intent);
         finish();
     }

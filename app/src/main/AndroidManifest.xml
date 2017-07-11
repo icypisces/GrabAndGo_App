@@ -50,7 +50,15 @@
         <activity
             android:name=".Financial_Analysis.FinancialSalesChartsActivity"
             android:label="@string/financialSalesCharts" />
-        <activity android:name=".orders_daily.InprogressOrderDetailActivity"></activity>
+        <activity
+            android:name=".orders_daily.InprogressOrderDetailActivity"
+            android:label="@string/inprogressOrderDetail" />
+        <activity
+            android:name=".orders_daily.CompletedOrderDetailActivity"
+            android:label="@string/completedOrderDetail" />
+        <activity
+            android:name=".orders_daily.PaidOrderDetailActivity"
+            android:label="@string/paidOrderDetail" />
     </application>
 
 </manifest>

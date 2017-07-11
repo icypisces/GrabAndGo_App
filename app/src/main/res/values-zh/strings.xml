@@ -114,7 +114,12 @@
     <string name="orderCancelFail">訂單取消發生錯誤，請重新操作．</string>
     <string name="orderTurnToCompleteOK">您已順利將此筆訂單轉為已完成狀態</string>
     <string name="orderStatusChangeFail">訂單狀態轉換發生錯誤，請重新操作．</string>
-
+    <string name="toComplete">Complete</string>
+    <string name="toPaid">Paid</string>
+    <string name="orderTurnToPaidOK">您已順利將此筆訂單轉為已結帳狀態</string>
+    <string name="inprogressOrderDetail">Order Detail (Inprogress)</string>
+    <string name="completedOrderDetail">Order Detail (Completed)</string>
+    <string name="paidOrderDetail">Order Detail (Paid)</string>
 
 
 </resources>

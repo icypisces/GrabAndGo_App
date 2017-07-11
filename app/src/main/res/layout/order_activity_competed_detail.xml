@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.ntut.grabandgo.orders_daily.InprogressOrderDetailActivity">
+    tools:context="com.example.ntut.grabandgo.orders_daily.CompletedOrderDetailActivity">
 
     <include
         layout="@layout/toolbar_layout"
@@ -176,20 +176,21 @@
                 android:textSize="22dp" />
 
             <Button
-                android:id="@+id/btComplete"
+                android:id="@+id/btPaid"
                 android:layout_width="150dp"
                 android:layout_height="60dp"
                 android:layout_gravity="center"
                 android:layout_margin="10dp"
                 android:background="@drawable/button_orange"
-                android:onClick="onCompleteClick"
+                android:onClick="onPaidClick"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
-                android:text="@string/toComplete"
+                android:text="@string/toPaid"
                 android:textSize="22dp" />
 
         </LinearLayout>
 
     </RelativeLayout>
+
 
 </LinearLayout>

@@ -107,7 +107,7 @@ public class CompletedOrderFragment extends Fragment {
 
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getActivity(),InprogressOrderDetailActivity.class);
+                    Intent intent = new Intent(getActivity(),CompletedOrderDetailActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("order",order);
                     intent.putExtras(bundle);

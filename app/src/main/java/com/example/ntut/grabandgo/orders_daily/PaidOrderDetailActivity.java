@@ -2,6 +2,7 @@ package com.example.ntut.grabandgo.orders_daily;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,14 +21,14 @@ import com.example.ntut.grabandgo.R;
 
 import java.util.List;
 
-public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
+public class PaidOrderDetailActivity extends NavigationDrawerSetup {
     private String ServletName = "/AppStoreOrderChange";
-    private final static String TAG = "InprogressOrderDetailActivity";
+    private final static String TAG = "PaidOrderDetailActivity";
 
     private TextView tvOrderStatus, tvPickerName, tvTotalPrice, tvPhone,
             tvSoNumber, tvPicktime;
     private LinearLayout linearLayoutOrder;
-    private Button btBack, btCancel, btComplete;
+    private Button btBack;
     private TableLayout tlOrderDetail;
 
     private Order order = null;
@@ -38,11 +39,11 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_activity_inprogress_detail);
+        setContentView(R.layout.order_activity_paid_detail);
         setUpToolBar();
         findViews();
 
-        //取得從InprogressOrderFragment送來的資料
+        //取得從PaidOrderFragment送來的資料
         Bundle bundle = getIntent().getExtras();
         Order order = (Order) bundle.getSerializable("order");
 
@@ -59,8 +60,6 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         linearLayoutOrder = (LinearLayout) findViewById(R.id.linearLayoutOrder);
         btBack = (Button) findViewById(R.id.btBack);
         tlOrderDetail = (TableLayout) findViewById(R.id.tlOrderDetail);
-        btCancel = (Button) findViewById(R.id.btCancel);
-        btComplete = (Button) findViewById(R.id.btComplete);
     }
 
     private void setInformations(Order order) {
@@ -73,7 +72,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
 //        LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
 //
 //        if ((order.getOrd_status()).equals("paid")) {
-            tvOrderStatus.setHeight(0);
+        tvOrderStatus.setHeight(0);
 //        } else if ((order.getOrd_status()).equals("fail")) {
 //            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
 //        }
@@ -94,7 +93,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
                     orderitemList.get(i).getItem_name(),
                     String.valueOf(orderitemList.get(i).getItem_price()),
                     String.valueOf(orderitemList.get(i).getItem_amount()),
-                    String.valueOf(orderitemList.get(i).getItem_price()*orderitemList.get(i).getItem_amount()),
+                    String.valueOf(orderitemList.get(i).getItem_price() * orderitemList.get(i).getItem_amount()),
                     orderitemList.get(i).getItem_note()
             };
             for (int j = 0; j < textViews.length; j++) {
@@ -107,7 +106,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
             }
             tlOrderDetail.addView(tableRow);
             count += orderitemList.get(i).getItem_amount();
-            totalPrice += (orderitemList.get(i).getItem_price()*orderitemList.get(i).getItem_amount());
+            totalPrice += (orderitemList.get(i).getItem_price() * orderitemList.get(i).getItem_amount());
         }
         //分隔線
         View line = new View(this);
@@ -131,52 +130,6 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     }
 
     public void onBackClick(View view) {
-        finish();
-    }
-
-    public void onCancelClick(View view) {
-        if (Common.networkConnected(this)) {
-            param = "Cancel";
-            try {
-                changeResult = new DailyOrderChangeTask().execute(url, ordId, param).get();
-                Log.e(TAG, changeResult.toString());
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        } else {
-            Common.showToast(this, R.string.msg_NoNetwork);
-        }
-        if ("ok".equals(changeResult)) {
-            Common.showToast(this,R.string.orderCancelOK);
-        } else if ("fail".equals(changeResult)) {
-            Common.showToast(this,R.string.orderCancelFail);
-        }
-        Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
-        intent.putExtra("id", 1);
-        startActivity(intent);
-        finish();
-    }
-
-    public void onCompleteClick(View view) {
-        if (Common.networkConnected(this)) {
-            param = "toComplete";
-            try {
-                changeResult = new DailyOrderChangeTask().execute(url, ordId, param).get();
-                Log.e(TAG, changeResult.toString());
-            } catch (Exception e) {
-                Log.e(TAG, e.toString());
-            }
-        } else {
-            Common.showToast(this, R.string.msg_NoNetwork);
-        }
-        if ("ok".equals(changeResult)) {
-            Common.showToast(this,R.string.orderTurnToCompleteOK);
-        } else if ("fail".equals(changeResult)) {
-            Common.showToast(this,R.string.orderStatusChangeFail);
-        }
-        Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
-        intent.putExtra("id", 1);
-        startActivity(intent);
         finish();
     }
 }

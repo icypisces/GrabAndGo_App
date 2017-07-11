@@ -18,7 +18,9 @@
         android:background="#cecbcb"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
 
 
         <android.support.design.widget.TextInputLayout

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.ntut.grabandgo.orders_daily.InprogressOrderItemSummaryActivity"
+    android:orientation="vertical">
+
+    <include
+        layout="@layout/toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:id="@+id/btBack"
+        android:onClick="onBackClick"
+        android:text="@string/backToPrevious"
+        style="@style/style_button_order_detail_back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TableLayout
+            android:id="@+id/tlOrderDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayoutOrder"
+            android:layout_margin="10dp"
+            android:shrinkColumns="4">
+
+            <TableRow>
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/prodId" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:layout_width="70dp"
+                    android:text="@string/itemName" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/ordId" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/pickuptime" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemAmount" />
+
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:layout_width="70dp"
+                    android:text="@string/itemNote" />
+
+            </TableRow>
+
+            <View
+                android:layout_height="5px"
+                android:background="#ccc" />
+            <!-- 分割線 -->
+
+        </TableLayout>
+
+    </ScrollView>
+
+</LinearLayout>

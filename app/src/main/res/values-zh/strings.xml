@@ -119,6 +119,8 @@
     <string name="inprogressOrderDetail">Order Detail (Inprogress)</string>
     <string name="completedOrderDetail">Order Detail (Completed)</string>
     <string name="paidOrderDetail">Order Detail (Paid)</string>
+    <string name="ordId">訂單</string>
+    <string name="pickuptime">取餐時間</string>
 
 
 </resources>

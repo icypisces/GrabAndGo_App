@@ -18,6 +18,7 @@ import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class InprogressOrderFragment extends BaseFragment {
@@ -126,16 +127,15 @@ public class InprogressOrderFragment extends BaseFragment {
 
             @Override
             public void onClick(View view) {
-                for (int i=0; i<orderList.size(); i++) {
-                    Order order = orderList.get(i);
-                    orderitemList = order.getItems();
-                    for (int j=0; j<orderitemList.size(); j++) {
-
-                    }
-                }
+                Intent intent = new Intent(getActivity(),InprogressOrderItemSummaryActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("orderList", (Serializable) orderList);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
+
 
     @Override
     protected void lazyLoad() {

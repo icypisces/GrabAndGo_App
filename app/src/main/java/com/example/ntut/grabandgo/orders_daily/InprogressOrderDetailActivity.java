@@ -88,14 +88,17 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
                 tlOrderDetail.addView(line, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
             }
             TableRow tableRow = new TableRow(this);
-            //orderitemList.get(i);
+            String note = orderitemList.get(i).getItem_note();
+            if ( note == null || note.trim().length() == 0 ) {
+                note = "";
+            }
             String[] textViews = {
                     String.valueOf(orderitemList.get(i).getProd_id()),
                     orderitemList.get(i).getItem_name(),
                     String.valueOf(orderitemList.get(i).getItem_price()),
                     String.valueOf(orderitemList.get(i).getItem_amount()),
                     String.valueOf(orderitemList.get(i).getItem_price()*orderitemList.get(i).getItem_amount()),
-                    orderitemList.get(i).getItem_note()
+                    note
             };
             for (int j = 0; j < textViews.length; j++) {
                 TextView textView = new TextView(this);

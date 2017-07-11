@@ -59,9 +59,8 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         setSpinners();
         getRestaurantName();
         getOrderDataFromServlet();
-
         rvHistoryOrders.setLayoutManager(
-                new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+                new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
         rvHistoryOrders.setAdapter(new OrderAdapter(this, orderList));
     }
 

@@ -39,7 +39,7 @@
                     <EditText
                         android:id="@+id/etSearch"
                         style="@style/style_editText_search"
-                        android:hint="@string/orderSearchHistory"
+                        android:hint="@string/orderSearchPhone"
                         android:inputType="text" />
 
                 </android.support.design.widget.TextInputLayout>

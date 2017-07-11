@@ -117,11 +117,11 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
         String url = Common.URL + ServletName ;
         String selectMonth = spYearSelect.getSelectedItem().toString().trim() + "-"
                 + spMonthSelect.getSelectedItem().toString().trim();
-        String customer = etSearch.getText().toString();
+        String searchPhone = etSearch.getText().toString();
         //取得歷史訂單
         if (Common.networkConnected(HistoryOrdersActivity.this)) {
             try {
-                orderList = new HistoryOrderGetTask().execute(url, rest_id, selectMonth, customer).get();
+                orderList = new HistoryOrderGetTask().execute(url, rest_id, selectMonth, searchPhone).get();
                 Log.e(TAG, orderList.toString());
             } catch (Exception e) {
                 Log.e(TAG, e.toString());

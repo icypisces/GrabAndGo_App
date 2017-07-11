@@ -22,13 +22,13 @@ class HistoryOrderGetTask extends AsyncTask<String, Void, List<Order>> {
         String url = params[0];
         String rest_id = params[1];
         String selectMonth = params[2];
-        String customer = params[3];
+        String searchPhone = params[3];
         String jsonIn;
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("param", "HistoryOrder");
         jsonObject.addProperty("rest_id", rest_id);
         jsonObject.addProperty("selectMonth", selectMonth);
-        jsonObject.addProperty("customer", customer);
+        jsonObject.addProperty("searchPhone", searchPhone);
         try {
             jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
         } catch (IOException e) {

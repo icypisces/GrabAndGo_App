@@ -102,7 +102,6 @@
     <string name="buyer_orderTime">Order Time : </string>
     <string name="search">Search</string>
     <string name="orderSearch">請輸入手機號碼</string>
-    <string name="orderSearchHistory">請輸入顧客姓名</string>
     <string name="prodId">產品編號</string>
     <string name="itemName">產品名稱</string>
     <string name="itemPrice">單價</string>

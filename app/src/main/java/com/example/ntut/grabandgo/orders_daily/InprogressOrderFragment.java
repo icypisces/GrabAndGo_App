@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class InprogressOrderFragment extends BaseFragment {
 
     private static final String TAG = "InprogressOrderFragment";
     private RecyclerView recyclerView;
+    private Button btItems;
 
     private List<Order> orderList = null;
     private List<OrderItem> orderitemList = null;
@@ -47,6 +49,7 @@ public class InprogressOrderFragment extends BaseFragment {
 
     private void findViews(View view) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        btItems = (Button) view.findViewById(R.id.btItems);
     }
 
 //-------------------------------------RecyclerView.Adapter-----------------------------------------
@@ -114,6 +117,24 @@ public class InprogressOrderFragment extends BaseFragment {
                 }
             });
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        btItems.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                for (int i=0; i<orderList.size(); i++) {
+                    Order order = orderList.get(i);
+                    orderitemList = order.getItems();
+                    for (int j=0; j<orderitemList.size(); j++) {
+
+                    }
+                }
+            }
+        });
     }
 
     @Override

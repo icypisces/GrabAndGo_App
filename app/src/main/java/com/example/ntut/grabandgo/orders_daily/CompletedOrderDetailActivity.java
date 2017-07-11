@@ -19,6 +19,7 @@ import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public class CompletedOrderDetailActivity extends NavigationDrawerSetup {
@@ -71,14 +72,15 @@ public class CompletedOrderDetailActivity extends NavigationDrawerSetup {
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
 
-//        LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
-//
-//        if ((order.getOrd_status()).equals("paid")) {
-        tvOrderStatus.setHeight(0);
-//        } else if ((order.getOrd_status()).equals("fail")) {
-//            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
-//        }
-
+        String orderStatus = "";
+        Timestamp now = new Timestamp(System.currentTimeMillis());
+        if (order.getOrd_pickuptime().before(now) ) {
+            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+            orderStatus = getResources().getString(R.string.overtime);
+        } else {
+            tvOrderStatus.setHeight(0);
+        }
+        tvOrderStatus.setText(String.valueOf(orderStatus));
         orderitemList = order.getItems();
         int count = 0;
         int totalPrice = 0;

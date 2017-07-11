@@ -91,15 +91,15 @@ public class CompletedOrderFragment extends Fragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             final Order order = orderList.get(position);
-//            String orderStatus = "";
-//            Timestamp now = new Timestamp(System.currentTimeMillis());
-//            if (order.getOrd_pickuptime().before(now) ) {
-//                holder.linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
-//                orderStatus = getResources().getString(R.string.overtime);
-//            } else {
-//                holder.tvOrderStatus.setHeight(0);
-//            }
-//            holder.tvOrderStatus.setText(orderStatus);
+            String orderStatus = "";
+            Timestamp now = new Timestamp(System.currentTimeMillis());
+            if (order.getOrd_pickuptime().before(now) ) {
+                holder.linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+                orderStatus = getResources().getString(R.string.overtime);
+            } else {
+                holder.tvOrderStatus.setHeight(0);
+            }
+            holder.tvOrderStatus.setText(String.valueOf(orderStatus));
             holder.tvPickerName.setText(String.valueOf(order.getM_pickupname()));
             holder.tvPhone.setText(String.valueOf(order.getOrd_tel()));
             holder.tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));

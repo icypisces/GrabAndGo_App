@@ -8,6 +8,65 @@
         <item name="android:textSize">22sp</item>
         <item name="android:textColor">#ffffff</item>
         <item name="android:background">#3d8af7</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="style_button_rest_information_editBegin">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:layout_marginTop">15dp</item>
+        <item name="android:textSize">22dp</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="style_button_rest_information_confirmPass"
+            parent="style_button_rest_information_editBegin">
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginBottom">15dp</item>
+    </style>
+
+    <style name="style_button_rest_information_saveOrNot"
+        parent="style_button_rest_information_editBegin">
+        <item name="android:layout_marginTop">0dp</item>
+    </style>
+
+    <style name="style_button_order_search">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:background">@drawable/button_orange</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="style_button_order_detail_back" parent="style_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:layout_margin">5dp</item>
+        <item name="android:background">@drawable/button_blue</item>
+    </style>
+
+    <style name="style_button_order_detail">
+        <item name="android:layout_width">150dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:textSize">18dp</item>
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="style_button_financial">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/button_orange</item>
+        <item name="textAllCaps">false</item>
     </style>
 
 </resources>

@@ -69,13 +69,8 @@ public class PaidOrderDetailActivity extends NavigationDrawerSetup {
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
 
-//        LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
-//
-//        if ((order.getOrd_status()).equals("paid")) {
-        tvOrderStatus.setHeight(0);
-//        } else if ((order.getOrd_status()).equals("fail")) {
-//            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
-//        }
+//       holder.tvOrderStatus.setHeight(0);
+//       holder.tvOrderStatus.setText(orderStatus);
 
         orderitemList = order.getItems();
         int count = 0;

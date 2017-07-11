@@ -21,13 +21,9 @@
 
         <Button
             android:id="@+id/btSelectDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:text="@string/selectDate"
-            android:padding="10dp"
-            android:background="@drawable/button_orange"
-            android:onClick="onSelectDateClick"/>
+            android:onClick="onSelectDateClick"
+            style="@style/style_button_financial" />
 
     </LinearLayout>
 

@@ -19,13 +19,9 @@
 
         <Button
             android:id="@+id/btBack"
-            style="@style/style_button"
-            android:layout_width="match_parent"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
-            android:background="@drawable/button_blue"
             android:onClick="onBackClick"
-            android:text="@string/backToPrevious" />
+            android:text="@string/backToPrevious"
+            style="@style/style_button_order_detail_back" />
 
         <LinearLayout
             android:id="@+id/linearLayoutOrder"

@@ -21,6 +21,12 @@
         android:padding="5dp">
 
         <TextView
+            android:id="@+id/tvOrderStatus"
+            android:textStyle="bold"
+            android:textColor="#ff0000"
+            style="@style/style_textView_itemViewOrders" />
+
+        <TextView
             android:id="@+id/tvPickerName"
             style="@style/style_textView_itemViewOrders" />
 

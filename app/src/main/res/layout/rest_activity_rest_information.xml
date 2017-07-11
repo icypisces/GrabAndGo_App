@@ -30,16 +30,10 @@
 
             <Button
                 android:id="@+id/btEditBegin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp"
-                android:layout_marginTop="15dp"
                 android:text="@string/editBegin"
-                android:textSize="22dp"
                 android:background="@drawable/button_orange"
-                android:onClick="onProfileEditBegin" />
+                android:onClick="onProfileEditBegin"
+                style="@style/style_button_rest_information_editBegin" />
 
 <!-- ....................點選編輯才出現的項目們.................. -->
 
@@ -82,16 +76,10 @@
 
                 <Button
                     android:id="@+id/btConfirmPass"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginBottom="15dp"
                     android:background="@drawable/button_orange"
                     android:onClick="onConfirmPass"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
                     android:text="@string/confirmPass"
-                    android:textSize="22dp" />
+                    style="@style/style_button_rest_information_confirmPass" />
 
             </LinearLayout>
 
@@ -242,28 +230,18 @@
 
                 <Button
                     android:id="@+id/btEditSave"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:background="@drawable/button_orange"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
                     android:text="@string/editEnd"
-                    android:textSize="22dp"
-                    android:onClick="onProfileEditSave" />
+                    android:onClick="onProfileEditSave"
+                    style="@style/style_button_rest_information_saveOrNot" />
 
                 <Button
                     android:id="@+id/btEditCancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginLeft="30dp"
                     android:background="@drawable/button_gray"
                     android:onClick="onProfileEditCancel"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
                     android:text="@string/editCancel"
-                    android:textSize="22dp" />
+                    style="@style/style_button_rest_information_saveOrNot" />
             </LinearLayout>
 
         </LinearLayout>

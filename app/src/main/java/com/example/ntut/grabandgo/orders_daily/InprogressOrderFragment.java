@@ -99,7 +99,7 @@ public class InprogressOrderFragment extends BaseFragment {
 //                holder.linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
 ////                orderStatus = R.string.overtime;
 //            } else if ((order.getOrd_status()).equals("fail")) {
-//                holder.tvOrderStatus.setHeight(0);
+                holder.tvOrderStatus.setHeight(0);
 //            }
 //            holder.tvOrderStatus.setText(String.valueOf(order.getOrd_status()));
             holder.tvPickerName.setText(String.valueOf(order.getM_pickupname()));

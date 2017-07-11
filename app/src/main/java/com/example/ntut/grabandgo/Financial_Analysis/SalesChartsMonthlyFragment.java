@@ -149,7 +149,8 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         etLimitCount.setText(String.valueOf(showCount));
         for (int i = 0; i < showCount; i++) {
             xData[i] = salesChartsListMonthly.get(i).getItem_name();           //商品名稱
-            yData[i] = salesChartsListMonthly.get(i).getItem_price();       //該商品當月收入
+            yData[i] = salesChartsListMonthly.get(i).getItem_price()
+                        *(salesChartsListMonthly.get(i).getItem_amount());     //該商品當月收入
         }
         Object[] dateData = {yData, showCount, selectMonth, xData};
         return dateData;

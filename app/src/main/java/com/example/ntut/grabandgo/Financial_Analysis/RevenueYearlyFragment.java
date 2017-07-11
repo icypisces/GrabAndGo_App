@@ -127,7 +127,7 @@ public class RevenueYearlyFragment extends BaseFragment {
         int RevenueTotalYearly = 0;
         Map<Integer, Float> map = new HashMap<>();
         for (int i = 0; i < size; i++) {
-            xData[i] = Integer.parseInt(orderItemList.get(i).getItem_note().split("\\/")[0]);//有收入的月份
+            xData[i] = Integer.parseInt(orderItemListYearly.get(i).getItem_note().split("\\/")[0]);//有收入的月份
             yData[i] = orderItemListYearly.get(i).getItem_price();         //該月份收入
             map.put(xData[i], yData[i]);
             RevenueTotalYearly += yData[i];                                //累加收入

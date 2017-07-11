@@ -69,8 +69,8 @@ public class PaidOrderDetailActivity extends NavigationDrawerSetup {
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
 
-//       holder.tvOrderStatus.setHeight(0);
-//       holder.tvOrderStatus.setText(orderStatus);
+        tvOrderStatus.setHeight(0);
+//        tvOrderStatus.setText(orderStatus);
 
         orderitemList = order.getItems();
         int count = 0;

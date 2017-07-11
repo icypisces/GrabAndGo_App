@@ -112,7 +112,8 @@ public class RevenueDailyFragment extends BaseFragment {
         int RevenueTotalDaily = 0;
         for (int i = 0; i < orderItemListDaily.size(); i++) {
             xData[i] = orderItemListDaily.get(i).getItem_name();
-            yData[i] = orderItemListDaily.get(i).getItem_price();
+            yData[i] = (orderItemListDaily.get(i).getItem_price())
+                        *(orderItemListDaily.get(i).getItem_amount());
             RevenueTotalDaily += yData[i];
         }
         Object[] xAndyData = {xData, yData, RevenueTotalDaily};

@@ -129,8 +129,9 @@ public class SalesChartsDailyFragment extends BaseFragment {
         }
         etLimitCount.setText(String.valueOf(showCount));
         for (int i = 0; i < showCount; i++) {
-            xData[i] = salesChartsListDaily.get(i).getItem_name();        //商品名稱
-            yData[i] = salesChartsListDaily.get(i).getItem_price();       //該商品當日收入
+            xData[i] = salesChartsListDaily.get(i).getItem_name();          //商品名稱
+            yData[i] = (salesChartsListDaily.get(i).getItem_price())
+                        *(salesChartsListDaily.get(i).getItem_amount());    //該商品當日收入
         }
         Object[] dateData = {yData, showCount, selectDate, xData};
         return dateData;

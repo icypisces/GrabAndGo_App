@@ -89,7 +89,7 @@ public class PaidOrderFragment extends Fragment {
         @Override
         public void onBindViewHolder(OrderAdapter.MyViewHolder holder, int position) {
             final Order order = orderList.get(position);
-//            holder.tvOrderStatus.setHeight(0);
+            holder.tvOrderStatus.setHeight(0);
 //            holder.tvOrderStatus.setText(orderStatus);
             holder.tvPickerName.setText(String.valueOf(order.getM_pickupname()));
             holder.tvPhone.setText(String.valueOf(order.getOrd_tel()));

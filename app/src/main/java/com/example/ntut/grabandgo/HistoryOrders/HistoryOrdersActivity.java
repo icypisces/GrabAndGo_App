@@ -29,6 +29,7 @@ import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
+import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -133,6 +134,9 @@ public class HistoryOrdersActivity extends NavigationDrawerSetup {
 
     public void onSearchClick(View view) {
         getOrderDataFromServlet();
+        if (orderList.size() == 0) {
+            Common.showToast(HistoryOrdersActivity.this, R.string.searchNoneHistory);
+        }
         rvHistoryOrders.setLayoutManager(
                 new LinearLayoutManager(this,LinearLayoutManager.VERTICAL, false));
         rvHistoryOrders.setAdapter(new OrderAdapter(this, orderList));

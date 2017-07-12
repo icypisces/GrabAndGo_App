@@ -122,7 +122,8 @@
     <string name="ordId">訂單</string>
     <string name="pickuptime">取餐時間</string>
     <string name="subTotal">小計</string>
-    <string name="searchNone">您搜尋的手機號碼本日並無訂單</string>
+    <string name="searchNoneDaily">您搜尋的手機號碼本日並無訂單</string>
+    <string name="searchNoneHistory">您搜尋的手機號碼此月份並無歷史訂單</string>
     <string name="InprogressOrderItem">Order Summary</string>
 
 

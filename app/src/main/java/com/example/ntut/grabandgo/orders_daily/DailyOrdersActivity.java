@@ -195,7 +195,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
             intent.putExtras(bundle);
             startActivity(intent);
         } else {
-            Common.showToast(DailyOrdersActivity.this, R.string.searchNone);
+            Common.showToast(DailyOrdersActivity.this, R.string.searchNoneDaily);
         }
         InputMethodManager imm = (InputMethodManager)DailyOrdersActivity.this
                 .getSystemService(Context.INPUT_METHOD_SERVICE);

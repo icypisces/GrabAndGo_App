@@ -59,7 +59,9 @@
         <activity
             android:name=".orders_daily.PaidOrderDetailActivity"
             android:label="@string/paidOrderDetail" />
-        <activity android:name=".orders_daily.InprogressOrderItemSummaryActivity"></activity>
+        <activity
+            android:name=".orders_daily.InprogressOrderItemSummaryActivity"
+            android:label="@string/InprogressOrderItem" />
     </application>
 
 </manifest>

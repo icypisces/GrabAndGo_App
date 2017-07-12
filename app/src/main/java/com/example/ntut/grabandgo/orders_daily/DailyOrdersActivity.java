@@ -1,5 +1,7 @@
 package com.example.ntut.grabandgo.orders_daily;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.example.ntut.grabandgo.Common;
@@ -36,6 +39,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
     private String rest_id;
 
     List<Order> orderList = null;
+    List<Order> orderListAll = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +97,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
         fragment1.setArguments(bundle1);
         ft1.replace(R.id.viewPaper, fragment1);
         ft1.commit();
+        orderListAll.addAll(orderList);
 
         getOrderDataFromServlet("unpaid");
         //將自資料庫取得之資料送給CompletedOrderFragment
@@ -102,6 +107,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
         fragment2.setArguments(bundle2);
         ft2.replace(R.id.viewPaper, fragment2);
         ft2.commit();
+        orderListAll.addAll(orderList);
 
         getOrderDataFromServlet("paid");
         //將自資料庫取得之資料送給PaidOrderFragment
@@ -111,6 +117,7 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
         fragment3.setArguments(bundle3);
         ft3.replace(R.id.viewPaper, fragment3);
         ft3.commit();
+        orderListAll.addAll(orderList);
 
         List<Fragment> fragmentList = new ArrayList<Fragment>();
         fragmentList.add(fragment1);
@@ -158,7 +165,40 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
         }
     }
 
-    public void onSearchClick(View view) {
-        //待補!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    public void onSearchClick(View view) throws ClassNotFoundException {
+        String searchPhone = etSearch.getText().toString().trim();
+        String orderPhone = "";
+        String orderStatus = "";
+        Order orderSearch = null;
+        Boolean searchResult = false;
+        for (int i=0; i<orderListAll.size(); i++) {
+            orderPhone = orderListAll.get(i).getOrd_tel();
+            if (searchPhone.equals(orderPhone)){
+                orderStatus = orderListAll.get(i).getOrd_status();
+                orderSearch = orderListAll.get(i);
+                searchResult = true;
+            }
+        }
+        if (searchResult) {
+            Intent intent;
+            if (orderStatus.equals("inprogress")) {
+                intent = new Intent(DailyOrdersActivity.this, InprogressOrderDetailActivity.class);
+            } else if (orderStatus.equals("unpaid")) {
+                intent = new Intent(DailyOrdersActivity.this, CompletedOrderDetailActivity.class);
+            } else if (orderStatus.equals("paid")) {
+                intent = new Intent(DailyOrdersActivity.this, PaidOrderDetailActivity.class);
+            } else {
+                intent = new Intent(DailyOrdersActivity.this, DailyOrdersActivity.class);
+            }
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("order",orderSearch);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        } else {
+            Common.showToast(DailyOrdersActivity.this, R.string.searchNone);
+        }
+        InputMethodManager imm = (InputMethodManager)DailyOrdersActivity.this
+                .getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
     }
 }

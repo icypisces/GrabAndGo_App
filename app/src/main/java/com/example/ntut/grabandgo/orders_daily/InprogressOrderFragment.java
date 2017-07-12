@@ -18,7 +18,6 @@ import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 
-import java.io.Serializable;
 import java.util.List;
 
 public class InprogressOrderFragment extends BaseFragment {
@@ -94,15 +93,7 @@ public class InprogressOrderFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             final Order order = orderList.get(position);
-//            String orderStatus = "";
-//******************須補判斷訂單日期為未來日期者*********************************************
-//            if (order.getOrd_pickuptime().before(now) ) {
-//                holder.linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
-////                orderStatus = R.string.overtime;
-//            } else if ((order.getOrd_status()).equals("fail")) {
-                holder.tvOrderStatus.setHeight(0);
-//            }
-//            holder.tvOrderStatus.setText(String.valueOf(order.getOrd_status()));
+            holder.tvOrderStatus.setHeight(0);
             holder.tvPickerName.setText(String.valueOf(order.getM_pickupname()));
             holder.tvPhone.setText(String.valueOf(order.getOrd_tel()));
             holder.tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
@@ -128,14 +119,10 @@ public class InprogressOrderFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),InprogressOrderItemSummaryActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("orderList", (Serializable) orderList);
-//                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });
     }
-
 
     @Override
     protected void lazyLoad() {

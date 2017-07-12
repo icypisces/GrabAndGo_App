@@ -30,7 +30,6 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     private Button btBack, btCancel, btComplete;
     private TableLayout tlOrderDetail;
 
-    private Order order = null;
     private List<OrderItem> orderitemList = null;
 
     private String changeResult, url, ordId, param;
@@ -69,14 +68,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         tvPhone.setText(String.valueOf(order.getOrd_tel()));
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
-
-//        LinearLayout linearLayoutOrder = (LinearLayout) viewDetail.findViewById((R.id.linearLayoutOrder));
-//
-//        if ((order.getOrd_status()).equals("paid")) {
-            tvOrderStatus.setHeight(0);
-//        } else if ((order.getOrd_status()).equals("fail")) {
-//            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
-//        }
+        tvOrderStatus.setHeight(0);
 
         orderitemList = order.getItems();
         int count = 0;
@@ -88,9 +80,11 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
                 tlOrderDetail.addView(line, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 2));
             }
             TableRow tableRow = new TableRow(this);
-            String note = orderitemList.get(i).getItem_note();
-            if ( note == null || note.trim().length() == 0 ) {
-                note = "";
+            String item_note = "";
+            if (orderitemList.get(i).getItem_note() == null || orderitemList.get(i).getItem_note().equals("null")) {
+                item_note = "";
+            } else {
+                item_note = orderitemList.get(i).getItem_note();
             }
             String[] textViews = {
                     String.valueOf(orderitemList.get(i).getProd_id()),
@@ -98,7 +92,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
                     String.valueOf(orderitemList.get(i).getItem_price()),
                     String.valueOf(orderitemList.get(i).getItem_amount()),
                     String.valueOf(orderitemList.get(i).getItem_price()*orderitemList.get(i).getItem_amount()),
-                    note
+                    item_note
             };
             for (int j = 0; j < textViews.length; j++) {
                 TextView textView = new TextView(this);
@@ -114,14 +108,14 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         }
         //分隔線
         View line = new View(this);
-        line.setBackgroundColor(Color.rgb(193, 193, 193));
+        line.setBackgroundColor(Color.rgb(107, 106, 106));
         tlOrderDetail.addView(line, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 5));
 
         TableRow tableRowLast = new TableRow(this);
-        String[] testViewsTotal = {getResources().getString(R.string.total), "", "", String.valueOf(count), String.valueOf(totalPrice), ""};
-        for (int j = 0; j < testViewsTotal.length; j++) {
+        String[] textViewsTotal = {getResources().getString(R.string.total), "", "", String.valueOf(count), String.valueOf(totalPrice), ""};
+        for (int j = 0; j < textViewsTotal.length; j++) {
             TextView textView = new TextView(this);
-            textView.setText(testViewsTotal[j]);
+            textView.setText(textViewsTotal[j]);
             textView.setPadding(10, 0, 10, 0);
             textView.setMaxWidth(75);
             textView.setSingleLine(false);

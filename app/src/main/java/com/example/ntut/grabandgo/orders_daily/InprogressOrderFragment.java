@@ -128,9 +128,9 @@ public class InprogressOrderFragment extends BaseFragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(),InprogressOrderItemSummaryActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("orderList", (Serializable) orderList);
-                intent.putExtras(bundle);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("orderList", (Serializable) orderList);
+//                intent.putExtras(bundle);
                 startActivity(intent);
             }
         });

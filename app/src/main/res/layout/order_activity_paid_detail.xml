@@ -147,7 +147,7 @@
 
             <View
                 android:layout_height="5px"
-                android:background="#ccc" />
+                android:background="#6b6a6a" />
             <!-- 分割線 -->
 
         </TableLayout>

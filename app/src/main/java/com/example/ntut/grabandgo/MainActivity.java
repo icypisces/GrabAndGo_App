@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
+import com.example.ntut.grabandgo.Restaurant_related.RestValidateNotYetActivity;
 import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -23,7 +24,8 @@ public class MainActivity extends NavigationDrawerSetup {
     private Button login, register;
     private AsyncTask IdCheckTask;
     private ProgressDialog progressDialog;
-    String username, password;
+    private String username, password;
+    private Boolean rest_validate;
 
     //Login
     private SharedPreferences sharedPreferencesLogin=null;
@@ -61,6 +63,7 @@ public class MainActivity extends NavigationDrawerSetup {
         if (sharedPreferencesLogin.getBoolean("UsPaIsKeep", false)){    //如果有取出Boolean為true
             username = sharedPreferencesLogin.getString("user", "");
             password = sharedPreferencesLogin.getString("pass", "");
+            rest_validate = sharedPreferencesLogin.getBoolean("rest_validate", false);
 
             //確認已紀錄的登入資訊是否正確
             String url = Common.URL + ServletName ;
@@ -116,8 +119,13 @@ public class MainActivity extends NavigationDrawerSetup {
             super.onPostExecute(message);
             Log.d(TAG, "loginCheckMessage=" + message);
             if(message.equals("LoginInformationOK")){
-                Intent intent = new Intent(MainActivity.this, DailyOrdersActivity.class);
-                intent.putExtra("id", 1);
+                Intent intent;
+                if (rest_validate) {
+                    intent = new Intent(MainActivity.this, DailyOrdersActivity.class);
+                    intent.putExtra("id", 1);
+                } else {
+                    intent = new Intent(MainActivity.this, RestValidateNotYetActivity.class);
+                }
                 startActivity(intent);
                 progressDialog.cancel();
                 finish();

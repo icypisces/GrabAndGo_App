@@ -231,8 +231,13 @@ public class LoginActivity extends NavigationDrawerSetup
                 boolean rest_validate = Boolean.parseBoolean(validate);
                 String rest_id = s.get(7);
                 userLogin(u, p, rest_name, rest_branch, logo, rest_validate, rest_id);
-                Intent intent = new Intent(LoginActivity.this, DailyOrdersActivity.class);
-                intent.putExtra("id", 1);
+                Intent intent;
+                if (rest_validate) {
+                    intent = new Intent(LoginActivity.this, DailyOrdersActivity.class);
+                    intent.putExtra("id", 1);
+                } else {
+                    intent = new Intent(LoginActivity.this, RestValidateNotYetActivity.class);
+                }
                 startActivity(intent);
                 progressDialog.cancel();
                 finish();
@@ -242,9 +247,7 @@ public class LoginActivity extends NavigationDrawerSetup
                 Common.showToast(LoginActivity.this, R.string.msg_UsernameOrPasswordError);
                 progressDialog.cancel();
             }
-
         }
-
     }
 
 

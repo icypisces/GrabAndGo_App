@@ -30,6 +30,9 @@
     <string name="salesChartsMonthly">Sales Charts(Monthly)</string>
     <string name="salesChartsDaily_s">Daily</string>
     <string name="salesChartsMonthly_s">Monthly</string>
+    <string name="inprogressOrderDetail">Order Detail (Inprogress)</string>
+    <string name="completedOrderDetail">Order Detail (Completed)</string>
+    <string name="paidOrderDetail">Order Detail (Paid)</string>
     <!-- Sing In -->
     <string name="username">username</string>
     <string name="password">password</string>
@@ -58,8 +61,11 @@
     <!-- Drawer -->
     <string name="visitor">Visitor~</string>
     <string name="hello">Hello,</string>
-    <!--  -->
+    <!-- Validate Not Yet -->
     <string name="notBeenValidate">您尚未驗證帳號，僅能使用會員資訊相關功能．</string>
+    <string name="notBeenValidateSecond">如需使用其他功能，請至您註冊的信箱點選驗證信．</string>
+    <string name="notBeenValidateThird">如需重發驗證信，請您點選下方按鈕，感謝您的配合．</string>
+    <string name="reSendEmail">重新寄送驗證信</string>
     <!-- Restaurant Information -->
     <string name="restName_i">Restaurant :</string>
     <string name="restType_i">Restaurant Type :</string>
@@ -93,22 +99,19 @@
     <string name="noRevenueMonth">您選擇的月份無收入</string>
     <string name="keyInLimitCountOver">您輸入的顯示排行數已超過排行總數</string>
     <!-- order item -->
-    <string name="items">項目統計</string>
-    <string name="buyer_name">Buyer Name : </string>
     <string name="buyer_phone">Phone : </string>
     <string name="buyer_picktime">Pickup Time : </string>
     <string name="soNumber">Order No. : </string>
     <string name="soTotalPrice">Total Price : $</string>
-    <string name="buyer_orderTime">Order Time : </string>
     <string name="search">Search</string>
-    <string name="orderSearch">請輸入手機號碼</string>
+    <string name="orderSearchPhone">請輸入手機號碼</string>
     <string name="prodId">產品編號</string>
     <string name="itemName">產品名稱</string>
     <string name="itemPrice">單價</string>
     <string name="itemAmount">數量</string>
     <string name="itemNote">備註</string>
-    <string name="returnToHistory">返回到歷史訂單</string>
-    <string name="orderSearchPhone">請輸入手機號碼</string>
+    <!-- order item daily -->
+    <string name="items">項目統計</string>
     <string name="backToPrevious">返 回 上 一 頁</string>
     <string name="subtotal">總價</string>
     <string name="overtime">Overtime</string>
@@ -122,15 +125,17 @@
     <string name="toComplete">Complete</string>
     <string name="toPaid">Paid</string>
     <string name="orderTurnToPaidOK">您已順利將此筆訂單轉為已結帳狀態</string>
-    <string name="inprogressOrderDetail">Order Detail (Inprogress)</string>
-    <string name="completedOrderDetail">Order Detail (Completed)</string>
-    <string name="paidOrderDetail">Order Detail (Paid)</string>
     <string name="ordId">訂單</string>
     <string name="pickuptime">取餐時間</string>
     <string name="subTotal">小計</string>
     <string name="searchNoneDaily">您搜尋的手機號碼本日並無訂單</string>
-    <string name="searchNoneHistory">您搜尋的手機號碼此月份並無歷史訂單</string>
     <string name="InprogressOrderItem">Order Summary</string>
+    <!-- order item history -->
+    <string name="buyer_name">Buyer Name : </string>
+    <string name="buyer_orderTime">Order Time : </string>
+    <string name="returnToHistory">返回到歷史訂單</string>
+    <string name="searchNoneHistory">您搜尋的手機號碼此月份並無歷史訂單</string>
+    <string name="sendEailFail">驗證信寄送失敗</string>
 
 
 </resources>

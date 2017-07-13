@@ -37,7 +37,7 @@ public class RestInformationActivity extends NavigationDrawerSetup {
             etOwner, etAddress, etPhone, etEmail, etUrl,
             etUsername, etPassword, etNewPassword, etNewPasswordConfirm;
     private TextInputLayout tilPassword, tilNewPassword, tilNewPasswordConfirm, tilAddress, tilPhone, tilEmail, tilUrl;
-    private String username, password;
+    private String username, password, rest_id;
     private AsyncTask RestProfileGetTask, RestProfileUpdateTask;
     private ProgressDialog progressDialog;
     private LinearLayout linearLayout_userpass, linearLayout_newPassword, linearLayout_editButton;
@@ -99,6 +99,7 @@ public class RestInformationActivity extends NavigationDrawerSetup {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(),MODE_PRIVATE);
         username = sharedPreferencesLogin.getString("user", "");
         password = sharedPreferencesLogin.getString("pass", "");
+        rest_id = sharedPreferencesLogin.getString("rest_id", "");
     }
 
     //取得餐廳資訊
@@ -152,9 +153,10 @@ public class RestInformationActivity extends NavigationDrawerSetup {
                     rest_url = joResult.get("rest_url").getAsString();
                 }
                 String logo = joResult.get("rest_logo").getAsString();
+                String validate = joResult.get("rest_validate").getAsString();
 
                 s = Arrays.asList(message, rest_name, rest_type, rest_branch,
-                        rest_owner, rest_address, rest_phone, rest_email, rest_url, logo);
+                        rest_owner, rest_address, rest_phone, rest_email, rest_url, logo, validate);
             } else if (message.equals("LoginInformationError")) {
                 s = Arrays.asList(message);
             }
@@ -184,6 +186,11 @@ public class RestInformationActivity extends NavigationDrawerSetup {
                 String logo = s.get(9);
                 setTextViewInformation(rest_name, rest_type, rest_branch, rest_owner,
                         rest_address, rest_phone, rest_email, rest_url, logo);
+                String validate = s.get(10);
+                boolean rest_validate = Boolean.parseBoolean(validate);
+                if (rest_validate) {
+                    userLogin(username, password, rest_name, rest_branch, logo, rest_validate, rest_id);
+                }
                 progressDialog.cancel();
             } else if(message.equals("LoginInformationError")){
                 Common.showToast(RestInformationActivity.this, "帳號密碼有誤，請重新登入．");

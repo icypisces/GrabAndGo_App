@@ -42,33 +42,6 @@ public class LoginActivity extends NavigationDrawerSetup
     //Login
     private SharedPreferences sharedPreferencesLogin=null;
 
-
-
-//    //機器人驗證API
-//    private GoogleApiClient mGoogleApiClient;
-//    private final static String SITE_KEY = "6LeO1SUUAAAAAKgSJMOxcMiSp0vrE9cPTtfUWXqm";
-//
-//    // ConnectionCallbacks
-//    @Override
-//    public void onConnected(Bundle bundle) {
-//        // 已經連線到 Google Services
-//    }
-//
-//    // ConnectionCallbacks
-//    @Override
-//    public void onConnectionSuspended(int i) {
-//        // Google Services連線中斷
-//        // int參數是連線中斷的代號
-//    }
-//
-//    // OnConnectionFailedListener
-//    @Override
-//    public void onConnectionFailed(ConnectionResult connectionResult) {
-//        // Google Services 連線失敗
-//        // ConnectionResult 參數是連線失敗的資訊
-//    }
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,15 +49,6 @@ public class LoginActivity extends NavigationDrawerSetup
         findViews();
         getData(); 		//Remember Me//第二次進入的時候得到數據
         setUpToolBar();
-        //機器人驗證API
-//        mGoogleApiClient = new GoogleApiClient.Builder(this)
-//                .addApi(SafetyNet.API)
-//                .addConnectionCallbacks(this)
-//                .addOnConnectionFailedListener(this)
-//                .build();
-//
-//        mGoogleApiClient.connect();
-
     }
 
     private void findViews() {
@@ -252,47 +216,12 @@ public class LoginActivity extends NavigationDrawerSetup
 
 
     public void onForgetClick(View view) {
+
+
+
+
 //        Intent intent = new Intent(this, RecoverPasswordActivity.class);
 //        startActivity(intent);
-
-
-        //機器人驗證方法過期?待處理
-//        SafetyNet.SafetyNetApi.verifyWithRecaptcha(mGoogleApiClient, SITE_KEY)
-//                .setResultCallback(new ResultCallback<SafetyNetApi.RecaptchaTokenResult>() {
-//                    @Override
-//                    public void onResult(final SafetyNetApi.RecaptchaTokenResult result) {
-//                        final Status status = result.getStatus();
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                if ((status != null) && status.isSuccess()) {
-//                                    // 驗證通過
-//                                 //   tvResult.setText("isSuccess()\n");
-//
-//                                 //   if (!result.getTokenResult().isEmpty()) {
-//                                //        tvResult.append("!result.getTokenResult().isEmpty()");
-//                                 //   } else {
-//                                 //       tvResult.append("result.getTokenResult().isEmpty()");
-//                                 //   }
-//
-////                                    Intent intent = new Intent(LoginActivity.this, RecoverPasswordActivity.class);
-// //                                   startActivity(intent);
-//
-//                                } else {
-//                                    // 驗證失敗
-//                                    Intent intent = new Intent(LoginActivity.this, RecoverPasswordActivity.class);
-//                                    startActivity(intent);
-//                                 //   Log.e("MY_APP_TAG", "Error occurred " +
-//                                 //          "when communicating with the reCAPTCHA service.");
-//                                //    tvResult.setText("Error occurred " +
-//                                  //          "when communicating with the reCAPTCHA service.");
-//                                }
-//                            }
-//                        });
-//                    }
-//                });
-
-
 
     }
 

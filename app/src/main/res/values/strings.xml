@@ -136,6 +136,7 @@
     <string name="returnToHistory">返回到歷史訂單</string>
     <string name="searchNoneHistory">您搜尋的手機號碼此月份並無歷史訂單</string>
     <string name="sendEailFail">驗證信寄送失敗</string>
+    <string name="validateNotYet">Validate</string>
 
 
 </resources>

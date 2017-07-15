@@ -2,12 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ntut.grabandgo"> <!-- for 機器人驗證 -->
     <uses-sdk android:minSdkVersion="14" />
-    <!-- 兩個都是Normal Permission，不用寫程式額外跳對話框． -->
+    <!-- Normal Permission不用寫程式額外跳對話框 -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -62,7 +64,23 @@
         <activity
             android:name=".orders_daily.InprogressOrderItemSummaryActivity"
             android:label="@string/InprogressOrderItem" />
-        <activity android:name=".Restaurant_related.RestValidateNotYetActivity"></activity>
+        <activity
+            android:name=".Restaurant_related.RestValidateNotYetActivity"
+            android:label="@string/validateNotYet" />
+
+        <!-- 必須宣告activity跟service，否則一定執行錯誤 -->
+        <service
+            android:name=".OrderService"
+            android:enabled="true"
+            android:exported="true"/>
+
+        <!-- 必須註冊Reciver -->
+        <receiver android:name=".Receiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

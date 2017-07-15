@@ -1,6 +1,7 @@
 package com.example.ntut.grabandgo;
 
 import android.app.ProgressDialog;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -136,4 +137,8 @@ public class MainActivity extends NavigationDrawerSetup {
         }
     }
 
+    @Override
+    public ComponentName startService(Intent service) {
+        return super.startService(service);
+    }
 }

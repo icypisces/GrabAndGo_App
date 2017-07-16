@@ -41,6 +41,8 @@ public class MainActivity extends NavigationDrawerSetup {
         setUpToolBar();
         loginChangeToOrder();
 
+        Intent intent = new Intent(this, OrderService.class);
+        startService(intent);   //指定要開啟Service
     }
 
     private void findViews() {
@@ -135,10 +137,5 @@ public class MainActivity extends NavigationDrawerSetup {
                 progressDialog.cancel();
             }
         }
-    }
-
-    @Override
-    public ComponentName startService(Intent service) {
-        return super.startService(service);
     }
 }

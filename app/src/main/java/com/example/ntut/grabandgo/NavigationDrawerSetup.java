@@ -35,6 +35,10 @@ import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
 import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
 
+import org.java_websocket.drafts.Draft_6455;
+
+import java.net.URI;
+
 public class NavigationDrawerSetup extends AppCompatActivity {
     private final static String TAG = "NavigationDrawerSetup";
     private DrawerLayout drawerLayout;
@@ -154,6 +158,7 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                         break;
                     case R.id.item_logout:
                         userLogout();
+                        closeWebsocket();
                         intent = new Intent(NavigationDrawerSetup.this,MainActivity.class);
                         startActivity(intent);
                         break;
@@ -202,11 +207,9 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                         startActivity(intent);
                         break;
                 }
-
                 return false;
             }
         });
-
     }
 
 
@@ -246,5 +249,14 @@ public class NavigationDrawerSetup extends AppCompatActivity {
         SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
         edit.clear();
         edit.commit();
+    }
+
+    private void closeWebsocket() {
+//        URI serverUri = null;
+//        OrderService orderService = new OrderService();
+//        OrderService.OrderWebsocketClient client =
+//                orderService.new OrderWebsocketClient(serverUri).onClose(0, );
+        Intent serviceIntent = new Intent(this, OrderService.class);
+        startService(serviceIntent);                           //指定要開啟Service
     }
 }

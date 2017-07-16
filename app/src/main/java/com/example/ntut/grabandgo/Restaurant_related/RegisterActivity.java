@@ -17,6 +17,7 @@ import android.widget.Spinner;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
+import com.example.ntut.grabandgo.OrderService;
 import com.example.ntut.grabandgo.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -286,6 +287,11 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
                 startActivity(intent);
                 userLogin(u, p, rest_name, rest_branch, logo, rest_validate, rest_id);
+
+                //重新開啟Service
+                Intent serviceIntent = new Intent(RegisterActivity.this, OrderService.class);
+                startService(serviceIntent);
+
                 progressDialog.cancel();
                 finish();
             } else if(message.equals("RegisterError")){

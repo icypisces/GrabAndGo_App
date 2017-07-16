@@ -1,28 +1,28 @@
 package com.example.ntut.grabandgo;
 
+import android.app.Notification;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Bundle;
+import android.net.ConnectivityManager;;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.java_websocket.WebSocketImpl;
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
-import org.java_websocket.drafts.Draft_17;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -38,16 +38,13 @@ public class OrderService extends Service {
     private String rest_id;
     private PowerManager.WakeLock wakeLock;
     private NotificationManager notificationManager;
-
-    public static WebSocketClient client;
-    private ConnectivityManager connectivityManager;
-    private NetworkInfo info;
-    private boolean isSaveInService = true;
     private boolean isConn = true;
+    public static WebSocketClient client;
     private NotificationCompat.Builder notifyBuilder;
     private Vibrator vibrator;
     private MyThread myThread;
     private Receiver receiver;
+    private final static int NOTIFICATION_ID = 0;
 
     @Override
     public void onCreate() {
@@ -62,11 +59,21 @@ public class OrderService extends Service {
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(receiver, intentFilter);
 
+        getRestaurantName();
+
         this.myThread = new MyThread();
         this.myThread.start();
 
-        getRestaurantName();
+    }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        super.onStartCommand(intent, flags, startId);
+        getRestaurantName();
+        WebSocketImpl.DEBUG = true;
+        //解決IPV6的問題
+//        System.setProperty("java.net.preferIPv6Addresses", "false");
+//        System.setProperty("java.net.preferIPv4Stack", "true");
         URI uri = null;
         try {
             uri = new URI(SERVER_URI + rest_id);
@@ -75,11 +82,20 @@ public class OrderService extends Service {
         }
         OrderWebsocketClient orderWebsocketClient = new OrderWebsocketClient(uri);
         orderWebsocketClient.connect();
+
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                super.run();
+//            }
+//        };
+
+        return START_STICKY;    //回傳START_STICKY可以保證再次建立新的Service時仍會呼叫onStartCommand
     }
 
     private void getRestaurantName() {
         sharedPreferencesLogin = getSharedPreferences(Common.getUsPass(), MODE_PRIVATE);
-        rest_id = sharedPreferencesLogin.getString("rest_id", "");
+        rest_id = sharedPreferencesLogin.getString("rest_id", "NA");
     }
 
     //WebSocket
@@ -92,27 +108,58 @@ public class OrderService extends Service {
 
         @Override
         public void onOpen(ServerHandshake handshakedata) {
+            receiver.setIsConn(true);
             Log.d(TAG, "onOpen: " + handshakedata.toString());
         }
 
         @Override
-        public void onMessage(String message) {
-            openVibrator();
-//            runOnUiThread(new Runnable() {
-//
-//                @Override
-//                public void run() {
-//
-//                }
-//            });
-            Intent intent = new Intent(OrderService.this, DailyOrdersActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("message", message);
-            startActivity(intent);
+        public void onMessage(final String message) {
+            if (!rest_id.equals("NA")) {
+                openVibrator();
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    public void run() {
+                        Gson gson = new Gson();    //用Gson
+                        JsonObject joResult = gson.fromJson(message.toString(),
+                                JsonObject.class);
+                        Log.d(TAG, "message: " + message.toString());
+                        String messageTitle = joResult.get("messageTitle").toString();
+                        String messageBody = joResult.get("messageBody").toString();
+                        showNotification(messageTitle, messageBody);
+
+                        Intent intent = new Intent(OrderService.this, DailyOrdersActivity.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        }
+
+        private void openVibrator() {
+            vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+            long[] pattern = {100, 400, 100, 400};   // 停止 開啟 停止 開啟
+            vibrator.vibrate(pattern, -1);           //重複兩次上面的pattern 如果只想震動一次，index設為-1
+        }
+
+        private void showNotification(String messageTitle, String messageBody) {
+            Intent intent = new Intent(OrderService.this, MainActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(OrderService.this, 0,
+                    intent, 0);
+            Notification notification = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN) {
+                notification = new Notification.Builder(OrderService.this)
+                        .setTicker("Service Stopped")
+                        .setContentTitle(messageTitle)
+                        .setContentText(messageBody)
+                        .setSmallIcon(android.R.drawable.ic_menu_info_details)
+                        .setAutoCancel(true)
+                        .setContentIntent(pendingIntent)
+                        .build();
+            }
+            notificationManager.notify(NOTIFICATION_ID, notification);
         }
 
         @Override
         public void onClose(int code, String reason, boolean remote) {
+            receiver.setIsConn(false);
             //顯示關閉原因
             String text = String.format(Locale.getDefault(),
                     "code = %d, reason = %s, remote = %b",
@@ -125,31 +172,6 @@ public class OrderService extends Service {
             //顯示Exception訊息
             Log.d(TAG, "onError: " + ex.toString());
         }
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        super.onStartCommand(intent, flags, startId);
-        getRestaurantName();
-        WebSocketImpl.DEBUG = true;
-        //解決IPV6的問題
-//        System.setProperty("java.net.preferIPv6Addresses", "false");
-//        System.setProperty("java.net.preferIPv4Stack", "true");
-
-
-
-        return START_STICKY;    //回傳START_STICKY可以保證再次建立新的Service時仍會呼叫onStartCommand
-    }
-
-    private void connectClient() {
-
-    }
-
-
-    private void openVibrator() {
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-        long[] pattern = {100, 400, 100, 400};   // 停止 開啟 停止 開啟
-        vibrator.vibrate(pattern, -1);           //重複兩次上面的pattern 如果只想震動一次，index設為-1
     }
 
     @Override

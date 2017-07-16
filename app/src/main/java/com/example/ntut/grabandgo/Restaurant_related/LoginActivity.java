@@ -13,6 +13,7 @@ import android.widget.EditText;
 
 import com.example.ntut.grabandgo.Common;
 import com.example.ntut.grabandgo.NavigationDrawerSetup;
+import com.example.ntut.grabandgo.OrderService;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
 import com.google.gson.Gson;
@@ -203,6 +204,11 @@ public class LoginActivity extends NavigationDrawerSetup
                     intent = new Intent(LoginActivity.this, RestValidateNotYetActivity.class);
                 }
                 startActivity(intent);
+
+                //重新開啟Service
+                Intent serviceIntent = new Intent(LoginActivity.this, OrderService.class);
+                startService(serviceIntent);
+
                 progressDialog.cancel();
                 finish();
             } else if (message.equals("UsernameOrPasswordError")){

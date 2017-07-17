@@ -38,9 +38,7 @@ public class OrderService extends Service {
     private String rest_id;
     private PowerManager.WakeLock wakeLock;
     private NotificationManager notificationManager;
-    private boolean isConn = true;
     public static WebSocketClient client;
-    private NotificationCompat.Builder notifyBuilder;
     private Vibrator vibrator;
     private MyThread myThread;
     private Receiver receiver;
@@ -83,12 +81,6 @@ public class OrderService extends Service {
         OrderWebsocketClient orderWebsocketClient = new OrderWebsocketClient(uri);
         orderWebsocketClient.connect();
 
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                super.run();
-//            }
-//        };
 
         return START_STICKY;    //回傳START_STICKY可以保證再次建立新的Service時仍會呼叫onStartCommand
     }
@@ -108,8 +100,10 @@ public class OrderService extends Service {
 
         @Override
         public void onOpen(ServerHandshake handshakedata) {
-            receiver.setIsConn(true);
-            Log.d(TAG, "onOpen: " + handshakedata.toString());
+            if (!rest_id.equals("NA")) {
+                receiver.setIsConn(true);
+                Log.d(TAG, "onOpen: " + handshakedata.toString());
+            }
         }
 
         @Override

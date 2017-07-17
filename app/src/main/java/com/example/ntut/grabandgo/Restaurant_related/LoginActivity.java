@@ -31,7 +31,7 @@ public class LoginActivity extends NavigationDrawerSetup
     private final static String TAG = "LoginActivity";
     private String ServletName = "/AppStoreLoginServlet";
     private EditText etUsername, etPassword;
-    private Button btLogin, btForget;
+    private Button btLogin;
     private CheckBox checkRememberMe;
     private AsyncTask LoginTask;
     private ProgressDialog progressDialog;
@@ -56,7 +56,6 @@ public class LoginActivity extends NavigationDrawerSetup
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
         btLogin = (Button) findViewById(R.id.btLogin);
-        btForget = (Button) findViewById(R.id.btForget);
         checkRememberMe = (CheckBox) findViewById(R.id.checkRememberMe);
     }
 
@@ -218,17 +217,6 @@ public class LoginActivity extends NavigationDrawerSetup
                 progressDialog.cancel();
             }
         }
-    }
-
-
-    public void onForgetClick(View view) {
-
-
-
-
-//        Intent intent = new Intent(this, RecoverPasswordActivity.class);
-//        startActivity(intent);
-
     }
 
     private void userLogin(String user, String pass, String rest_name,

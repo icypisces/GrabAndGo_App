@@ -23,8 +23,8 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:background="#40F7973D"
-            android:paddingTop="50dp"
-            android:paddingBottom="50dp"
+            android:paddingTop="40dp"
+            android:paddingBottom="40dp"
             android:paddingLeft="18dp"
             android:paddingRight="18dp"
             android:orientation="vertical" >
@@ -58,13 +58,6 @@
                 style="@style/style_button"
                 android:onClick="onSubmitClick"/>
 
-            <Button
-                android:id="@+id/btForget"
-                android:text="@string/forget"
-                android:layout_margin="10dp"
-                android:background="@drawable/button_gray"
-                style="@style/style_button"
-                android:onClick="onForgetClick"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

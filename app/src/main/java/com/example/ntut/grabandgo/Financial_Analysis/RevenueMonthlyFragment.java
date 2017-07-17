@@ -16,6 +16,7 @@ import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -119,6 +120,12 @@ public class RevenueMonthlyFragment extends BaseFragment {
 
     private void displayLineChart (Object[] xAndyData) {
         monthlyLineChart.setDescription("");
+        //Y軸
+        YAxis yAxisLeft = monthlyLineChart.getAxisLeft();
+        yAxisLeft.setAxisMinValue(0f);
+        YAxis yAxisRight = monthlyLineChart.getAxisRight();
+        yAxisRight.setAxisMinValue(0f);
+
         edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
         try {
             monthlyLineChart.setData(getLineData(

@@ -15,6 +15,7 @@ import com.example.ntut.grabandgo.OrderItem;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -99,6 +100,13 @@ public class RevenueYearlyFragment extends BaseFragment {
 
     private void displayBarChart (Object[] xAndyData) {
         yearlyBarChart.setDescription("");
+
+        //Y軸
+        YAxis yAxisLeft = yearlyBarChart.getAxisLeft();
+        yAxisLeft.setAxisMinValue(0f);
+        YAxis yAxisRight = yearlyBarChart.getAxisRight();
+        yAxisRight.setAxisMinValue(0f);
+
         edRevenueTotal.setText(Integer.toString((int)xAndyData[1]));
         try {
             yearlyBarChart.setData(getBarData(

@@ -20,6 +20,7 @@ import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.BaseFragment;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
@@ -159,11 +160,22 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
     private void displayHorizontalBarChart (Object[] dateData) {
         monthlyHorizontalBarChart.setDescription("");
         monthlyHorizontalBarChart.getAxisLeft().setEnabled(true);
+
         //X軸
         XAxis xAxis = monthlyHorizontalBarChart.getXAxis();
         xAxis.setEnabled(true);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);          // X軸位置...左方
-        xAxis.setLabelRotationAngle(20);                        // x軸Label傾斜30度
+//        xAxis.setLabelRotationAngle(25);                        // x軸Label傾斜25度
+        xAxis.setLabelsToSkip(0);
+//        xAxis.setSpaceBetweenLabels(0);
+        xAxis.resetLabelsToSkip();
+        xAxis.setAvoidFirstLastClipping(false);
+
+        //Y軸
+        YAxis yAxisLeft = monthlyHorizontalBarChart.getAxisLeft();
+        yAxisLeft.setAxisMinValue(0f);
+        YAxis yAxisRight = monthlyHorizontalBarChart.getAxisRight();
+        yAxisRight.setAxisMinValue(0f);
 
         if ((int)dateData[1] != 0) {
             tvNoData.setVisibility(View.GONE);
@@ -189,7 +201,7 @@ public class SalesChartsMonthlyFragment extends BaseFragment {
         // BarDataSet(List<Entry> 資料點集合, String 類別名稱)
         BarDataSet dataSet = new BarDataSet( getChartData(showCount, yData), selectMonth);
         dataSet.setColors(ColorTemplate.VORDIPLOM_COLORS);
-        dataSet.setValueTextSize(16);
+        dataSet.setValueTextSize(12);
 
         List<IBarDataSet> dataSets = new ArrayList<>();
         dataSets.add(dataSet);

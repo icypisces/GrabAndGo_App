@@ -33,6 +33,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     private List<OrderItem> orderitemList = null;
 
     private String changeResult, url, ordId, param;
+    private int readOrder ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         //取得從InprogressOrderFragment送來的資料
         Bundle bundle = getIntent().getExtras();
         Order order = (Order) bundle.getSerializable("order");
+        readOrder = (int) bundle.getSerializable("readOrder");
 
         setInformations(order);
     }
@@ -68,7 +70,14 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         tvPhone.setText(String.valueOf(order.getOrd_tel()));
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
-        tvOrderStatus.setHeight(0);
+        String orderStatus = "";
+        if ( order.getIsRead() == 0 ) {
+            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+            orderStatus = getResources().getString(R.string.notRead);
+        } else {
+            tvOrderStatus.setHeight(0);
+        }
+        tvOrderStatus.setText(String.valueOf(orderStatus));
 
         orderitemList = order.getItems();
         int count = 0;
@@ -128,7 +137,14 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
     }
 
     public void onBackClick(View view) {
-        finish();
+        if ( readOrder == 1 ) {
+            Intent intent = new Intent(InprogressOrderDetailActivity.this,DailyOrdersActivity.class);
+            intent.putExtra("id", 1);
+            startActivity(intent);
+            finish();
+        } else {
+            finish();
+        }
     }
 
     public void onCancelClick(View view) {

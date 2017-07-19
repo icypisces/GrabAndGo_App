@@ -130,6 +130,7 @@
     <string name="returnToHistory">返回到歷史訂單</string>
     <string name="sendEailFail">驗證信寄送失敗</string>
     <string name="validateNotYet">Validate</string>
+    <string name="notRead">未讀取</string>
 
 
 </resources>

@@ -19,12 +19,16 @@ public class Order implements Serializable{
     private String ord_tel;
     private String ord_email;
     private int ord_evalued;
+    int isRead;
 
     public Order() {
 
     }
 
-    public Order(int ord_id, String m_username, String m_pickupname, Timestamp ord_time, Timestamp ord_pickuptime, int rest_id, int ord_totalPrice, String ord_status, String rest_name, List<OrderItem> items, String ord_tel, String ord_email, int ord_evalued) {
+    public Order(int ord_id, String m_username, String m_pickupname, Timestamp ord_time,
+                 Timestamp ord_pickuptime, int rest_id, int ord_totalPrice, String ord_status,
+                 String rest_name, List<OrderItem> items, String ord_tel, String ord_email,
+                 int ord_evalued, int isRead) {
         this.ord_id = ord_id;
         this.m_username = m_username;
         this.m_pickupname = m_pickupname;
@@ -37,7 +41,7 @@ public class Order implements Serializable{
         this.items = items;
         this.ord_tel = ord_tel;
         this.ord_email = ord_email;
-        this.ord_evalued = ord_evalued;
+        this.isRead = isRead;
     }
 
     public Order(int ord_id, Timestamp ord_pickuptime, int ord_totalPrice, String ord_status, String ord_tel, Timestamp ord_time) {
@@ -153,6 +157,14 @@ public class Order implements Serializable{
         this.ord_evalued = ord_evalued;
     }
 
+    public int getIsRead() {
+        return isRead;
+    }
+
+    public void setIsRead(int isRead) {
+        this.isRead = isRead;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -169,7 +181,7 @@ public class Order implements Serializable{
                 ", ord_tel='" + ord_tel + '\'' +
                 ", ord_email='" + ord_email + '\'' +
                 ", ord_evalued=" + ord_evalued +
+                ", isRead=" + isRead +
                 '}';
     }
-
 }

@@ -70,14 +70,14 @@ public class InprogressOrderDetailActivity extends NavigationDrawerSetup {
         tvPhone.setText(String.valueOf(order.getOrd_tel()));
         tvSoNumber.setText(String.valueOf(order.getOrd_id()));
         tvPicktime.setText(String.valueOf(order.getOrd_pickuptime()));
-        String orderStatus = "";
-        if ( order.getIsRead() == 0 ) {
-            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
-            orderStatus = getResources().getString(R.string.notRead);
-        } else {
+//        String orderStatus = "";
+//        if ( order.getIsRead() == 0 ) {
+//            linearLayoutOrder.setBackgroundResource(R.drawable.button_pink);
+//            orderStatus = getResources().getString(R.string.notRead);
+//        } else {
             tvOrderStatus.setHeight(0);
-        }
-        tvOrderStatus.setText(String.valueOf(orderStatus));
+//        }
+//        tvOrderStatus.setText(String.valueOf(orderStatus));
 
         orderitemList = order.getItems();
         int count = 0;

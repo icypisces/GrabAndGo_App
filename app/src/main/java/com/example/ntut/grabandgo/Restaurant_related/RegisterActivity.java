@@ -37,7 +37,7 @@ public class RegisterActivity extends NavigationDrawerSetup {
     private TextInputLayout tilUsername, tilPassword, tilPasswordConfirm, tilStoreName,
             tilBranch, tilAddress, tilPhone, tilEmail, tilOwner, tilWebsite;
     private Spinner spRestType;
-    private Button btRegister;
+    private Button btRegister, btHelper;
     private AsyncTask RegisterTask, RestTypeTask;
     private ProgressDialog progressDialog;
 
@@ -73,6 +73,7 @@ public class RegisterActivity extends NavigationDrawerSetup {
         etWebsite = (EditText) findViewById(R.id.etWebsite);
         spRestType = (Spinner) findViewById(R.id.spRestType);
         btRegister = (Button) findViewById(R.id.btRegister);
+        btHelper = (Button) findViewById(R.id.btHelper);
         tilUsername = (TextInputLayout) findViewById(R.id.tilUsername);
         tilPassword = (TextInputLayout) findViewById(R.id.tilPassword);
         tilPasswordConfirm = (TextInputLayout) findViewById(R.id.tilPasswordConfirm);
@@ -84,7 +85,6 @@ public class RegisterActivity extends NavigationDrawerSetup {
         tilOwner = (TextInputLayout) findViewById(R.id.tilOwner);
         tilWebsite = (TextInputLayout) findViewById(R.id.tilWebsite);
     }
-
 
     //取得餐廳類別資訊
     class RestTypeTask extends AsyncTask<String, Void, List<String>> {
@@ -384,6 +384,20 @@ public class RegisterActivity extends NavigationDrawerSetup {
         }
 
         super.onPause();
+    }
+
+    public void onHelperClick(View view) {
+        etUsername.setText("afternoonteatime");
+        etPassword.setText("1111");
+        etPasswordConfirm.setText("1111");
+        etStoreName.setText("Afternoon Teatime");
+        spRestType.setSelection(2);
+        etBranch.setText("Teatime");
+        etAddress.setText("台北市信義區忠孝東路五段8號3樓");
+        etPhone.setText("(02)27238108");
+        etEmail.setText("javazh005@gmail.com");
+        etOwner.setText("Joanna");
+        etWebsite.setText("http://www.afternoon-tea.com.tw/");
     }
 
 }

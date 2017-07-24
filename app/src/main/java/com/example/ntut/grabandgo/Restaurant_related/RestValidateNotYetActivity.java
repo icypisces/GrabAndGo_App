@@ -39,7 +39,6 @@ public class RestValidateNotYetActivity extends NavigationDrawerSetup {
         setUpToolBar();
         findViews();
         getLoginInformation();
-
     }
 
     private void findViews() {
@@ -105,6 +104,9 @@ public class RestValidateNotYetActivity extends NavigationDrawerSetup {
             super.onPostExecute(resendEmail);
             if (resendEmail.equals("1")) {
                 Intent intent = new Intent(RestValidateNotYetActivity.this, SendEmailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("from", "resendEmail");
+                intent.putExtras(bundle);
                 startActivity(intent);
                 progressDialog.cancel();
                 finish();

@@ -284,7 +284,11 @@ public class RegisterActivity extends NavigationDrawerSetup {
                 String validate = s.get(6);
                 boolean rest_validate = Boolean.parseBoolean(validate);
                 String rest_id = s.get(7);
+
                 Intent intent = new Intent(RegisterActivity.this, SendEmailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("from", "Register");
+                intent.putExtras(bundle);
                 startActivity(intent);
                 userLogin(u, p, rest_name, rest_branch, logo, rest_validate, rest_id);
 

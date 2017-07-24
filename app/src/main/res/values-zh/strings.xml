@@ -60,6 +60,7 @@
     <string name="notBeenValidateSecond">如需使用其他功能，請至您註冊的信箱點選驗證信．</string>
     <string name="notBeenValidateThird">如需重發驗證信，請您點選下方按鈕，感謝您的配合．</string>
     <string name="reSendEmail">重新寄送驗證信</string>
+    <string name="resendEmailOK">重寄驗證信成功</string>
     <!-- 餐廳會員資料 -->
     <string name="restName_i">餐廳名稱 :</string>
     <string name="restType_i">餐廳類別 :</string>

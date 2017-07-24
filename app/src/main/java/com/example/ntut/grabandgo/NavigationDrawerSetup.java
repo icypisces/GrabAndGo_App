@@ -1,19 +1,16 @@
 package com.example.ntut.grabandgo;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -34,12 +31,14 @@ import com.example.ntut.grabandgo.Restaurant_related.RestInformationActivity;
 import com.example.ntut.grabandgo.Restaurant_related.LoginActivity;
 import com.example.ntut.grabandgo.Restaurant_related.RegisterActivity;
 import com.example.ntut.grabandgo.orders_daily.DailyOrdersActivity;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
-import org.java_websocket.drafts.Draft_6455;
+import java.io.IOException;
 
-import java.net.URI;
 
 public class NavigationDrawerSetup extends AppCompatActivity {
+    private String ServletName = "/AppValidateCheckServlet";
     private final static String TAG = "NavigationDrawerSetup";
     private DrawerLayout drawerLayout;
     private FrameLayout frameLayout;
@@ -51,6 +50,7 @@ public class NavigationDrawerSetup extends AppCompatActivity {
     protected Toolbar toolbar;
     //Login
     private SharedPreferences sharedPreferencesLogin = null;
+    private AsyncTask ValidateCheckTask;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,14 +92,10 @@ public class NavigationDrawerSetup extends AppCompatActivity {
                 navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,true);
                 navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,true);
             } else {                                                                //已登入但未驗證
-                navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
-                navigationView.getMenu().setGroupVisible(R.id.group_profile,true);  //僅顯示會員資料相關選項
-                navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,false);
-                navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,false);
-                navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,false);
-                Common.showToast(this, R.string.notBeenValidate);
+                String rest_id = sharedPreferencesLogin.getString("rest_id", "");   //至Server確認驗證狀態
+                checkRestValidate(rest_id);                                         //再判斷顯示項目
             }
-        } else {                                                                //如果未登入
+        } else {                                                                    //如果未登入
             navigationView.getMenu().setGroupVisible(R.id.group_sign,true);         //僅顯示登入註冊選項
             navigationView.getMenu().setGroupVisible(R.id.group_profile,false);
             navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,false);
@@ -212,8 +208,6 @@ public class NavigationDrawerSetup extends AppCompatActivity {
         });
     }
 
-
-
     //用以設置toolbar
     public void setUpToolBar() {
         setSupportActionBar(toolbar);
@@ -252,11 +246,70 @@ public class NavigationDrawerSetup extends AppCompatActivity {
     }
 
     private void closeWebsocket() {
-//        URI serverUri = null;
-//        OrderService orderService = new OrderService();
-//        OrderService.OrderWebsocketClient client =
-//                orderService.new OrderWebsocketClient(serverUri).onClose(0, );
         Intent serviceIntent = new Intent(this, OrderService.class);
         startService(serviceIntent);                           //指定要開啟Service
+    }
+
+//--------------------若商家紀錄為未驗證狀態，連結Server確定其是否已點選驗證信．-----------------
+
+    private void checkRestValidate(String rest_id) {
+        String url = Common.URL + ServletName ;
+        if (Common.networkConnected(NavigationDrawerSetup.this)) {
+            ValidateCheckTask = new ValidateCheckTask().execute(url, rest_id);
+        } else {
+            Common.showToast(this, R.string.msg_NoNetwork);
+        }
+    }
+
+    class ValidateCheckTask extends AsyncTask<String, Void, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            String url = params[0];
+            String rest_id = params[1];
+            String jsonIn;
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("rest_id", rest_id);
+            try {
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+                return null;
+            }
+
+            Gson gson = new Gson();
+            JsonObject joResult = gson.fromJson(jsonIn.toString(),
+                    JsonObject.class);
+            String message = joResult.get("ValidateCheckMessage").getAsString();
+            return message;
+        }
+
+        //show result
+        @Override
+        protected void onPostExecute(String message) {
+            super.onPostExecute(message);
+            Log.d(TAG, "ValidateCheckMessage=" + message);
+            if(message.equals("ValidateOK")){
+                SharedPreferences.Editor edit = sharedPreferencesLogin.edit();
+                edit.remove("rest_validate");
+                edit.putBoolean("rest_validate",true);
+                edit.commit();
+
+                //已驗證 - 顯示除了登入註冊以外選項
+                navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_profile,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,true);
+            } else if(message.equals("ValidateNotYet")){
+                //未驗證 - 僅顯示會員資料相關選項
+                navigationView.getMenu().setGroupVisible(R.id.group_sign,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_profile,true);
+                navigationView.getMenu().setGroupVisible(R.id.group_dailyOrders,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_historyOrders,false);
+                navigationView.getMenu().setGroupVisible(R.id.group_financialAnalysis,false);
+                Common.showToast(NavigationDrawerSetup.this, R.string.notBeenValidate);
+            }
+        }
     }
 }

@@ -204,7 +204,6 @@ public class InprogressOrderFragment extends BaseFragment {
                 progressDialog.cancel();
             }
         }
-
     }
 
     @Override

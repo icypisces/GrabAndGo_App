@@ -1,8 +1,10 @@
 package com.example.ntut.grabandgo.orders_daily;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -19,7 +21,10 @@ import com.example.ntut.grabandgo.NavigationDrawerSetup;
 import com.example.ntut.grabandgo.Order;
 import com.example.ntut.grabandgo.R;
 import com.example.ntut.grabandgo.ViewPagerFragmentAdapter;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +43,12 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
     private SharedPreferences sharedPreferencesLogin = null;
     private String rest_id;
 
-    List<Order> orderList = null;
-    List<Order> orderListAll = new ArrayList<>();
+    private List<Order> orderList = null;
+    private List<Order> orderListAll = new ArrayList<>();
+    private int readOrder ;
+    private String ord_id;
+    private AsyncTask OrderIsReadTask;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -176,29 +185,109 @@ public class DailyOrdersActivity extends NavigationDrawerSetup {
             if (searchPhone.equals(orderPhone)){
                 orderStatus = orderListAll.get(i).getOrd_status();
                 orderSearch = orderListAll.get(i);
+                readOrder = orderListAll.get(i).getIsRead();
+                ord_id = String.valueOf(orderListAll.get(i).getOrd_id());
                 searchResult = true;
             }
         }
         if (searchResult) {
             Intent intent;
             if (orderStatus.equals("inprogress")) {
-                intent = new Intent(DailyOrdersActivity.this, InprogressOrderDetailActivity.class);
-            } else if (orderStatus.equals("unpaid")) {
-                intent = new Intent(DailyOrdersActivity.this, CompletedOrderDetailActivity.class);
-            } else if (orderStatus.equals("paid")) {
-                intent = new Intent(DailyOrdersActivity.this, PaidOrderDetailActivity.class);
+                if (orderSearch.getIsRead() == 0) {
+                    updateIsRead(orderSearch);
+                } else {
+                    intent = new Intent(DailyOrdersActivity.this,InprogressOrderDetailActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("order", orderSearch);
+                    bundle.putSerializable("readOrder", readOrder);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             } else {
-                intent = new Intent(DailyOrdersActivity.this, DailyOrdersActivity.class);
+                if (orderStatus.equals("unpaid")) {
+                    intent = new Intent(DailyOrdersActivity.this, CompletedOrderDetailActivity.class);
+                } else if (orderStatus.equals("paid")) {
+                    intent = new Intent(DailyOrdersActivity.this, PaidOrderDetailActivity.class);
+                } else {
+                    intent = new Intent(DailyOrdersActivity.this, DailyOrdersActivity.class);
+                }
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("order",orderSearch);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
-            Bundle bundle = new Bundle();
-            bundle.putSerializable("order",orderSearch);
-            intent.putExtras(bundle);
-            startActivity(intent);
         } else {
             Common.showToast(DailyOrdersActivity.this, R.string.searchNoneDaily);
         }
         InputMethodManager imm = (InputMethodManager)DailyOrdersActivity.this
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etSearch.getWindowToken(), 0);
+    }
+
+    //未讀取訂單轉為已讀取
+    private void updateIsRead(Order order) {
+        String url = Common.URL + ServletName ;
+        if (Common.networkConnected(DailyOrdersActivity.this)) {
+            OrderIsReadTask = new OrderIsReadTask().execute(url, order);
+        } else {
+            Common.showToast(DailyOrdersActivity.this, R.string.msg_NoNetwork);
+        }
+    }
+
+    class OrderIsReadTask extends AsyncTask<Object, Void, List<Object>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog = new ProgressDialog(DailyOrdersActivity.this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+        }
+
+        @Override
+        protected List<Object> doInBackground(Object... params) {
+            List<Object> list = new ArrayList<>();
+            readOrder = -1;
+            String url = (String)params[0];
+            Order order = (Order)params[1];
+            String jsonIn;
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("param", "OrderIsRead");
+            jsonObject.addProperty("ord_id", ord_id);
+            try {
+                jsonIn = Common.getRemoteData(url, jsonObject.toString(), TAG);
+            } catch (IOException e) {
+                Log.e(TAG, e.toString());
+                return list;
+            }
+
+            Gson gson = new Gson();
+            JsonObject joResult = gson.fromJson(jsonIn.toString(),
+                    JsonObject.class);
+            int readOrder = Integer.parseInt(joResult.get("readOrder").getAsString());
+            list.add(readOrder);
+            list.add(order);
+            return list;
+        }
+
+        @Override
+        protected void onPostExecute(List<Object> list) {
+            super.onPostExecute(list);
+            Log.d(TAG, "list = " + list);
+            int readOrder = (int) list.get(0);
+            Order order = (Order)list.get(1);
+            if( readOrder == 1 ){
+                Intent intent = new Intent(DailyOrdersActivity.this,InprogressOrderDetailActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("order", order);
+                bundle.putSerializable("readOrder", readOrder);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                progressDialog.cancel();
+            } else if( readOrder == -1 ){
+                Common.showToast(DailyOrdersActivity.this, "更新訂單為已讀取失敗");
+                progressDialog.cancel();
+            }
+        }
     }
 }

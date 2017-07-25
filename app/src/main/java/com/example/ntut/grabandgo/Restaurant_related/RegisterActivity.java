@@ -391,12 +391,12 @@ public class RegisterActivity extends NavigationDrawerSetup {
     }
 
     public void onHelperClick(View view) {
-        etUsername.setText("afternoonteatime");
+        etUsername.setText("morningtea");
         etPassword.setText("1111");
         etPasswordConfirm.setText("1111");
-        etStoreName.setText("Afternoon Teatime");
+        etStoreName.setText("Morning Tea");
         spRestType.setSelection(2);
-        etBranch.setText("Teatime");
+        etBranch.setText("Morning");
         etAddress.setText("台北市信義區忠孝東路五段8號3樓");
         etPhone.setText("(02)27238108");
         etEmail.setText("javazh005@gmail.com");

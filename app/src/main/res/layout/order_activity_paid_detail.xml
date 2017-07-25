@@ -107,50 +107,56 @@
 
         </LinearLayout>
 
-        <TableLayout
-            android:id="@+id/tlOrderDetail"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayoutOrder"
-            android:layout_margin="10dp"
-            android:shrinkColumns="4">
+            android:layout_height="match_parent"
+            android:layout_below="@+id/linearLayoutOrder" >
 
-            <TableRow>
+            <TableLayout
+                android:id="@+id/tlOrderDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:shrinkColumns="4">
 
-                <TextView
-                    style="@style/style_textView_itemViewOrders_detail"
-                    android:text="@string/prodId" />
+                <TableRow>
 
-                <TextView
-                    style="@style/style_textView_itemViewOrders_detail"
-                    android:layout_width="70dp"
-                    android:text="@string/itemName" />
+                    <TextView
+                        style="@style/style_textView_itemViewOrders_detail"
+                        android:text="@string/prodId" />
 
-                <TextView
-                    style="@style/style_textView_itemViewOrders_detail"
-                    android:text="@string/itemPrice" />
+                    <TextView
+                        style="@style/style_textView_itemViewOrders_detail"
+                        android:layout_width="70dp"
+                        android:text="@string/itemName" />
 
-                <TextView
-                    style="@style/style_textView_itemViewOrders_detail"
-                    android:text="@string/itemAmount" />
+                    <TextView
+                        style="@style/style_textView_itemViewOrders_detail"
+                        android:text="@string/itemPrice" />
 
-                <TextView
-                    style="@style/style_textView_itemViewOrders_detail"
-                    android:text="@string/subtotal" />
+                    <TextView
+                        style="@style/style_textView_itemViewOrders_detail"
+                        android:text="@string/itemAmount" />
 
-                <TextView
-                    style="@style/style_textView_itemViewOrders_detail"
-                    android:layout_width="70dp"
-                    android:text="@string/itemNote" />
+                    <TextView
+                        style="@style/style_textView_itemViewOrders_detail"
+                        android:text="@string/subtotal" />
 
-            </TableRow>
+                    <TextView
+                        style="@style/style_textView_itemViewOrders_detail"
+                        android:layout_width="70dp"
+                        android:text="@string/itemNote" />
 
-            <View
-                android:layout_height="5px"
-                android:background="#6b6a6a" />
-            <!-- 分割線 -->
+                </TableRow>
 
-        </TableLayout>
+                <View
+                    android:layout_height="5px"
+                    android:background="#6b6a6a" />
+                <!-- 分割線 -->
+
+            </TableLayout>
+
+        </ScrollView>
 
     </RelativeLayout>
 

@@ -110,44 +110,49 @@
 
     </LinearLayout>
 
-    <TableLayout
-        android:id="@+id/tlOrderDetail"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:shrinkColumns="4" >
+        android:layout_height="match_parent" >
 
-        <TableRow>
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/prodId"/>
+        <TableLayout
+            android:id="@+id/tlOrderDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:shrinkColumns="4" >
 
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemName"
-                android:layout_width="60dp" />
+            <TableRow>
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/prodId"/>
 
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemPrice"/>
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemName"
+                    android:layout_width="60dp" />
 
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemAmount"/>
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemPrice"/>
 
-            <TextView
-                style="@style/style_textView_itemViewOrders_detail"
-                android:text="@string/itemNote"
-                android:layout_width="60dp"/>
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemAmount"/>
 
-        </TableRow>
+                <TextView
+                    style="@style/style_textView_itemViewOrders_detail"
+                    android:text="@string/itemNote"
+                    android:layout_width="60dp"/>
 
-        <View
-            android:layout_height="5px"
-            android:background="#ccc"/>
-        <!-- 分割線 -->
+            </TableRow>
 
-    </TableLayout>
+            <View
+                android:layout_height="5px"
+                android:background="#ccc"/>
+            <!-- 分割線 -->
 
+        </TableLayout>
+
+    </ScrollView>
 
 </LinearLayout>
